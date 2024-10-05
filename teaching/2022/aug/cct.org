@@ -1,0 +1,7 @@
+#+TITLE: Computational Complexity Theory
+
+First time computational complexity theory was offered as a regular
+course at IIT Gandhinagar since the CS discipline was formed. The
+course had code CS 617. I co-taught this course with Bireswar Das. See
+the [[https://canvas.instructure.com/courses/5101493][Canvas page for computational complexity theory in 2022 (requires
+invitation)]].

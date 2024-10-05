@@ -1,0 +1,16 @@
+#+TITLE: Discrete Mathematics
+
+This course is an introduction to proofs and structures common in
+computer science. The goal is to learn how to read and write proofs
+and then use that to argue about basic structures found in computer
+science. The following topics are covered in this course.
+
+1. Assertions.
+2. Rules: hypotheses and conclusion.
+3. Proofs or derivations of assertions.
+4. Propositions
+5. Introduction and elimination.
+6. Hypothetical derivations: assumptions and discharge.
+7. Implication and negation.
+8. Predicates and quantification.
+9. Inductive definitions and the principle of induction.

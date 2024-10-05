@@ -1,0 +1,4 @@
+#+TITLE: Introduction to Computing
+
+I was a tutor for this course. See [[https://nipunbatra.notion.site/ES-102-Introduction-to-Computing-2021-Winter-5aa842ce18d34e0e9b2cc646b5325868][course website for introduction to
+computing in the winter of 2021]].

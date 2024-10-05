@@ -1,0 +1,61 @@
+#+TITLE: Special Topics Course: Algebraic Complexity Theory
+
+* Welcome
+
+Algebraic complexity theory deals with the computation of polynomials
+using the basic operations addition and multiplication. For example,
+we can compute the polynomial \(xy + xz\) using two multiplications
+and one addition. By using distributivity, we can perform the same
+computation as \(x(y + z)\) which costs one addition and only one
+multiplication. The primary goal of algebraic complexity theory is to
+understand the minimum number of operations for computing interesting
+polynomials such as determinants and matrix multiplication polynomials
+(also called the complexity of these polynomials). For example, can we
+prove that multiplying two n x n matrices can be done using $n^2$
+operations? (The trivial method uses $n^3$ operations. We can improve
+it as much as $n^2.{37}$)
+
+In this course, we will first learn about polynomial families such as
+matrix multiplication polynomials, determinants, and permanents. What
+makes them interesting is the fact that they seem to characterize the
+complexity of large classes of interesting polynomials? For example,
+any polynomial that can be written as a small formula can also be
+written as a small determinant. We will then look at very clever ways
+to compute polynomials efficiently such as computing all first-order
+partial derivatives of an n-variate polynomial using almost the same
+number of operations as for the polynomial (If you compute them
+individually, you'll need about n times more, which is too much)! and
+the theory underlying Strassen's fast matrix multiplication algorithm.
+
+Even though we have many clever algorithms to efficiently compute
+certain important polynomials, there seems to be a lack of techniques
+that will allow us to prove that certain polynomials are hard to
+compute, despite our strong suspicion that they actually are hard to
+compute. Nevertheless, we can impose natural restrictions such as
+monotonicity (disallow subtraction), constant-depth (limit nesting of
+operations), multilinearity (disallow squaring variables) and show
+that under these restrictions, certain polynomials are hard to
+compute.
+
+* Contact
+
+Please write to Balagopal Komarath <[[mailto:bkomarath@iitgn.ac.in][bkomarath@iitgn.ac.in]]> for any
+course related queries.
+
+* Lectures
+
+The lectures will be conducted on slots M1+N1, N3. Please use this
+[[https://meet.google.com/ivt-hgvz-dqa][link]] to join.
+
+* Evaluation
+
+- Presentations (30%)
+- Take-home assignments (30%)
+- End-sem viva (40%)
+
+* References
+
+1. Completeness and Reduction in Algebraic Complexity Theory, Peter
+   Bürgisser.
+2. [[https://cims.nyu.edu/~regev/toc/articles/gs005/index.html][Fast Matrix Multiplication]], Markus Bläser.
+3. [[https://github.com/dasarpmar/lowerbounds-survey][Arithmetic circuits lower-bounds survey]], Ramprasad Saptarishi.

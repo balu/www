@@ -1,0 +1,221 @@
+#+TITLE: Theory of Computing
+
+* Welcome
+
+Welcome to "Theory of Computation". In this course, we are going to
+try and answer fundamental questions about the nature of computation
+such as:
+
+- Are all problems computable?
+- Does backtracking help?
+- Is there a best algorithm for all problems?
+- Does more time help?
+- Does more memory help?
+- Is verifying solutions easier than finding them?
+
+Use [[https://calendar.google.com/event?action=TEMPLATE&tmeid=MzZvNTU4YzMxbWEwa3B1ZDkwdnJwdTA3dnNfMjAyMDA4MDVUMDgzMDAwWiBia29tYXJhdGhAaWl0Z24uYWMuaW4&tmsrc=bkomarath%40iitgn.ac.in&scp=ALL][this]] to add lectures to your Google calendar. The Google meet link
+for lectures is [[https://meet.google.com/xdk-tnpj-uva][here]].
+
+Please use your iitgn email id to login to the lectures. If you don't
+have an iitgn email id yet and plan to attend the lectures, write to
+me.
+
+* News
+
+- 17.11 :: Assignment 3 is uploaded
+
+- 02.10 :: Assignment 2 is uploaded.
+
+- 24.09 :: Monday's lecture slot and Tuesday's tutorial slot are swapped next week.
+
+- 10.09 :: There will not be any meetings next week. Please watch the lecture videos on your own time. We will hold discussions for these lectures on 21.09.
+
+- 27.08 :: The first quiz is on Thursday, Sep 3, 2PM IST.
+
+- 26.08 :: Solutions to Homework 2 and 3 are uploaded. Follow the same link used to obtain homework sheet.
+
+- 23.08 :: First assignment is uploaded.
+
+- 20.08 :: Homework 3 is uploaded.
+
+- 19.08 :: The tutorial on 25.08 and the lecture on 26.08 are swapped.
+
+* People
+
+| Role       | Person             |
+| Instructor | Balagopal Komarath |
+| TA         | Akash Pareek       |
+
+* Slots
+
+The lectures for this course will take place on Google meet during K
+slots. The tutorial will take place during the L1 slot.
+
+* Reading
+
+You may use any textbook in the syllabus. These materials differ only
+in presentation. I will follow the presentation in my [[https://drive.google.com/file/d/1hi0SBvC6sUZ5DxgGOV6qFNfFF_y0dPv9/view?usp=sharing][notes]]. These
+will be regularly updated.
+
+You can find my handwritten notes that support my lectures [[https://drive.google.com/file/d/1L0IAkPrFWFnsDPWBEVw6WPo5GBD04R5E/view?usp=sharing][here]].
+
+* Lectures
+
+- (Aug 5) Overview ([[https://drive.google.com/file/d/18uGkWurDF8YJXM3ojwxQ3T2v2fEYHlsU/view?usp=sharing][slides]]) ([[https://drive.google.com/file/d/1yg1TUAs0ztvtJUHXlA_tz2g-Q8R2a7ZW/view?usp=sharing][video]])
+- (Aug 6) Alphabets, Strings, and Languages ([[https://drive.google.com/file/d/1u-XRFw0xYz_o66uWfxOe6i_Ektbgd-WW/view?usp=sharing][part 1]] [[https://drive.google.com/file/d/1DU22pZQ9VEhOgSc_vN7BM_yiVOMKQnS4/view?usp=sharing][part 2]]) ([[https://drive.google.com/file/d/1CnFlq6fy-Nf45aJJGLN0015zgjH7RMev/view?usp=sharing][discussion]])
+- (Aug 10) Finite Automata ([[https://drive.google.com/file/d/1aUNtviKTXoOco3rXu_CXKeRi_y-lOEzz/view?usp=sharing][part 1]] [[https://drive.google.com/file/d/1qtqWfx1FNLoNXkc2xqHuEEAxzIKLidrZ/view?usp=sharing][part 2]])
+- (Aug 13) Regular Expressions ([[https://drive.google.com/file/d/18DaTKabeP7Pp60oUhGl3unE8l1y58YVb/view?usp=sharing][video]] [[https://drive.google.com/file/d/1Uz3qABsVdObt-HQPyh1IfKtckhk3cYTL/view?usp=sharing][discussion]])
+- (Aug 17) NFA: Introduction ([[https://drive.google.com/file/d/1dTE0QNTMAMF-ZuWYK2z1yCFUka1058gj/view?usp=sharing][part 1]] [[https://drive.google.com/file/d/1htlb23FI9WC5zRFb6ME6eMLdDFqWdt0j/view?usp=sharing][part 2]])
+- (Aug 19) RE to NFA ([[https://drive.google.com/file/d/16B8c1wFwQhwkQ6QeC1mhqVh0GaT-i8nm/view?usp=sharing][part 1]] [[https://drive.google.com/file/d/1pyUQ3pjd6eUo0NsUoMZ1lKzPJw575Avt/view?usp=sharing][part 2]])
+- (Aug 20) NFA to RE ([[https://drive.google.com/file/d/1crqkHKHko4pBeN7PNViFhVFQ8wV_-UP4/view?usp=sharing][part 1]] [[https://drive.google.com/file/d/12mj8LTKKYk6csSAxNysrSW2nKbqkgWJJ/view?usp=sharing][part 2]])
+- (Aug 24) NFA to DFA ([[https://drive.google.com/file/d/1k8WlusJMSsLf0M0dOfQltko5MjxXE2cv/view?usp=sharing][video]])
+- (Aug 25) Pumping Lemma ([[https://drive.google.com/file/d/1U9UWxTJvkjscSM3ku9h5AdOr28k0POhp/view?usp=sharing][video]])
+- (Aug 27) Myhill-Nerode Theorem ([[https://drive.google.com/file/d/1nL6NTkzbUwPNF1cbRQ9T3N2ViAOEEQQp/view?usp=sharing][video]])
+- (Sep 7) Turing Machines: Introduction ([[https://drive.google.com/file/d/1Okjvl0q_5dmgdRYBOROID6tiK5RFFDO0/view?usp=sharing][video]])
+- (Sep 9) Turing Machines: Arithmetic ([[https://drive.google.com/file/d/1UeMO69_0x3NBYBvTpDorSZV_rvQQqSef/view?usp=sharing][video]])
+- (Sep 10) Turing Machines: Combinators ([[https://drive.google.com/file/d/1zWDv9bQBxL7MgM278bEZD4WKlgEn50ka/view?usp=sharing][video]])
+- (Sep 14) Turing Machines: Definition ([[https://drive.google.com/file/d/1eIOJ-rUuGIpj9ZU-PZiA53HRrwb712GR/view?usp=sharing][video]])
+- (Sep 16) Turing Machines: Variants ([[https://drive.google.com/file/d/1CP1gb2Zq0B1BV_VnSRk0Y3EB0ubJFva9/view?usp=sharing][video]])
+- (Sep 17) Turing Machines: One-way Infinite Tape ([[https://drive.google.com/file/d/1pU14BQ-awn9XvFtkmMPnSJ_g2DMws0C8/view?usp=sharing][video]])
+- (Sep 21) QA: Turing machines.
+- (Sep 23) Undecidability ([[https://drive.google.com/file/d/10ktG1t4jpmM4ikP7wM9_DhRfJgX5p1pG/view?usp=sharing][video]] [[https://drive.google.com/file/d/1UUKxQ3ff7PBEW6LsyPrbsL2jR5Msb2p3/view?usp=sharing][discussion]])
+- (Sep 24) Universal TMs ([[https://drive.google.com/file/d/1QTc-00qmyK9M1GblWq39KNwWd8fTRVoj/view?usp=sharing][video]])
+- (Sep 29) The Halting Problem ([[https://drive.google.com/file/d/1TkJN3onu-Vw7zDdqpdE6A9Fbo3N6yX_k/view?usp=sharing][video]])
+- (Sep 30) Reductions ([[https://drive.google.com/file/d/1oySIt3O6ULG7huL_CUmtEzh7CXpMktUb/view?usp=sharing][video]])
+- (Oct 1) Properties of Reductions ([[https://drive.google.com/file/d/1xBYCTKR0AUCa0Bgt6PvJz0HgcH0fi0p1/view?usp=sharing][video]]) ([[https://drive.google.com/file/d/1dmBXJbtGgGi-FjBSLZtSNUhYElFOEx5C/view?usp=sharing][discussion]])
+- (Oct 5) Examples of Reductions ([[https://drive.google.com/file/d/1mcW0ENgsYUOjp5c6pJBxMxU_KcnSADAk/view?usp=sharing][video]])
+- (Oct 8) The Computation History Method ([[https://drive.google.com/file/d/19ws-jCTxNJqs1ZNs13aFSmNJUe19ISsN/view?usp=sharing][video]])
+- (Oct 19) Time Complexity ([[https://drive.google.com/file/d/11v18b7R7bzImmtFencXEMyUVayFCM9I4/view?usp=sharing][video]] [[https://drive.google.com/file/d/196NMmm3ANgOwphDab1P7ty6z_16oGWLk/view?usp=sharing][discussion]])
+- (Oct 21) The class P ([[https://drive.google.com/file/d/1FXZQMKmHt-M2fURbjDbtXsE6tAoFpjvA/view?usp=sharing][video]] [[https://drive.google.com/file/d/1m3H-moiN8QCjkNB7uqAiBLiOPRyl8wsl/view?usp=sharing][discussion]])
+- (Oct 22) Poly-time reductions ([[https://drive.google.com/file/d/15l3Z0lophK8nlnVJ4bdNjMWGLSllfKki/view?usp=sharing][1]] [[https://drive.google.com/file/d/1RBf9i3x2CYyR52L0l4K-XjVF2LLGcG_D/view?usp=sharing][2]]) ([[https://drive.google.com/file/d/1QjTEZBzqPQPNOhm36MCho5mRwp6WXoa3/view?usp=sharing][discussion]])
+- (Oct 26) Verifiability ([[https://drive.google.com/file/d/1F24lS6lZlqC5t9nO__8lxnajCAxCsUC6/view?usp=sharing][video]])
+- (Oct 28) NP ([[https://drive.google.com/file/d/1QqTT6Tu8CSavGBzkHc6ZT2z8PSSMYNTs/view?usp=sharing][video]]) ([[https://drive.google.com/file/d/1VsHeF_zLqjt3JYxOCbyR6cS0col0cTVi/view?usp=sharing][discussion]])
+- (Nov 2) Reductions for NP ([[https://drive.google.com/file/d/14ne1L3LD64IPzoH_U30TDNYyqwnSOFJP/view?usp=sharing][video]]) ([[https://drive.google.com/file/d/1IyNBm3RjbDaFSO63g0JkZFABB4WYA4G6/view?usp=sharing][discussion]])
+- (Nov 4) Cook's Reduction ([[https://drive.google.com/file/d/13gU9PKJoV94fsxMjtPFXMi7XMOix-WV0/view?usp=sharing][video]])
+- (Nov 5) Hardness and Completeness ([[https://drive.google.com/file/d/1CEl3jRBu7sGRskL7q-Cgq1XdnDoYYH33/view?usp=sharing][video]])
+- (Nov 9) HW6 ([[https://drive.google.com/file/d/1b2Ro1Otza8bqQc55BBCansWLNw6lkjAH/view?usp=sharing][discussion]])
+- (Nov 11) Space Complexity ([[https://drive.google.com/file/d/1AEyDCSSMA-zgIWoIADkg4E3eAzB8ZpWO/view?usp=sharing][video]])
+- (Nov 12) LOG vs P ([[https://drive.google.com/file/d/1gefrvBrIc9dHRnkgbRx9F4Ni1miUe2Km/view?usp=sharing][video]]) ([[https://drive.google.com/file/d/1NT_ffVk9Y050dP_SU826dnMG3EM5WmdP/view?usp=sharing][discussion]])
+- (Nov 16) Grammars and CFLs ([[https://drive.google.com/file/d/10DbeX4e1RejgeeQvqHIDO-l7p6I4ke8X/view?usp=sharing][video]])
+- (Nov 18) Parse Trees and Ambiguity ([[https://drive.google.com/file/d/1qBDIIZ7TCcWF02gR0JVfl7UCs-67OD2F/view?usp=sharing][video]]) ([[https://drive.google.com/file/d/1FdlrQ6KOT69ip2fZ6ZZaTdZeQK1Ypt8H/view?usp=sharing][discussion]])
+- (Nov 19) CNF and Membership ([[https://drive.google.com/file/d/1diA0lk2sffr4YAVAgTIChkwnTJCav4E6/view?usp=sharing][video]])
+- (Nov 23) Push-down Automata ([[https://drive.google.com/file/d/1cceLJT6RYnVZeV1BRcQkMmekDp2cY-rV/view?usp=sharing][video]])
+- (Nov 25) Pumping Lemma for CFLs ([[https://drive.google.com/file/d/1xpM85NUc_yd18KsIhZbQGOBqmTeQisN_/view?usp=sharing][video]])
+- (Nov 26) Conclusion ([[https://drive.google.com/file/d/1gO3Skf4jKOWKD9DeUQ4A-Cy9F1b7AP0e/view?usp=sharing][video]])
+
+* Corrections
+
+(Oct 26, Lecture) The verifier TM M for HP verifies the validity of
+configuration sequence in terms of N, not M as mentioned in the
+lecture.
+
+(Oct 22, Lecture) The time upper bounds mentioned in the lecture
+should be $n^{a+ab}$.
+
+(Sep 24, Lecture) When describing the algorithm, I mentioned search
+the second track for new state. It should be the third track, the one
+that contains the transition function.
+
+(Aug 27, Lecture) The relation for L is called the Myhill-Nerode
+relation for L. Also, given a DFA for a language, the construction
+given in the proof of the only-if part need not give the Myhill-Nerode
+relation for L. In case the DFA is not optimal, it yields a more
+fine-grained relation. However, since even this fine-grained relation
+only has a finite number of equivalence classes, so does the
+Myhill-Nerode relation.
+
+* Classroom Quizzes
+
+- Computation ([[https://docs.google.com/forms/d/e/1FAIpQLSdUEb1aUI5EqB8o2dS2jftDC9T1TtGWznvioZjVqA2WbKBexA/viewform?usp=sf_link][form]])
+- Strings ([[https://docs.google.com/forms/d/e/1FAIpQLSfJdijEgyb6jcFWRZmayHIdfq6P26Id3TN2KFUBpKL193rWIg/viewform?usp=sf_link][form]])
+- Finite Automata ([[https://docs.google.com/forms/d/e/1FAIpQLSd1M9o-dOqJrRXtcwjxMLWsaUIMtzta_1Rqy7XSstWdS-VA9g/viewform?usp=sf_link][form]])
+- Regular Expressions ([[https://docs.google.com/forms/d/e/1FAIpQLSfesxCKyLN3ggjBHCmhWISsFt-6S0M-HgqqqOrrvT_pjsN2-A/viewform?usp=sf_link][form]])
+- NFA: Introduction ([[https://docs.google.com/forms/d/e/1FAIpQLScN4P7huHrmBgimHJRvPqBZnuGKMb8V16DPeHrOZ-BqjT2ZcA/viewform?usp=sf_link][form]])
+- NFA and NFA to RE ([[https://docs.google.com/forms/d/e/1FAIpQLSf8dwUfISVuFaoRYu8yyLPycX8plvhGLesqmkxvzdyg_Za6Lw/viewform?usp=sf_link][form]])
+- NFA & RE ([[https://docs.google.com/forms/d/e/1FAIpQLScEiPVrj47I-OzpxtSGfN139-MGF4bKacU_OZrhO8sHnk8sbQ/viewform?usp=sf_link][form]])
+- NFA to DFA ([[https://docs.google.com/forms/d/e/1FAIpQLSfLkGqRT9ojKvzi5iHx9wnQfy3gUBvsq-ESspgS1vlv3gRncQ/viewform?usp=sf_link][form]])
+- Pumping Lemma ([[https://docs.google.com/forms/d/e/1FAIpQLSdKxQLWguwfOyJ_JHG4dbgGbba6JIYzJ20Hj9-1EFukgmDJSg/viewform?usp=sf_link][form]])
+- Myhill-Nerode Theorem ([[https://docs.google.com/forms/d/e/1FAIpQLSdSNPA4jEdW0Jy4mGS6qFOvP-z-HKlu-vSiOzdZAoCfrmUY5g/viewform?usp=sf_link][form]])
+- Programming TMs ([[https://docs.google.com/forms/d/e/1FAIpQLSevT2E0fur0V2duBVurF0P6_fTE3ZsWeI0aU8HRl3BwzBeFIQ/viewform?usp=sf_link][form]])
+- TMs and Computation ([[https://docs.google.com/forms/d/e/1FAIpQLSekptHo2xyr08Rjdf4GZMgDbqdzTEfPqOyDPowrEax5LY-fYQ/viewform?usp=sf_link][form]])
+- Undecidability ([[https://docs.google.com/forms/d/e/1FAIpQLSfMWRCPxPI2euFWniRbQ8-J6kcYVNZvNLKsmQnVqWcuO4W_Eg/viewform?usp=sf_link][form]])
+- Universal TMs ([[https://docs.google.com/forms/d/e/1FAIpQLScr29Sd-kQpvJsvpy9EpIh0wnGdlZNmfP8G1MHgRxfmAvNlEA/viewform?usp=sf_link][form]])
+- Halting Problem ([[https://docs.google.com/forms/d/e/1FAIpQLSdxakFQBMojy4LGIywYaA3m6ARdRf-yzWDz-r34CPjoVCQc2Q/viewform?usp=sf_link][form]])
+- Reductions ([[https://docs.google.com/forms/d/e/1FAIpQLScM_4X6unT9i3U7Q9xYi20OQHProhj9h9tS79-CWkBakiXuYQ/viewform?usp=sf_link][form]])
+- Reductions' ([[https://docs.google.com/forms/d/e/1FAIpQLSfxWvsZfgv4s1hMRGSt2It-H_LfDPY7A8Td43i0KljNhgqEtQ/viewform?usp=sf_link][form]])
+- ERR to HP ([[https://docs.google.com/forms/d/e/1FAIpQLSfAWznrhLD-LEdOiZHU3F0dL6qP233udK9L1vxf9T2thMVouA/viewform?usp=sf_link][form]])
+- Complexity ([[https://docs.google.com/forms/d/e/1FAIpQLScGBQ53TOcrMgMwaX0qSmbpuTY55RmEDnorfUVHVj8Habwlsw/viewform?usp=sf_link][form]])
+- The class P ([[https://docs.google.com/forms/d/e/1FAIpQLSe88FtWJoT_zozr-OcfKOidH0fE_fOibpLsYA_LbIpoNg0m_Q/viewform?usp=sf_link][form]])
+- Poly-time Reductions ([[https://docs.google.com/forms/d/e/1FAIpQLSfi9j728Gwk5Kr0chMbSoAsXjsetD6kIgkFEi2bOh6x5MxkUQ/viewform?usp=sf_link][form]])
+- Verifiability ([[https://docs.google.com/forms/d/e/1FAIpQLSdYk6rQ_Fa3Ae6Bfmd1VyoC1FCC84cwgeoFBup66MT-BiJU2g/viewform?usp=sf_link][form]])
+- NP ([[https://docs.google.com/forms/d/e/1FAIpQLScYsL-MNhWd1BLHSOM8Rb8R_zSBV4N7krhtp14HRMCUJ8lIVw/viewform?usp=sf_link][form]])
+- Many-one Reductions ([[https://docs.google.com/forms/d/e/1FAIpQLSd5ikAFWKJb6DelD4GiomCTIpTLBWdypo3XV6n1UKOnZ5x1Vg/viewform?usp=sf_link][form]])
+- Cook's Reduction ([[https://docs.google.com/forms/d/1rUC5Ko2yFSzQHT9OoE5ZdQYFnjkdg9r-wkdGhRxVFuo/edit?usp=sharing][form]]) ([[https://drive.google.com/file/d/1Nu42pDBzEnXiVfYvF4oupKb_J9fE8HLH/view?usp=sharing][discussion]])
+- Hardness and Completeness ([[https://docs.google.com/forms/d/1_0am9hQuxrokFyoVguZ8SXLYBwLoMuMf4Hpcf3orSy8/edit?usp=sharing][form]]) ([[https://drive.google.com/file/d/1QfGLv3m8TpdIQiFMKmtoOP9Ji8GtbOD2/view?usp=sharing][discussion]])
+- Space Complexity ([[https://docs.google.com/forms/d/e/1FAIpQLSdv1xUgRP61BhgGwenWq4pX_uh0TpsBnWtiOMYhRhoylYP5hQ/viewform?usp=sf_link][form]]) ([[https://drive.google.com/file/d/10dpdWfyGQhlr0Nu4b-QezcgzjEz1iPYD/view?usp=sharing][discussion]])
+- LOG vs P ([[https://docs.google.com/forms/d/e/1FAIpQLSfq5ECcP-Byy5WPv0u7hw40nIOYjW9mj2Mwae2GcnyiXnnzug/viewform?usp=sf_link][form]])
+- Grammars and CFLs ([[https://docs.google.com/forms/d/e/1FAIpQLScTqO1bEOBV72Yi2kkqSowP3VkiIk5p4h6zbeiMEh0F5Msk1w/viewform?usp=sf_link][form]])
+- Ambiguity ([[https://docs.google.com/forms/d/e/1FAIpQLSf-Ta41oKzA4luoV-2tYl8QZKdi-Ejbe221QdrJRkFmrlf0UA/viewform?usp=sf_link][form]])
+- PDA ([[https://docs.google.com/forms/d/e/1FAIpQLSeta15uNJcIMeMzg5Y8jzT3skN8bzW9ZPbVoxbOnEDUE6cDkg/viewform?usp=sf_link][form]]) ([[https://drive.google.com/file/d/1rVplt_Vtd2mV4NsOigMCvPWhdZGazBws/view?usp=sharing][discussion]])
+- Pumping lemma for CFLs ([[https://docs.google.com/forms/d/e/1FAIpQLScglDep2UdMsfuCqYkmQUPidVRpY1lyz3wdZsEqdbIKMKHWCQ/viewform?usp=sf_link][form]]) ([[https://drive.google.com/file/d/1CnWnUFRqSoSc_o6dubkKXa8L84fBfbmH/view?usp=sharing][discussion]])
+
+* Quizzes
+
+- (Sep 3) [[https://drive.google.com/file/d/1bBByqr2fOFS_qh2JKT98dle9sAB7RtTA/view?usp=sharing][First Quiz]]. Submit via email or by uploading to [[https://forms.gle/ogjrtdJkg12AwF9E6][this form]].
+- (Oct 14) [[https://drive.google.com/file/d/1jCtfKlmLoiUqvfGR5mumuepHGaBoBPSY/view?usp=sharing][Second Quiz]]. Submit your solutions via email. ([[https://drive.google.com/file/d/1tFMwbvNemHA_UytR3cfVWE4dd-avG5nW/view?usp=sharing][discussion]] [[https://drive.google.com/file/d/15I2Bu-XOphEqMn7aO3x_ltQoOOCA8Irn/view?usp=sharing][solutions]])
+- (Dec 04) [[https://drive.google.com/file/d/1-aJjusHsXoMdWwpeIEcF5RC8YskoTTza/view?usp=sharing][Final]]
+
+* Assignments
+
+- (Aug 30) [[https://drive.google.com/file/d/1p2ssKpqu1hwX9PR-LCkwrDTGvP76hz0z/view?usp=sharing][First Assignment]]
+- (Oct 1) [[https://drive.google.com/file/d/1hZ0AvPq9sxn0Vkl7gvaila3q88cxJub1/view?usp=sharing][Second Assignment]]
+- (Nov 17) [[https://drive.google.com/file/d/18b_-RcSQeobZVIFgVWHoYS39rxHFZ0iZ/view?usp=sharing][Third Assignment]] (Solutions [[https://drive.google.com/file/d/1nvR4QfZXHgNra52ISOpNKOztrkWU_95f/view?usp=sharing][1]] [[https://drive.google.com/file/d/1Gti0KvxsvqDXP130s0QQGUmXsTsMp-n8/view?usp=sharing][2]] [[https://drive.google.com/file/d/1gVOn5BpGYsYY4pKcO5U60sotAmsyUxQ0/view?usp=sharing][3]] [[https://drive.google.com/file/d/1Lsiy5zKsLeudCQutJ-lsQAAigxSd4hKV/view?usp=sharing][4]] )
+
+
+* Homework
+
+- (Aug 11) [[https://drive.google.com/file/d/1BESoBK6xU6iCPeje3blQoGtjgvzIQ_Lz/view?usp=sharing][Homework 1]] [[https://drive.google.com/file/d/11BTjxhd44i-efSY6-nNi9ztzD1bdLTHm/view?usp=sharing][Solutions]]
+- (Aug 18) [[https://drive.google.com/file/d/1y2G_jaep-UPSXLIOID-v_MBFJLkjy0CN/view?usp=sharing][Homework 2]]
+- (Aug 26) [[https://drive.google.com/file/d/11Z7WbYGRBHAlecCE17vdmspy-ueJc_PD/view?usp=sharing][Homework 3]]
+- (Sep 21) [[https://drive.google.com/file/d/1QgsPW2xa7lctIEq99tSeA74KLtIsru1d/view?usp=sharing][Homework 4]]
+- (Sep 28) [[https://drive.google.com/file/d/1WtE6gX0dtOfS_ukgmRnUkvUwmRSqkhvQ/view?usp=sharing][Homework 5]]
+- (Nov 1) [[https://drive.google.com/file/d/1Dn1_I6cmjJXZJaRtXns0ZztAiVnu_OpX/view?usp=sharing][Homework 6]]
+- (Nov 5) [[https://drive.google.com/file/d/1pWB9MstVDhqqQRanx22MPwP2q4K7fV29/view?usp=sharing][Homework 7]]
+- (Nov 17) [[https://drive.google.com/file/d/1TRRfcHdBqBV66pvbpOsUy6GcIEn9jr9l/view?usp=sharing][Homework 8]]
+
+* Tutorials
+
+- (Aug 11) [[https://drive.google.com/file/d/1VxWXPJra-JHHnf_pKxrKGwnuFcLGDa1o/view?usp=sharing][discussion]]
+- (Aug 18) [[https://drive.google.com/file/d/1aT5P9_iiVJohBzM5t14v3kAPvF_9Al4T/view?usp=sharing][demo]] [[https://drive.google.com/file/d/1BMl5cNhyAQUpPM93oBBcUEjm4A7O9QNm/view?usp=sharing][discussion]]
+- (Aug 26) [[https://drive.google.com/file/d/10TuFIenCm4k7qi64AEvZnPy0XPDETxXg/view?usp=sharing][discussion]]
+- (Sep 8) [[https://drive.google.com/file/d/1vCfk8is_slfyzErSptnlg0VgudcwReMc/view?usp=sharing][discussion]]
+- (Sep 22) Questions about Homework - 4.
+- (Sep 28) HW4 ([[https://drive.google.com/file/d/1W6811-v2X_-5qCWUtpwC2SGo-O2PipmT/view?usp=sharing][discussion]]) ([[https://drive.google.com/file/d/19qStDvfWq9VrYzPC5wNbFgF1zEfuWuXQ/view?usp=sharing][solutions]])
+- (Oct 6) HW5 ([[https://drive.google.com/file/d/1pG3y6et6ywfZKYpPOj6L5zJOlmXm0asC/view?usp=sharing][discussion]])
+- (Nov 17) HW7 ([[https://drive.google.com/file/d/1HKXDZlFXJPij3C6wCHx20bAgPrGv3jkL/view?usp=sharing][discusssion]])
+- (Nov 24) HW8 ([[https://drive.google.com/file/d/1HaykcUN2VEHujVbizBbpRzNfY2P7Cx9V/view?usp=sharing][discussion]])
+
+
+* Software
+
+You may use simulators available [[https://github.com/balu/toc][here]] or elsewhere to aid you in
+learning the subject. Please note that simulators are strictly
+optional.
+
+* Evaluation
+
+Your grades will be determined using assignments and quizzes.
+
+I will also give homework that will not be evaluated. The questions
+given as homework will be hard and are designed to deepen the
+understanding of the subject. You are encouraged to collaborate with
+others while solving homework problems after spending some time
+thinking about them on your own.
+
+The assignment questions will be of moderate difficulty and you will
+be given 7 days or more to solve each assignment. No collaboration is
+allowed. When submitting solutions, you must write how you arrived at
+the solution and list any failed approaches.
+
+There will be 3 time-bound quizzes. The problems will be easy provided
+that you have spent sufficient time on your homework and assignments.

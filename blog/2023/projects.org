@@ -1,0 +1,81 @@
+#+TITLE: Programming Projects for Beginners
+
+This page contains a collection of small-size programming projects
+suitable for students who have just completed an introductory
+programming course. There is no specific programming language
+requirement. But, you should adopt the language that is the most
+comfortable for you. Each project is some simpler version of an
+existing application. Unlike typical programming assignments, you have
+to also come up with the exact specification for these programs. I
+list some issues that you have to handle in specification and
+functionality that you may need from libraries to implement the
+program.
+
+1. Output the contents of the given file to screen. Allow an optional
+   argument (default to 72) that limits the maximum length of
+   lines. (See [[https://man7.org/linux/man-pages/man1/fmt.1.html][Linux command fmt]])
+
+   How do you split lines? At spaces? Do you insert hyphens when you
+   split mid-word? What about words with hyphens already in them? Are
+   all your lines exactly 72 characters or do you split lines earlier?
+
+   This program only requires some basic file handling and string
+   manipulation.
+
+2. Search for files matching the specified criteria. Allow the user to
+   specify size limits, modification date ranges, and patterns of
+   names. (See [[https://man7.org/linux/man-pages/man1/find.1.html][Linux command find]])
+
+   This program should parse the command line conditions, traverse
+   directories, and query file properties.
+
+   Do you allow regex as patterns? Do you allow users to depth-limit
+   searches?
+
+3. A pager (See [[https://man7.org/linux/man-pages/man1/less.1.html][Linux command less]]).
+
+   This program has to manipulate the terminal. Learn about ANSI
+   terminal codes to control the terminal.
+
+4. Personal finance tracking application (See [[https://www.gnucash.org][gnucash]]).
+
+   Since financial data is critical, use a database (learn about
+   [[https://sqlite.org/index.html][sqlite]]). Do you allow the user to encrypt it? What are the ways a
+   user can summarize his/her financial data.
+
+5. TODO list management with deadlines (See the text-based manager
+   [[http://todotxt.org/][todo.txt]]).
+
+   This program should be a daemon that notifies the user when a
+   deadline is approaching.
+
+6. Display a running digital clock on the terminal. This can be a
+   full-screen application or a live-updating, line-oriented one.
+
+7. Print today's weather status
+
+   Use the website [[https://www.wttr.in/][wttr.in]] for the data. This program has to request
+   some data from the web. See [[https://pypi.org/project/requests/][Python requests library]].
+
+8. Print today's news headlines.
+
+   Find a website that provides news of your interest. Does it provide
+   a way to fetch the data?
+
+9. A line-oriented chat application over TCP (talk).
+
+   Learn about sockets to communicate over the Internet.
+
+10. A GUI-based chat application.
+
+    Use a GUI library like [[https://pygobject.readthedocs.io/en/latest/][GTK]], [[https://www.riverbankcomputing.com/software/pyqt/][QT]], or [[https://docs.python.org/3/library/tk.html][Tkinter]].
+
+11. A spell-checker.
+
+    Spell check against a database of known words. Do you allow the
+    user to add words? Is your program efficient on large text? See
+    "Edit distance".
+
+12. A spell-corrector.
+
+    Allow the user to interactively correct spelling errors.

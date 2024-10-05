@@ -1,0 +1,57 @@
+#+TITLE: On Order
+
+A /partial order/ is a binary relation on sets, usually denoted
+$\leq$, defined as satisfying the following three properties for all
+$a$, $b$, and $c$:
+
+1. (Reflexivity) $a\leq a$.
+2. (Transitivity) $a\leq b$ and $b \leq c$ implies $a\leq c$.
+3. (Antisymmetry) $a \leq b$ and $b \leq a$ implies $a=b$.
+
+Examples of partial orders are the usual ordering on integers, the
+divisibility relation on natural numbers, and the subset relation on
+sets.
+
+In my opinion, any relation that allows us to /compare/ elements
+should be a partial order. In this article, I propose to change the
+definition of partial order so that reflexivity and transitivity are
+the only two required properties. We will see that an antisymmetry
+follows naturally. First, we take a look at equality.
+
+Consider homogeneous linear polynomials on two variables. We say that
+$x+2y\neq 2x+4y$. We /see/ these polynomials as points on a
+two-dimensional Euclidean plane. With this context, the natural way to
+define equality is to say that two polynomials are equal if and only
+if they are the same point.
+
+Consider rational numbers. They can also be seen as points on a
+two-dimensional Euclidean place. But we do not say $1/2 \neq
+2/4$. This is because the most natural way to interpret rational
+numbers is by mapping them to the number line, a 1-dimensional
+Euclidean space. Under this mapping $1/2$ and $2/4$ are the same
+point. Some also use the terminology that $1/2$ and $2/4$ are distinct
+as fractions but same as rational numbers.
+
+Notice that mapping rational numbers to the number line induces a
+natural ordering on the rational numbers. We can now define equality
+of rational numbers using antisymmetry.
+
+#+begin_quote
+  $a = b$ iff $a\leq b$ and $b\leq a$.
+#+end_quote
+
+Even though equality as fractions is a finer equivalence than the one
+based on order, the latter is more natural in the context of rational
+numbers.
+
+I argue that whenever we are studying partial orders, the most natural
+equivalence is almost always the equivalence defined as above. So
+there is no need to include antisymmetry in the definition, it is
+always true because we choose an equivalence to be so. Of course, this
+implies that all properties that we prove about the elements of the
+partial order will only be true up to this equivalence. But this is
+usually the case. Statements about rational numbers and statements
+about structural properties of graphs are only true up to their
+natural equivalence. With this change in definition, subgraph
+isomorphism on labeled graphs and reductions in computation become
+partial orders, which in my opinion they should be.

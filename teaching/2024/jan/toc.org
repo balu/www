@@ -1,0 +1,86 @@
+#+TITLE: Theory of Computing
+
+In this course we will take a look at various formal computing
+models. They enable us to classify languages based on their
+"difficulty". We will also see how the theory is applied to various
+fields like compiler design.
+
+** Administrivia
+
+The lectures will be on J1 and J2 slots in hall 10/201. The tutorial
+will be on I2 in hall 1/102.
+
+** Lectures
+
+*** Mar 05
+
+Definition of PDA.
+
+*** Mar 01
+
+Grammar for arithmetic expressions. Associativity and precedence
+handling.
+
+*** Feb 28
+
+Ambiguity in context-free grammars.
+
+*** Feb 27
+
+Context-free grammars. Derivations.
+
+*** Feb 16
+
+Problem solving session on regular languages.
+
+*** Feb 13
+
+Problem solving session on regular languages.
+
+*** Feb 09
+
+Revision on proof writing.
+
+*** Feb 06
+
+Pumping lemma and proving non-regularity.
+
+*** Feb 02
+
+NFAs to regular expressions through GNFAs.
+
+*** Jan 30
+
+Regular expressions to NFAs.
+
+*** Jan 23
+
+Regular expressions.
+
+*** Jan 19
+
+Converting NFA to DFA (subset construction).
+
+*** Jan 16
+
+Formal definition of NFA. NFA construction for union, concatenation,
+Kleene star.
+
+*** Jan 9
+
+Closure of regular languages under union. Concatenation of
+languages. NFA.
+
+*** Jan 5
+
+DFA.
+
+*** Jan 3
+
+Overview of the course. Finite automata.
+
+** References
+
+  - "Introduction to Theory of Computation", Michael Sipser, 3rd
+    edition.
+  - [[https://classroom.google.com/c/NjUwODgyNjUyODYx][Google classroom for announcements]]

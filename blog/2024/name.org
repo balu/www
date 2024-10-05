@@ -1,0 +1,88 @@
+#+TITLE: Name Modularity
+
+When developing large scale software, it is a necessity for multiple
+programmers/teams to be able to develop modules of the software
+separately without any unintended interaction between distinct
+modules. Most programming languages provide support for some group of
+features typically called /modules/. One function of modules is to
+provide name isolation. i.e., ensure that functions with the same name
+in different modules does not have any unintended interactions.
+
+To illustrate, say Alice is writing a module ~A~ that exports a
+function named ~bar()~. Now, Bob imports the module ~A~ and calls
+~bar()~ from it. Bob's module may have another function, ~foo()~ that
+he calls internally in his module. Later, Alice adds a function named
+~foo()~ to her module. If it is possible for this change made by Alice
+to silently affect the behaviour of Bob's module, we say that the
+module system does not provide good name isolation. Note that such an
+interaction is almost always undesirable.
+
+Consider the following Rust program:
+#+BEGIN_SRC rust
+mod a {
+  // pub fn foo() {
+  //     println!("a::foo()");
+  // }
+
+    pub fn bar() {
+        println!("a::bar()");
+    }
+}
+
+fn foo() {
+    println!("foo()");
+}
+
+fn greet() {
+    use a::*;
+    foo();
+    bar();
+}
+
+fn main() {
+    greet();
+}
+#+END_SRC
+
+This program will print ~foo()~ followed by ~a::bar()~. If you
+uncomment the definition of ~foo()~ in module ~a~, then this will
+print ~a::foo()~ followed by ~a::bar()~. This shows that Rust does not
+have good name isolation. Similar issues can be found in other
+languages, Python, for example.
+
+The analogous C++ program is:
+#+BEGIN_SRC c++
+  #include <cstdio>
+
+  namespace A {
+    void bar() {
+      std::printf("A::bar()\n");
+    }
+
+    // void foo() { std::printf("A::foo()\n"); } }
+
+  namespace B {
+    void foo() {
+      std::printf("B::foo()\n");
+    }
+
+      void greet() {
+	using namespace A;
+	foo();
+	bar();
+      }
+  }
+
+  int main() {
+    B::greet();
+    return 0;
+  }
+#+END_SRC
+Uncommenting ~A::foo()~ does not change the output of the program. So
+C++ demonstrates better name isolation in cases similar to this
+example.
+
+The C++ definition states that ~using~ directive makes names visible
+but does not add them to the region. This allows the names already
+defined in the region to take priority over any names visible from
+external modules.

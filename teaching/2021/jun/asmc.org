@@ -1,0 +1,56 @@
+#+TITLE: Assembly and C Programming Mini-course
+
+* Welcome
+
+"High"-level programming languages such as python provides many
+abstract types like lists and dictionaries and support complex
+operations such as taking a slice of the list as a basic
+operation. The underlying computer, of course, doesn't directly
+support such complex operations in hardware. The typical "Data
+structures and algorithms" course describes how one can structure data
+(Data structures) in memory so that complex operations can be
+implemented efficiently in terms of more primitive ones
+(Algorithms). A student who has only programmed in a language such as
+python may not have a sufficient understanding of the more primitive
+data structuring mechanisms and associated operations supported by the
+hardware. The goal of this course is to build this understanding.
+
+* Contact
+
+Please write to Balagopal Komarath <[[mailto:bkomarath@iitgn.ac.in][bkomarath@iitgn.ac.in]]> for any
+course related queries.
+
+* Lectures
+
+- [[https://drive.google.com/file/d/1ww0-wfEgE60ByEHX4vftLPE7PpfJvIMy/view?usp=sharing][Why assembly?]]
+- [[https://drive.google.com/file/d/1AVq1ebyAlwqfpqMhdoR45xiT-0pCnMia/view?usp=sharing][Assembly datatypes]]
+- [[https://drive.google.com/file/d/1oOUJB7BDiu6CZDDNEd5yY42kD9USGulz/view?usp=sharing][Assembly programming]]
+- [[https://drive.google.com/file/d/14EdYIoO_HqUHqtpSuzHCGoVRuC5f1aJw/view?usp=sharing][Discussion]]
+- [[https://drive.google.com/file/d/15H9bnrKvqX2heQ0dEyzdLYJDBsJTKFdD/view?usp=sharing][Branching]]
+- [[https://drive.google.com/file/d/1Fuqu15VgBEr_ZIO4LoobuFtUcGyiaNJ3/view?usp=sharing][Loops]]
+- [[https://drive.google.com/file/d/1tBrREaHbyzX2ML0w0vThLNURhCSGkl-X/view?usp=sharing][Types]]
+- [[https://drive.google.com/file/d/1ftaTirm9yVJ-J_y5RauxntDKpctHcwlP/view?usp=sharing][Discussion]]
+- [[https://drive.google.com/file/d/1G_ZdkQbaBjGXL6SUy9rEsl8Cp4nrfQZe/view?usp=sharing][Functions]]
+- [[https://drive.google.com/file/d/1Es63gn4aC9bpzA-VYQChZ6KRS6QdTjg1/view?usp=sharing][C pointers]]
+- [[https://drive.google.com/file/d/1d3Jkl2a0pnUwGU7FOHjAbiHKkWUvJyKz/view?usp=sharing][C compound types]]
+
+* Tests
+
+- [[https://docs.google.com/forms/d/e/1FAIpQLSeS_REhplsa162lrHAbuWiEkizQXXvWmbB2brdwZ6PKv9P7lA/viewform?usp=sf_link][Day 0]]
+- [[https://docs.google.com/forms/d/e/1FAIpQLSeZ1nYXz-PJmaU93c5Mwk-jW9R6Y-Aszo2sWq6CIlliPtm0XA/viewform?usp=sf_link][Day 1]]
+- [[https://docs.google.com/forms/d/e/1FAIpQLSdhAVVYYmOYgB09LNem_6nXZ06LV0UKo5ghd9yI1eKGBc3o3A/viewform?usp=sf_link][Day 2]]
+- [[https://docs.google.com/forms/d/e/1FAIpQLSe2CqmN8d8x-qa7dx88nA_tM9AdZZfcCWjFB43Gb9SdqxKVpw/viewform?usp=sf_link][Day 3]]
+- [[https://docs.google.com/forms/d/e/1FAIpQLSfy6B3a5V3CYwmhujdxNHz-3BnHpn_5FfLv8EkUwEI2byKWtQ/viewform?usp=sf_link][Day 4]]
+
+* References
+
+- [[https://schweigi.github.io/assembler-simulator/][The simulator]]
+- [[https://schweigi.github.io/assembler-simulator/instruction-set.html][The instruction set]]
+- [[https://drive.google.com/file/d/1Pf9mjUAkG1CIrNsWXBOmapCMrxKNod-Z/view?usp=sharing][List vs Set program]]
+- [[https://drive.google.com/file/d/1Jq-E51t28xYklxpbfibBFnGivqYt2Osj/view?usp=sharing][List vs Set plot]]
+- [[https://drive.google.com/file/d/1LqEhXu1xrFMuYK0o0z_hq0gGREzRwSYn/view?usp=sharing][List insertion benchmark]]
+- [[https://drive.google.com/file/d/17NygZUpkQFhEMZAMvxspDK7Y1dqEiikr/view?usp=sharing][List insertion plot]]
+- [[https://drive.google.com/file/d/1dScm-BB8ooe3X73AjBsnQaxnkhk0mk1D/view?usp=sharing][Factorial program]]
+- [[https://drive.google.com/drive/folders/1L-k3sWFo1gxvl-tlQSdXNQK03lxQrrI6?usp=sharing][C programs]]
+- [[https://learnxinyminutes.com/docs/c/][C tutorial]]
+- [[https://drive.google.com/file/d/1XXH42ePJbQLQA9Hq6b2VC0dL0iAAQ0s1/view?usp=sharing][Board]]

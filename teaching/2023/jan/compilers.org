@@ -1,0 +1,537 @@
+#+TITLE: Compilers
+
+Welcome to CS327: Compilers. In this course, we will design and
+implement a compiler for a simple imperative language. We will aim for
+the following language features.
+
+- Basic Types: numbers, booleans, strings.
+- Compound Types: products, sums, arrays.
+- Conditionals.
+- Loops.
+- Functions.
+- Closures.
+- Mutable variables.
+- Exceptions.
+
+We will aim to implement a tree-walking interpreter followed by
+designing a bytecode along with a source to bytecode compiler that
+implements some optimizations such as function inlining, loop
+unrolling, constant folding, and dead code elimination.
+
+My code for this course will be hosted at the [[https://github.com/balu/sim][github repository for
+CS327: Compilers (2023)]].
+
+** Current status
+
+Complete implementation for a PL with conditionals, loops, nested
+functions, and typechecking with both tree-walking and bytecode
+generation.
+
+** Project
+
+This section lists the goals of the project. Everyone should try to
+complete the minimal (M) goals. The goals marked intermediate (I) and
+advanced (A) can be taken up once the minimal goals are achieved.
+
+- M: A number type and arithmetic.
+- I: Multiple number types such as fractions and integers. Quotient
+  and division are different. Quotient has type (integer, integer) ->
+  integer and division has type (fraction, fraction) -> fraction. An
+  integer can be used wherever a fraction can be used.
+- M: Let expressions.
+- I: Parallel ~let~ (See ~let..and~ in Ocaml).
+- M: A Boolean type, comparisons, and if-else.
+- I: An explicit unary boolifying operator. In Perl ~so x~ where ~x~
+  has any type produces a Boolean value. For example, if ~x~ is a
+  number, it is true when non-zero. If ~x~ is a string, it is true
+  when non-empty.
+- M: Mutable variables.
+- A: Disallow mutable variables to change type. With the binding ~let
+  mut p = True in ...~, the variable ~p~ should only be assigned
+  boolean values.
+- I: Static type checking. The expression ~(5>3) + 2~ should be an
+  error without evaluating anything.
+- M: A ~print~ operation that prints values to screen.
+- M: loops.
+- M: Strings with concatenation and slicing.
+- M: Functions
+- M: Lists with operations ~cons~, ~is-empty?~, ~head~, ~tail~.
+- I: ~for~ loop to iterate over lists.
+- I: Mutable arrays with indexing, appending, popping, concatenation,
+  element assignment.
+- I: Allow declaration of type of array. For example ~let xs:
+  Array[int] = [] in ...~ should prevent ~xs[0] ← 5/3~.
+- A: Step-by-step debugger for your programming language.
+- A: User-defined types -- records.
+- A: First-class functions.
+
+[[#studentproj][A showcase of various programming languages designed by students.]]
+
+** Meetings
+
+*** 21-04-2023
+
+Resources for mathematical foundations. Feedback.
+
+*** 19-04-2023
+
+Static links for accessing variables in outer functions.
+
+*** 12-04-2023
+
+Functions with parameters. Calling convention. Function preamble.
+
+*** 05-04-2023
+
+Parameter-less functions. Call frame management. CALL and RETURN
+instructions.
+
+*** 31-03-2023
+
+Frames and local variables.
+
+*** 29-03-2023
+
+Code walk-through for bytecode generation. See 'unstable' branch in
+the git repo. Expressions without variables are done.
+
+*** 22-03-2023
+
+Exam II
+
+*** 17-03-2023
+
+Bytecode generation for conditionals and loops.
+
+*** 15-03-2023
+
+Stack VM, Bytecode generation for arithmetic expressions.
+
+*** 03-03-2023
+
+Importance of formalizing passes. Parser generators (GNU Bison, Python
+parsimonious). Programming language shootout game. Code golf.
+
+*** 01-03-2023
+
+Arrays vs Lists performance. Implementing arrays. Referential
+transparency. Copy-on-Write.
+
+First-class functions and closures. Using heap to implement closures.
+
+*** 24-02-2023
+
+Implementing variable resolution for proper behaviour.
+
+*** 22-02-2023
+
+Pitfalls of Python style extreme late binding of symbols.
+
+*** 15-02-2023
+
+Implementing function definitions and function calls.
+
+*** 13-02-2023
+
+Exam I sheets loaned. Discussed project evaluation.
+
+*** 10-02-2023
+
+We discussed name visibility of functions in various languages. Late
+binding in Python, forward declarations in C, and explicit syntactic
+form for mutual recursion in OCaml.
+
+*** 04-02-2023
+
+Exam I.
+
+*** 03-02-2023
+
+We implemented an imperative environment that handles scoping of
+mutable variables.
+
+*** 01-02-2023
+
+We discussed how to write environments for handling mutable variables
+correctly.
+
+*** 27-01-2023
+
+We discussed operator precedence, associativity, and how to write a
+grammar that captures these concepts. We then saw how one can write a
+parser for such grammars.
+
+*** 25-01-2023
+
+We discussed parsing. Recursive descent parsing peeks at the first
+token and determines how to parse the string based on that. We
+discussed ambiguity in expression parsing and how recursive descent
+fails for arithmetic expressions in infix form.
+
+*** 20-01-2023
+
+We discussed lexing where we produce a stream of tokens from a stream
+of characters (also known as source code).
+
+*** 18-01-2023
+
+We discussed static analysis -- analysis of programs without
+evaluating them. A part of it is semantic analysis which involves type
+checking. We discussed how to perform typechecking by tree-walking. We
+discussed language design choices such as expression+statements or
+expression-only languages and statically-typed vs dynamically-typed
+languages.
+
+*** 16-01-2023
+
+We discussed project submission workflow. All individual contributions
+SHOULD be associated with their github (or equivalent) id. As a rough
+guideline for project goals, try to implement solutions for the first
+five questions from [[https://projecteuler.net/][Project Euler]] in
+the language you are implementing.
+
+*** 13-01-2023
+
+We implemented ~let~ expressions in our interpreter by keeping track
+of environments that map names into values.
+
+*** 11-01-2023
+
+We learned lexical scoping and ~let~ bindings that introduce lexically
+scoped bindings.
+
+*** 09-01-2023
+
+We wrote code for an arithmetic expression tree evaluator. We
+discussed internal representation of programs -- Abstract Syntax Trees
+(ASTs). We then defined an AST suitable for a calculator in Python and
+wrote a tree-walk ~eval()~ for it.
+
+*** 04-01-2023
+
+Attendance is not mandatory. Grading will be divided into theory exams
+(50) and team project (50). There will be three assessments for both
+and the split will be (15 + 15 + 20). Each team may have four to five
+members including a team leader. You can choose any programming
+language. The history of the project should be tracked via git and
+commits should identify contribution. Before assessment, each team has
+to submit information regarding work done by each member. This will be
+compared against git commits and performance in TA evaluations. Theory
+exams will mostly be subjective and will test your understanding of
+concepts.
+
+You can learn about
+[[https://docs.github.com/en/get-started/quickstart/hello-world][using
+git via this github tutorial]]. Each team member should have their own
+fork of their project where they make their commits. Individual
+changes can be pushed to a main repository that will aggregate all
+contributions into the group's output.
+
+[[https://docs.python.org/3/library/dataclasses.html][Python
+dataclasses]], [[https://peps.python.org/pep-0636/][Python match
+statement]], and [[https://pypi.org/project/pytest/][pytest]] will be
+extensively used by me during lectures. For your project, feel free to
+use your preferred tools.
+
+** References
+
+  - [[https://craftinginterpreters.com/][Robert Nystrom's excellent book]]
+  - [[https://en.wikibooks.org/wiki/Introduction_to_Programming_Languages][Wikibook on PLs]]
+  - [[https://rosettacode.org/wiki/Rosetta_Code][Rosetta code for sample programs in various languages]]
+  - [[https://benchmarksgame-team.pages.debian.net/benchmarksgame/index.html][Programming language benchmarks comparing performance of various languages]]
+  - [[https://projecteuler.net/][Project Euler for simple programs to test your language]]
+  - [[https://www.cs.cmu.edu/~rdriley/487/papers/Thompson_1984_ReflectionsonTrustingTrust.pdf][Reflections on trusting trust]]
+  - [[https://www.eecs.umich.edu/courses/eecs588/static/stack_smashing.pdf][Smashing the stack for fun and profit]]
+
+** Showcase
+:PROPERTIES:
+:CUSTOM_ID: studentproj
+:END:
+
+This section showcases various programming languages designed by
+students. The programs are solutions to
+[[https://projecteuler.net/problem=14][Project Euler problem 14]].
+
+*** dino
+
+
+#+BEGIN_EXAMPLE
+assign start = 3;
+assign count = 1;
+assign ans = 1;
+assign max_count = 1;
+assign dp = {1:1};
+
+func collatz(n)
+    ?echo(n);
+    if(dp.in_dict(n))
+        return dp[n];
+    end
+    if(n%2 == 0)
+        dp[n] = collatz(n//2) + 1;
+    end
+    else
+        dp[n] = collatz(3*n + 1) + 1;
+    end
+    return dp[n];
+end
+
+
+loop(start < 100)
+    ? echo(start);
+    count = collatz(start);
+    if(count > max_count)
+        max_count = count;
+        ans = start;
+    end
+    start = start + 2;
+end
+
+echo(max_count);
+echo(ans);
+#+END_EXAMPLE
+
+*** gossip
+
+#+BEGIN_EXAMPLE
+declare n = 1;
+declare k = 100000;
+declare len = 1;
+declare i = 1;
+declare max = 0;
+declare num = -1;
+
+declare d = dictn(0);
+
+while i <= k do {
+    assign n = i;
+    assign len = 1;
+
+    while n > 1 do {
+
+        if d[n]!=0 then {
+            assign len = len + d[n] -1;
+            assign n = 1;
+        }
+        else {
+
+            if n % 2 == 0 then {
+                assign n = n / 2;
+                assign len = len + 1;}
+            else {
+                assign n = 3 * n + 1;
+                assign n = n/2;
+                assign len = len + 2;
+            };
+
+        };
+    };
+
+    assign d[i] = len;
+
+    if len > max then {
+        assign max = len;
+        assign num = i;}
+
+    assign i = i + 1;
+};
+
+print(k);
+print(num);
+print(max);
+#+END_EXAMPLE
+
+*** notpy
+
+#+BEGIN_EXAMPLE
+var i = 2;
+var a = [1000000];
+var max=0;
+var maxnum=0;
+
+while (i<1000000){
+    var start = i;
+    var cnt =1;
+
+    while (start !=1){
+        if (start < 1000000){
+            if (a[start] != 0){
+                cnt = cnt + a[start]-1;
+                start = 1;
+            }
+            else{
+                if (start %2 == 0){
+                    start = start/2;
+                }
+                else{
+                    start = 3*start + 1;
+                }
+                cnt = cnt+1;
+            }
+        }
+
+        else{
+            if (start%2==0){
+                start=start/2;
+            }
+            else{
+                start=3*start+1;
+            }
+            cnt=cnt+1;
+        }
+
+    }
+    if(cnt>max){max=cnt; maxnum=i;}
+    a[i] = cnt;
+    print i, cnt;
+    i=i+1;
+}
+print "ans", max, maxnum;
+#+END_EXAMPLE
+
+*** thorium
+
+#+BEGIN_EXAMPLE
+let ans=0 in
+let start=0 in
+let num = 1 in
+{
+    while num<=100000 do
+    {
+            let l=1 in
+            let n= num in
+            {
+                while n>1 do
+                    {
+                        if n%2==0 then {
+                            n=n//2;
+                        };
+                        else{
+                            n=3*n+1;
+                        }; end
+                        l=l+1;
+
+                    };
+
+                    if l>ans then {
+                        ans= l;
+                        start=num;
+                    };
+                    else{
+                       ans=ans;
+                    }; end
+
+
+            };
+
+            num=num+ 1;
+
+    };
+
+    print ans;
+    print start;
+}
+end
+#+END_EXAMPLE
+
+*** Zebra
+
+#+BEGIN_EXAMPLE
+var int l = 1000000;
+var array(int) a=array(int){};
+var int mem = 1000000;
+
+for(var int i=0;i<mem;i=i+1){
+    append(0,a);
+}
+
+var int maxChainLength = 0;
+var int result = 0;
+var int n = nil;
+var int chainLength = nil;
+var int flag = 0;
+
+for (var int i = 1; i < l; i=i+1) {
+    n = i;
+    chainLength = 1;
+    flag = 0;
+
+    while (n > 1)
+    {
+        if (n<mem){
+            if (a[n]!=0){
+                chainLength = chainLength + a[n] -1;
+                flag = 1;
+                n = 0;
+            }
+        }
+
+        if (flag ==0){
+
+            if (n % 2 == 0) {
+                n = n//2;
+
+            }
+            else {
+                n = 3 * n + 1;
+            }
+            chainLength = chainLength + 1;
+        }
+    }
+
+    if (chainLength > maxChainLength) {
+        maxChainLength = chainLength;
+        result = i;
+    }
+    if (i<mem) {a[i]=chainLength;}
+}
+
+
+zout("result", result);
+zout("len", maxChainLength);
+#+END_EXAMPLE
+
+*** Zoro
+
+#+BEGIN_EXAMPLE
+var mil <- 1000;
+var lst <- [1];
+var i <- 2;
+var maxl <- 1;
+var maxi <- 1;
+var temp <- 0;
+var j <- 0;
+
+while i <= mil
+do
+    if i%2 == 0
+    then
+        temp <- 1 + lst.at (i//2 - 1);
+        lst.push temp;
+    else
+        j <- 3*i + 1;
+        temp <- 1;
+        while j >= i
+        do
+            if j % 2 == 0
+            then
+                j <- j // 2;
+            else
+                j <- 3*j + 1;
+            endif;
+            temp <- temp + 1;
+        endwhile;
+        temp <- temp + lst.at (j - 1);
+        lst.push temp;
+    endif;
+    if temp > maxl
+    then
+        maxi <- i;
+        maxl <- temp;
+    endif;
+    i <- i+1;
+endwhile;
+print mil;
+print maxi;
+print maxl;
+#+END_EXAMPLE

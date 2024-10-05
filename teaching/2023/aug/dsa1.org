@@ -1,0 +1,217 @@
+#+TITLE: Data Structures and Algorithms I
+
+In this course, we will see how to structure data (data structures) so
+that complex operations (algorithms) can be efficiently executed. This
+course lies in the intersection of mathematics and computing. We will
+learn about the most basic and widely-used data structures and
+algorithms, prove their correctness and efficiency by writing
+mathematics, and implement them using C/C++ to understand how they
+work in practice.
+
+** Administrivia
+
+If you are absent from a lecture until Exam I for any reason, fill the
+[[https://docs.google.com/forms/d/e/1FAIpQLSeCm-rfs51xlFqpi9fYDmnfVewZkyNonXdtLrQNTUz2BD-2lA/viewform?usp=sf_link][form of absence for ES242]].
+
+[[https://forms.gle/9agjdHmENxkTQfCZ6][Fill this form to select your availability for labs.]]
+
+** Meetings
+
+*** Nov 15
+
+Binary search trees. Definition. Search. Running-time. Discussion on
+proof approaches to worst-case upper bounds and lower bounds.
+
+*** Nov 13
+
+Rehashing. Amortized analysis of insertion.
+
+Application of linked lists: window switching.
+
+*** Nov 8
+
+Implementing hash tables.
+
+*** Nov 6
+
+Hash tables for implementing Python dictionaries.
+
+*** Nov 1
+
+Implementing stacks and queues using linked lists, tail-sharing,
+circular singly linked lists.
+
+*** Oct 23
+
+Linked lists. Allocation and insertion.
+
+*** Oct 18
+
+Discussion on exam 2 solutions.
+
+*** Oct 9
+
+BFS implementation for solving 8-puzzles with the minimum number of
+moves.
+
+*** Oct 4
+
+Queues, BFS, finding solutions to puzzles in the smallest number of
+steps.
+
+*** Sep 27
+
+Sudoku solving and DFS time complexity analysis.
+
+*** Sep 25
+
+DFS for path-finding and writing a sudoku solver.
+
+*** Sep 20
+
+Stacks and implementation of an RPN calculator.
+
+*** Sep 18
+
+DFS and depth-first search trees. The tictactoe algorithm is a DFS.
+
+*** Sep 13
+
+Encoding and decoding tictactoe strategy into bytes. Indexing boards.
+
+*** Sep 11
+
+4x4 tic-tac-toe. Memoization. Fibonacci numbers with memoization.
+
+*** Sep 2
+
+Exam I
+
+*** Aug 30
+
+Fixing bug in tictactoe. Use of ~void *~ in C.
+
+*** Aug 28
+
+Implementing optimal tictactoe strategy using recursion.
+
+*** Aug 23
+
+[[https://docs.google.com/forms/d/e/1FAIpQLSe3y7TYGCPkOO2kQ19hU0B1Tew0d4JwQq-C0qurOj8OCp-RFg/viewform?usp=sf_link][Quiz
+for Aug 23]]
+
+Proof of correctness for permutations. Accepting function pointers for
+generality.
+
+*** Aug 21
+
+[[https://docs.google.com/forms/d/e/1FAIpQLScWziTv7THLrKxCwMyxo16hwhVoEt4Artaii9A6rh4MJyF73g/viewform?usp=sf_link][Quiz
+for Aug 21]]
+
+Recursion: Towers of Hanoi, Generating all permutations.
+
+*** Aug 17
+
+Demo and support on setting up C, Git, Zulip by Reuben.
+
+*** Aug 16
+
+[[https://itempool.com/OutstandingOyster983479/c/qA8P8cG9698][Quiz for
+Aug 16]]
+
+gcdlcm function, definition of asymptotic primitives.
+
+*** Aug 14
+
+[[https://itempool.com/OutstandingOyster983479/c/rSfGrRw16M1][Quiz for
+Aug 14]]
+
+Loop invariants, Time complexity of Euclid's algorithm.
+
+Design of gcdlcm function and multiple return values.
+
+*** Aug 10
+
+Tutorial 1.
+
+*** Aug 9
+
+[[https://itempool.com/OutstandingOyster983479/c/P3W3pwWTZBl][Quiz for
+Aug 9]]
+
+Euclid's GCD algorithm. Termination. Correctness (GCD Theorem). Direct
+proofs. Proof by induction.
+
+*** Aug 7
+
+[[https://itempool.com/OutstandingOyster983479/c/BelHJ25QX7c][Quiz for
+Aug 7]]
+
+Discussion on gcd. Computers vs unit-cost RAM. Execution trace and
+running time.
+
+*** Aug 3
+
+[[https://itempool.com/OutstandingOyster983479/c/7TTRwkoJdaf][Quiz for
+Aug 3]]
+
+Discussion on specification of computational
+problems. Algorithms. Naive GCD computation.
+
+*** Aug 2
+
+[[https://itempool.com/OutstandingOyster983479/c/7xuH75D5Fet][Quiz for
+Aug 2]]
+
+General introduction to the course, policies, administrative stuff.
+
+Attendance in a lecture until exam I will earn you 1 mark provided you
+attempt the live quiz and score sixty percent or above. If you attend
+the live quiz and score less than sixty percent, you are required to
+attempt until you score sixty or above. If you miss a lecture for a
+valid reason, you can attend the quiz at a later time and receive the
+marks for attendance.
+
+** Grading
+
+| Assessment      | Percentage |
+|-----------------+------------|
+| Attendance      |         10 |
+| Lab Assignments |         20 |
+| Exam I          |         20 |
+| Exam II         |         20 |
+| Exam III        |         30 |
+
+** Lecture Plan
+
+| #Lectures | Topic                |
+|-----------+----------------------|
+|         1 | Problems, Algorithms |
+|         1 | Execution, Time      |
+|         2 | Asymptotic Analysis  |
+|         2 | Proofs               |
+|         2 | Recursion            |
+|         2 | Stacks               |
+|-----------+----------------------|
+|         1 | Queues               |
+|         1 | Priority queues      |
+|         1 | Heaps, heapsort      |
+|         2 | Sets, Dictionaries   |
+|         1 | Dynamic arrays       |
+|         2 | Hashing              |
+|         2 | Binary Search Trees  |
+|-----------+----------------------|
+|         3 | Graphs, Trees        |
+|         2 | Traversal            |
+|         2 | Graph algorithms     |
+|         3 | Reductions           |
+
+** References
+
+  1. [[https://jeffe.cs.illinois.edu/teaching/algorithms/#book][Algorithms by Jeff E]]
+  2. [[https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/][Introduction to Algorithms by Cormen et al.]]
+  3. [[/dsa/][Balagopal's DSA lecture notes]]
+  4. [[https://beej.us/guide/bgc/html/split/][Beej's C tutorial]]
+  5. [[https://courses.csail.mit.edu/6.042/spring18/][Mathematics for CS]]
+  6. [[https://github.com/balu/es242][Github repository for ES242 materials]]
+  7. [[https://www.learncpp.com/][Learn CPP]]

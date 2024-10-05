@@ -1,0 +1,57 @@
+#+TITLE: Special Topics Course: Computational Complexity Theory
+
+
+* Welcome
+
+Welcome to computational complexity theory. In this course, we will
+look at various computational models (TM, circuits) and the power
+enabled by various resources (time, space, size, depth). We will see
+that using this framework, we can formulate many natural real-world
+questions in concrete terms. Questions such as:
+
+- Is verifying solutions harder than finding them?
+- Does interacting with the prover help someone verifying the proof?
+- Can we verify a proof by reading only a part of it?
+- Does randomness help in computation?
+
+You are expected to be familiar with all topics covered in an
+undergraduate theory of computation course and algorithms course. In
+particular, a good understanding of Turing machines, analyzing time
+and space complexity of algorithms, reductions, and NP-completeness is
+assumed.
+
+* Contact
+
+Please write to Balagopal Komarath <[[mailto:bkomarath@iitgn.ac.in][bkomarath@iitgn.ac.in]]> or Bireswar
+Das <[[mailto:bireswar@iitgn.ac.in][bireswar@iitgn.ac.in]]> for any course related queries. Prefix the
+subject line with "CS691:" (without double quotes).
+
+** Lectures
+
+The meetings happen in P1 and P2.
+
+- (Jan 13) [[https://drive.google.com/file/d/1j_I6rJUqYiiUpBgdpVn8DjewporZ5LO0/view?usp=sharing][Overview]]
+- (Jan 18) [[https://drive.google.com/file/d/1ZGoKDANJulkrlmlQwnwEtVIMS2p_573V/view?usp=sharing][Time and Space: Hierarchy]]
+- (Jan 20) [[https://drive.google.com/file/d/1NNOk7Gg7mA_vMP3UyWvRZrp5C0U0Mx_L/view?usp=sharing][Constructibility and Time Hierarchy Theorem]]
+- (Jan 25) [[https://drive.google.com/file/d/1oCcUuhUZBKI-4rWsDH3Z0yxhk-w159zt/view?usp=sharing][Speedup Theorem]]
+- (Jan 27) [[https://drive.google.com/file/d/1DqurWzhGbEZydhkXPhG9tAcmYoWuLt0O/view?usp=sharing][P and poly-time reductions]]
+- (Feb 01) [[https://drive.google.com/file/d/12ogn19CcKhr6kID6R2_PkHA76fT4zA-n/view?usp=sharing][NP and coNP]]
+- (Feb 03) [[https://drive.google.com/file/d/1WjZoYQGSHcQu-OUC2EXlHSiq_N4JkfsX/view?usp=sharing][Polynomial Hierarchy]]
+- (Feb 08) [[https://drive.google.com/file/d/1LQQ-JyO4y-TXjpUwizsqMIjn_PXIKZ0j/view?usp=sharing][PSPACE and QBF]]
+- (Feb 10) [[https://drive.google.com/file/d/1T5YCgllkwjIYr5nn863b501c7TLunehF/view?usp=sharing][REACH Algorithms and PSPACE]]
+- (Feb 15) [[https://drive.google.com/file/d/1Ad-HaZ7ZeeXMig6JlPM8iFPRQWeLmGWP/view?usp=sharing][L and NL]]
+- (Feb 17) [[https://drive.google.com/file/d/1bplWMPjcy8w1vSOfJJknUvxdP8A0AOuR/view?usp=sharing][NL = coNL]]
+
+* Evaluation
+
+Evaluation includes take-home assignments (10x4), a mid-sem quiz (20),
+a paper presentation (20), and end-sem viva (20).
+
+* References
+
+The lecture notes are [[https://drive.google.com/file/d/1lcg8BGWhfZYLS83cyuOVtLibUu0G7Egp/view?usp=sharing][here]]. A cleaned-up version of lecture [[https://drive.google.com/file/d/1euqaRKVSko-DoVg4NKHDkaM-ffn2ZJUZ/view?usp=sharing][notes]].
+
+Now, a list of text books.
+
+- Computational Complexity: A Modern Approach, Arora and Barak
+- Computational Complexity: A Conceptual Perspective, Goldreich

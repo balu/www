@@ -1,0 +1,540 @@
+#+TITLE: Python is not an Acceptable ML
+#+OPTIONS: toc:nil num:nil
+
+The programming language Python is a popular fixture in introductory
+programming courses. The adoption of Python as a programming language
+for introductory courses is mainly driven by two reasons:
+
+1. Popularity in scientific computing and software industry.
+2. /Readability/.
+
+While the first point is irrefutable, the readability enabled by
+Python's surface-level syntax does not compensate for its many
+violations of certain fundamental principles related to programming
+language and user interface design. In this article, we look at
+certain common problems with Python faced by beginning programmers and
+will see how a programming language with a better design, OCaml,
+avoids or even completely prevents these issues.
+
+When programming, there are multiples classes of errors that could
+occur. Some errors are detected by the text editor or IDE while
+typing, some errors are detected while compiling the program, some
+errors are always detected when the program is run, some errors remain
+hidden until some conditions are met during the runtime. A
+well-designed programming language ensures that most of the errors can
+be detected by the programmer as early as possible.
+
+Can't we create a perfect programming language by designing it so that
+all errors are compile-time errors? While such languages exist, they
+are usually hard to program without advanced knowledge. So all
+languages are designed with this trade-off between correctness and
+usability. However, this trade-off is not linear. Suppose we quantify
+usability and correctness on a scale of 1 to 100. Then, there will be
+languages that rate 80u in usability and 80c in correctness and those
+that rate 90u in usability and 50c in correctness. The main thesis I
+put forward is that OCaml is an (80u, 80c) language while Python is,
+at best, a (90u, 50c) language for introductory programming courses. I
+will try to convince you of this by listing a series of examples
+comparing Python and OCaml.
+
+#+TOC: headlines 1
+
+* Errors of commission and omission
+
+The following code in Python has an error. Can you find it?
+
+#+NAME: animal-py
+#+BEGIN_SRC python :results output :exports both
+  def sound(animal):
+      if animal == 'dog':
+          return 'bow'
+      elif animal == 'cat':
+          return 'meow'
+      elif animal == 'cow':
+          return 'moo'
+      elif anima1 == 'pig':
+          return 'oink'
+      elif animal == 'human':
+          return 'huh'
+
+  print(sound('cat'))
+#+END_SRC
+produces:
+#+RESULTS: animal-py
+: meow
+
+As you can see, the program prints the expected output. If you did not
+manage to find the error, one of the ~animal~ is mis-spelled
+~anima1~. This is a conditional runtime error in Python that should
+have been a compilation error.
+
+Let us now write it in OCaml. If you fancy it, the above function can
+be written without even spelling out the parameter.
+
+#+NAME: animal-ml
+#+BEGIN_SRC ocaml :results output :exports both
+  let sound = function
+    | "dog" -> "bow"
+    | "cat" -> "meow"
+    | "cow" -> "moo"
+    | "pig" -> "oink"
+    | "human" -> "huh"
+    | _ -> assert false
+
+  let () = print_endline (sound "cat")
+#+END_SRC
+produces:
+#+RESULTS: animal-ml
+: meow
+
+If you are spooked by the parameter not having a name, notice that the
+name of the parameter is irrelevant because it conveys no information
+to the reader. A good programming language lets you avoid unnecessary
+details. Of course, you could also write this in a more Pythonic style
+as follows so that you may misspell the parameter. The following code
+has a spelling error.
+
+#+NAME: animal'-ml
+#+BEGIN_SRC ocaml :exports both
+  let sound animal =
+    if animal = "dog" then "bow"
+    else if animal = "cat" then "meow"
+    else if animal = "cow" then "moo"
+    else if anima1 = "pig" then "oink"
+    else if animal = "human" then "huh"
+    else assert False
+#+END_SRC
+and OCaml will report it as follows:
+#+RESULTS: animal'-ml
+: Line 5, characters 10-16:
+: 5 |   else if anima1 = "pig" then "oink"
+:               ^^^^^^
+: Error: Unbound value anima1
+: Hint: Did you mean animal?
+
+Staying with the same example, let's say we want to write a ~legs~
+function that returns the number of legs of an animal.
+
+#+NAME: sum-types-py
+#+BEGIN_SRC python
+  def sound(animal):
+      if animal == 'dog':
+          return 'bow'
+      elif animal == 'cat':
+          return 'meow'
+      elif animal == 'caterpillar':
+          return '...'
+
+  def legs(animal):
+      if animal == 'dog' or animal == 'cat':
+          return 4
+      elif animal == 'caterpillar':
+          return 1000
+#+END_SRC
+
+In the future, you may want your program to handle ~'human'~ as an
+animal. So you change the definition of sound as follows:
+#+NAME: sum-types-human-py
+#+BEGIN_SRC python
+  def sound(animal):
+      if animal == 'dog':
+          return 'bow'
+      elif animal == 'cat':
+          return 'meow'
+      elif animal == 'caterpillar':
+          return '...'
+      elif animal == 'human':
+          return 'huh'
+#+END_SRC
+but forget to update ~legs~. Now ~legs('human')~ is ~None~ and Python
+doesn't warn you. This is a conditional runtime error because the
+function ~legs('human')~ may not be called in your program.
+
+The natural way to write OCaml easily avoids such bugs. We have the
+ability to easily define /sum/ types in a light-weight manner:
+#+NAME: sum-types-ml
+#+BEGIN_SRC ocaml
+  type animal = Cat | Dog | Caterpillar
+
+  let sound = function
+    | Cat -> "meow"
+    | Dog -> "bow"
+    | Caterpillar -> "..."
+
+  let legs = function
+    | Cat | Dog -> 4
+    | Caterpillar -> 1000
+#+END_SRC
+Now, if we change the type as follows:
+#+NAME: sum-types-human-ml
+#+BEGIN_SRC ocaml :results output :exports both
+  type animal = Cat | Dog | Caterpillar | Human
+
+  let legs = function
+    | Cat | Dog -> 4
+    | Caterpillar -> 1000
+#+END_SRC
+
+the OCaml compiler can point out the places where we forgot to handle
+humans.
+
+#+RESULTS: sum-types-human-ml
+: Lines 3-5, characters 11-23:
+: 3 | ...........function
+: 4 |   | Cat | Dog -> 4
+: 5 |   | Caterpillar -> 1000..
+: Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+: Here is an example of a case that is not matched:
+: Human
+: type animal = Cat | Dog | Caterpillar | Human
+
+* What's in a name?
+
+The /scope/ of a name defines the context in which it is valid. Python
+has unintuitive rules that define scope.
+
+#+NAME: scope-py
+#+BEGIN_SRC python :results output :exports both
+  day = 'Monday'
+
+  def setday(newday):
+      day = newday
+
+  setday('Tuesday')
+  print(day)
+#+END_SRC
+produces:
+#+RESULTS: scope-py
+: Monday
+
+In the above program, the ~day~ in ~setday~ refers to a newly created
+variable named ~day~ and not the global ~day~. In other words, Python
+/implicitly/ creates variables upon first assignment in functions so
+that an explicit keyword like ~var~ or ~let~ is not required. This is
+a violation of its own guiding principle "Explicit is better than
+implicit." ([[https://peps.python.org/pep-0020/][The Zen of Python]]).
+
+But, global variables are evil. So this is a non-problem, right? The
+problem also manifests for non-global variables.
+
+#+NAME:fib-py
+#+BEGIN_SRC python :results output :exports both
+  def end(s):
+      last = "x"
+      def a(): last = "a"
+      def b(): last = "b"
+      for c in s:
+          if c == "a": a()
+          elif c == "b": b()
+      return last
+
+  print(end("abracadabra"))
+#+END_SRC
+produces:
+#+RESULTS: fib-py
+: x
+
+The assignment to ~last~ in ~a()~ and ~b()~ has no effect on the
+~last~ in the scope of ~end()~. Python's /fix/ for its self-created
+scoping problems is to use ~global~ and ~nonlocal~
+declarations. However, it is quite easy for a beginner to simply
+forget to declare it and create these conditional runtime errors.
+
+* Python UI lies
+
+A fundamental rule in user interface design (programming language or
+otherwise) is that things that look the same should behave the
+same. Now, consider the following code in Python:
+
+#+NAME: list-aliasing-py
+#+begin_src python :results output :exports both
+  x = 5
+  y = x
+  x = x + 1
+  print(x, y)
+
+  x = []
+  y = x
+  x.append(0)
+  print(x, y)
+#+end_src
+which produces:
+#+RESULTS: list-aliasing-py
+: 6 5
+: [0] [0]
+
+So why did changing ~x~ also change ~y~ in the second case but not the
+first? Python provides a consistent interface to both value types and
+reference types, which are fundamentally different, and therefore
+/should not/ be accessible through the same interface.
+
+A particularly problematic situation arises due to ~*~, the list
+replication operator. The expression ~xs * i~ creates a list obtained
+by replicating ~xs~ , ~i~ times. So, one may try to create a 3x3
+matrix and set it's top-left entry to ~1~ as follows:
+
+#+NAME: list-aliasing-matrix
+#+begin_src python :results output :exports both
+  xs = [[0] * 3] * 3
+  xs[0][0] = 1
+  print(xs)
+#+end_src
+and we get:
+#+RESULTS: list-aliasing-matrix
+: [[1, 0, 0], [1, 0, 0], [1, 0, 0]]
+
+The solution in these cases is to ensure that lists (and other
+reference types, like dictionaries) are referred to uniquely or ensure
+that they are never modified (Enforcing this in the compiler gives you
+Rust, the programming language.). It is not necessary that you have
+multiple named references to a list such as ~xs~ and ~ys~ above for
+having non-unique references. You can also have implicit duplicate
+references in Python. The following /seems/ to work fine.
+
+#+NAME:for-mut-odd-py
+#+BEGIN_SRC python :results output :exports both
+  xs = [1, 2, 3, 4]
+  for x in xs:
+      if x % 2 == 1:
+          xs.remove(x)
+  print(xs)
+#+END_SRC
+to remove all odd numbers from the list.
+#+RESULTS: for-mut-odd-py
+: [2, 4]
+
+But, if we try to modify it slightly to remove all elements.
+
+#+NAME:for-mut-py
+#+BEGIN_SRC python :results output :exports both
+  xs = [1, 2, 3, 4]
+  for x in xs:
+      xs.remove(x)
+  print(xs)
+#+END_SRC
+we get:
+#+RESULTS: for-mut-py
+: [2, 4]
+
+The problem here is that the iteration statement keeps an implicit
+reference to the list and it conflicts with the reference to ~xs~ in
+the body of the iteration.
+
+* Python non-functionality
+
+Higher-order programming, the ability to manipulate functions as
+values, is a very important concept because it allows even more code
+reuse than first-order abstractions. Python's inability to distinguish
+between value and reference types impair higher-order programming even
+though Python has adopted many of these features from the ML-family of
+languages. This is particularly problematic because this can lead to
+situations where a sequence of good choices lead to a globally bad
+program. Consider the following definitions:
+
+#+NAME: list-aliasing-higher-order-py
+#+BEGIN_SRC python :session "higher" :results output :exports both
+  def dup(x):
+      return (x, x)
+
+  def applyfst(f, pair):
+      (x, y) = pair
+      return (f(x), y)
+#+END_SRC
+
+Applying these functions on value types such as integers work fine.
+
+#+NAME: higher-int-py
+#+BEGIN_SRC python :session "higher" :results output :exports both
+  print(applyfst(lambda x: x + 1, dup(0)))
+#+END_SRC
+produces:
+#+RESULTS: higher-int-py
+: (1, 0)
+
+but on reference types such as lists, we get unintuitive behavior.
+#+NAME: higher-list-py
+#+BEGIN_SRC python :session "higher" :results output :exports both
+  def append0(xs):
+      xs.append(0)
+      return xs
+  print(applyfst(append0, dup([])))
+#+END_SRC
+produces:
+#+RESULTS: higher-list-py
+: ([0], [0])
+
+Notice that the definition of ~dup~ and ~applyfst~ are perfectly
+logical. Yet, their use in different contexts lead to inconsistent
+behavior. This is again a conditional runtime error because everything
+works fine as long as you only use ~dup~ and ~applyfst~ on value types
+such as integers and strings. Notice that in a real-world situation,
+functions such as ~dup~ and ~applyfst~ may be written by a different
+person and packaged as a library. Now, a user of this library cannot
+use it properly without knowing how it is implemented, which defeats
+the fundamental purpose of having libraries in the first place.
+
+The equivalent in OCaml has no unexpected behavior.
+
+#+NAME: list-aliasing-higher-order-ml
+#+BEGIN_SRC ocaml
+  let dup x = (x, x)
+
+  let applyfst f (x, y) = (f x, y)
+
+  let inc x = x + 1
+
+  let () = assert (
+    applyfst inc (dup 0) = (1, 0)
+  )
+
+  let append0 xs = xs @ [0]
+
+  let () = assert (
+    applyfst append0 (dup []) = ([0], [])
+  )
+#+END_SRC
+
+Newer versions of Python try to fix these problems to some extent by
+providing immutable types ~frozenset~, ~frozendict~ etc. But, lists,
+sets, and dictionaries are used far more often than their immutable
+counterparts.
+
+Even the built-in higher-order functions such as ~map~ in Python has
+to be used while keeping this pitfall in mind. For example:
+
+#+NAME: apply-fs-py
+#+BEGIN_SRC python :results output :exports both
+  def listmap(f, xs): return list(map(f, xs))
+
+  print (
+      listmap (
+          lambda f: f(0),
+          [lambda x: x+1, lambda x: x+2]
+      )
+  )
+
+  # Let us avoid the repetition with a 'for' loop.
+  print (
+      listmap (
+          lambda f: f(0),
+          [lambda x: x+i for i in range(1, 10)]
+      )
+  )
+#+END_SRC
+
+is an instance where a ~for~ loop cannot be used to eliminate
+repetition as demonstrated by the following result.
+
+#+RESULTS: apply-fs-py
+: [1, 2]
+: [9, 9, 9, 9, 9, 9, 9, 9, 9]
+
+It is possible to teach to avoid such errors by explaining how the
+Python abstract machine works. But, the sole point of a high-level
+programming language is to bring the level of conversation of the
+machine up to a human's; not to bring down a human's level of
+conversation to the machine's. Now, in OCaml, the following works as
+expected:
+
+#+NAME: apply-fs-ml
+#+BEGIN_SRC ocaml
+  let apply fs x = List.map (fun f -> f x) fs
+
+  let rec range n m =
+    if n = m then [n] else n :: range (n+1) m
+
+  let fs = List.map (fun i -> (+) i) (range 1 9)
+
+  let () = assert (apply fs 0 = range 1 9)
+#+END_SRC
+
+* OCaml imperativity
+
+I will also discuss a case where Python is considered more usable (I
+am not aware of a situation where Python is more correct.). The
+following computes the factorial of a number using iteration and a
+mutable variable ~p~.
+
+#+NAME: factorial-py
+#+BEGIN_SRC python
+  def factorial(n):
+      p = 1
+      for i in range(2, n+1):
+          p = p * i
+      return p
+#+END_SRC
+
+The classic recursive definition in functional languages is not as
+performant although it perfectly mirrors the mathematical definition.
+
+#+NAME:factorial-rec-ml
+#+BEGIN_SRC ocaml
+  let rec factorial n =
+    if n = 0 then 1
+    else n * factorial (n-1)
+#+END_SRC
+
+Functional programming language experts favor a tail-recursive style
+to gain performance in such cases.
+
+#+NAME:factorial-tailrec-ml
+#+BEGIN_SRC ocaml
+  let factorial n =
+    let rec loop acc = function
+      | 0 -> acc
+      | n -> loop (acc*n) (n-1)
+    in loop 1 n
+#+END_SRC
+
+However, OCaml is not as strict about writing in a functional style as
+some other functional programming languages. We can perfectly mirror
+the Python implementation as follows:
+
+#+NAME: factorial-mutation-ml
+#+BEGIN_SRC ocaml
+  let factorial n =
+    let p = ref 1 in
+    for i = 2 to n do
+      p := !p * i
+    done;
+    !p
+#+END_SRC
+
+The only difference is that we have to state, explicitly, that ~p~ is
+mutable by making it a ~ref~. The bang ~!~ operator then retrieves the
+current contents of that referred value explicitly. Subjectively, this
+may look uglier than the Python equivalent. But, it satisfies the
+"Explicit is better than implicit." principle.
+
+* Fixing Python?
+
+Realistically, it would be difficult to convince people to switch from
+Python to OCaml. So I suggest the following guidelines to help
+learners:
+
+- (misspellings, type changes) Encourage learners to start writing
+  automated tests as early as possible. The syntax for functions
+  should be introduced before control structures. Use of linters
+  ([[https://pypi.org/project/flake8/][flake8]]), unit testing ([[https://pypi.org/project/pytest/][pytest]]), and type hinting ([[https://peps.python.org/pep-0484/][typing]]) should be
+  mandated from the beginning.
+- (scope) Avoid global variables and local variables accessed by
+  nested functions as much as possible.
+- (value vs reference types) Lists and dictionaries should either be
+  immutable or there should be exactly one active reference (implicit
+  or explicit) to it at all times.
+- (higher-order functions) Despite the stated issues, higher-order
+  programming should be introduced as it is an important concept. It
+  seems best to let learners figure out the Python-specific issues and
+  deal with it as and when it happens. Trying to teach these issues
+  would only derail the introductory course into a course about Python
+  arcana.
+
+* Epilogue
+
+There may be many scenarios where Python is a better choice than
+OCaml. This article only considers suitability of a programming
+language for introductory programming courses. I believe that just
+like the [[https://dl.acm.org/doi/abs/10.1145/3152894][switch from C to Python for introductory programming courses
+enabled larger number of students to get into programming]], a switch
+from Python to a better designed programming language will have a
+similar effect in the future.

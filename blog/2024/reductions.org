@@ -1,0 +1,97 @@
+#+TITLE: Reductions
+
+Presentation of reductions are usually cluttered with non-essential
+ideas like decision problems, the mathematical beauty of defining
+polynomial-time as notion of efficiency, many-one functions, hardness,
+and completeness for complexity classes. Here, I have tried to distill
+the essence of reductions and present it in a way that is digestible
+to a student who has only taken a fundamental algorithms course. It is
+of utmost importance to demonstrate the wide applicability of
+reductions in contrast to its initial presentation as a tool to mainly
+prove NP-completeness.
+
+---
+
+When studying algorithms and complexity theory, we are interested in
+the amount of computational resources to solve those
+problems. Computational resources are things like time, amount of
+storage, size of Boolean circuits etc. Intuitively, any parameter such
+that having more of it allows us to solve more problems is a resource.
+
+An /algorithm/ for a problem A is a recipe for a computation that
+solves A. Extending this, for two problems A and B, a /reduction/ from
+A to B is an algorithm for problem A that may use an arbitrary
+algorithm for problem B to solve A. Consider the two problems SORT, to
+sort an array of integers, and MIN, to find the minimum integer in an
+array. We can write a reduction from SORT to MIN:
+#+BEGIN_SRC python
+  def SORT(a):
+      for i in range(len(a)):
+          a[i] = MIN(a[i:])
+#+END_SRC
+Observe that if you substitute /any/ correct algorithm for ~MIN~ in
+the program above, the defined function for ~SORT~ will correctly
+solve ~SORT~. This is not an algorithm for ~SORT~. We only claim that
+we can solve ~SORT~ given an algorithm for ~MIN~. Substituting a
+concrete algorithm for ~MIN~ above would yield an algorithm for
+~SORT~. For example, using a linear-time algorithm for ~MIN~, the
+above reduction becomes an algorithm, the selection sort.
+
+One of the greatest observations in computer science is that
+reductions are not just useful to construct algorithms, but it can
+also be used to compare complexity of problems. A reduction from A to
+B shows that A is "easier" than B. Here, the definition of "easier" is
+determined by the efficiency of the reduction. Let us consider the
+following reduction from MIN to SORT:
+#+BEGIN_SRC python
+  def MIN(a):
+      SORT(a)
+      return a[0]
+#+END_SRC
+
+Do these two reductions show that SORT is easier than MIN and MIN is
+easier than SORT? The answer depends on our definition of "easy". Say,
+we have a $t(n)$ time algorithm for SORT, then we can plug that into
+the above reduction to obtain a $t(n)+1$ time algorithm for MIN as it
+only uses one more basic operation. Therefore, if our definition of
+easy is, say linear-time, then we can conclude that MIN is easier than
+SORT as $t(n)+1$ is linear if and only if $t(n)$ is linear.
+
+Now, let us analyze the SORT to MIN reduction. A $t(n)$ time algorithm
+for MIN plugged into that reduction gives us a $(n+c)t(n)$ time
+algorithm for SORT where $c$ is some constant. So if our definition of
+easy is linear-time, this reduction is useless. Because if we plug in
+a $n$ time algorithm for MIN, we only get a $(n+c)n$ time (non-linear)
+algorithm for SORT. However, if our definition of easy is a
+polynomial-time algorithm (i.e., the running time is at most $n^k+k$
+for some constant $k$ independent of $n$), then this reduction is
+sufficient to conclude that SORT is easier than MIN. Because if we
+plug in a $n^k+k$ time algorithm for MIN, we get a $(n+c)(n^k+k)$ time
+algorithm which is also polynomial-time.
+
+Reductions are ubiquitous in computing (and not just programming). We
+multiply $n$-digit numbers by reducing it to multiplication of an
+$n$-digit number with a digit. We add, subtract, multiply, and divide
+rational numbers by reducing these operations to the same operations
+on the smaller set of integers.
+
+Let us now state the most important property of reductions, satisfied
+by /any/ useful notion of reduction. First, we need to have a
+definition for "easy". In general, we can say that a problem is easy
+if it belongs to some suitably defined set E. For example, E could be
+the set of linear-time solvable problems, set of quadratic-time
+solvable problems, or the set of polynomial-time solvable problems. A
+reduction from A to B is useful in this context if it allows us to
+prove the following statement:
+#+BEGIN_QUOTE
+    B is in E implies that A is in E.
+#+END_QUOTE
+
+We can immediately see that reductions should satisfy:
+- For every problem A, A reduces to A.
+- For every problems A, B, and C, if A reduces to B, and B reduces to
+  C, then A reduces to C as well.
+
+As a result, reductions form a partial order on problems. Thus,
+providing mathematical justification to our statement that reductions
+are a tool to compare problems.

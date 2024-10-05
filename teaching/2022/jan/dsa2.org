@@ -1,0 +1,7 @@
+#+TITLE: Data Structures and Algorithms 2
+
+
+This course covered algorithmic design paradigms such as divide and
+conquer, greedy, dynamic programming, and network flows. All
+course-related communication was managed on a locally hosted Zulip
+instance.

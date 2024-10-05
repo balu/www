@@ -1,0 +1,150 @@
+#+TITLE: Special Topics Course: Computational Complexity Theory
+
+This is a discussion based course where students are expected to learn
+by themselves and advance the course through discussions during the
+lecture hours.
+
+The lectures hours are:
+
+- Mon 10.00 to 11.30
+- Tue 11.30 to 01.00
+
+The venue is 7/105.
+
+** Meetings
+
+*** 24-04-2023
+
+BK: Conclusion and future directions.
+
+*** 18-04-2023
+
+DC (DD): Descriptive complexity conclusion.
+
+*** 17-04-2023
+
+CC (GV): Data structure lower bounds from communication complexity.
+
+*** 11-04-2023
+
+AC (BK): Brent's formula depth reduction.
+
+*** 10-04-2023
+
+AC (BK): VF-completeness of Narayana's cows polynomials.
+
+*** 03-04-2023
+
+AC (RN): VP0 and VNP0. Connections to integer computation.
+
+*** 27-03-2023
+
+AC (GS): Shamir's O(log(n)) computation of factorial using arithmetic
+operations with integer divide.
+
+*** 21-03-2023
+
+DC (DD): FO queries, "reduction" from connected-ness to reachability
+using FO.
+
+*** 20-03-2023
+
+AC (RN): Computing numbers, complexity upper and lower
+bounds. Factorial.
+
+*** 14-03-2023
+
+CC (GV): Asymmetric communication complexity. k-subsets vs all subsets
+disjointedness.
+
+*** 13-03-2023
+
+BK: Ryser's formula for permanent.
+
+*** 28-02-2023
+
+AC (GS): Baur-Strassen Theorem.
+
+*** 27-02-2023
+
+AC (GS): Division elimination, computing partial derivatives.
+
+*** 21-02-2023
+
+DC (SN): Interpretation, free variables, validity of formulas under
+interpretations.
+
+*** 20-02-2023
+
+CC (GV): Lower bound methods for deterministic cc: Fooling sets.
+
+*** 13-02-2023
+
+SC (BK): NC and AC classes. Addition in AC0. Regular languages in NC1.
+
+*** 31-01-2023
+
+AC (RN): Homogenization lemma, division elimination using truncated
+series.
+
+*** 30-01-2023
+
+DC (DD): Vocabulary for strings. FO formulas for addition.
+
+*** 24-01-2023
+
+CC (GV): Balancing protocol trees to log(number of
+leaves)-depth. Protocol from matrix decomposition that is not a
+protocol.
+
+*** 23-01-2023
+
+SC (BK): Non-uniform models, Boolean circuits, Does SAT have small
+circuits? Karp-Lipton theorem.
+
+*** 17-01-2023
+
+CC (GV): Definition of deterministic communication complexity,
+protocol trees, matrix decompositions, combinatorial rectangles, and
+f-monochromatic rectangles. Lower bound for equality using
+combinatorial rectangles.
+
+*** 16-01-2023
+
+AC (RN): Definitions of determinant, permanent, circuits, formulas,
+ABPs and IMM. Poly-size circuits and ABPs (via IMM) for elementary
+symmetric polynomials (recurrence).
+
+DC (DD): Vocabulary, structures, first-order formulas. Example:
+Vocabulary for directed graphs with designated source and sink. FO
+formula for undirected graphs and no loops.
+
+*** 12-01-2023
+
+We discussed interactive proofs and saw one for the "Graph
+Non-Isomorphism" problem. We decided on the topics split for future
+discussions. Also, a 6-hour per-week work schedule is set for each
+student.
+
+*** 09-01-2023
+
+We discussed the implications of SAT is in P. A poly-time algorithm
+for SAT would imply poly-time algorithms for, given any fixed number
+of alternating quantifiers, checking whether a given quantified
+Boolean formula with that many alternating quantifiers is true or
+false. Notice that this problem is much more general than SAT. The
+class of problems poly-time, many-one reducible to any of these
+generalizations of SAT is called PH.
+
+*** 02-01-2023
+
+I presented an overview of various specialized topics in computational
+complexity theory.
+
+** Reading
+
+- [[https://www.overleaf.com/read/kjmfzqvbjbqs][Lecture notes on algebraic complexity.]]
+- [[https://github.com/dasarpmar/lowerbounds-survey][Ramprasad's survey on arithmetic circuit lower bounds.]]
+- [[https://people.cs.umass.edu/~immerman/book/descriptiveComplexity.html][Descriptive complexity by Immerman.]]
+- [[https://www.cambridge.org/core/books/communication-complexity/5F44993E3B2597174B71D3F21E748443][Communication complexity by Rao and Yehudayoff.]]
+- [[https://link.springer.com/book/10.1007/978-3-642-24508-4][Boolean function complexity by Jukna.]]

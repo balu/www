@@ -1,0 +1,4 @@
+#+TITLE: Introduction to Computing
+
+This course was taught mainly to Masters students in Science (Physics,
+Math). The programming language was Python.

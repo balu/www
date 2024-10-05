@@ -1,0 +1,3 @@
+#+TITLE: Computing
+
+[[https://nipunbatra.notion.site/nipunbatra/ES-102-Introduction-to-Computing-2022-Winter-37f9b46545b54e1ba24685c2201366eb][Course website for computing in the winter of 2022]].
