@@ -1,3 +1,3 @@
-#+TITLE: Comeplexity Theory
+#+TITLE: Complexity Theory
 
 This course was co-taught with Markus Blaeser at Saarland University.
