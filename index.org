@@ -36,6 +36,11 @@ co-authored in reverse chronological order.
 - [[https://doi.org/10.1016/j.ipl.2020.105980][On the complexity of detecting hazards]].
 - [[https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.FSTTCS.2018.18][Graph pattern polynomials]].
 - [[https://dl.acm.org/doi/pdf/10.1145/3320123][On the complexity of hazard-free circuits]].
+- [[https://arxiv.org/abs/1503.00275][Comparator circuits over finite bounded posets]].
+- [[https://arxiv.org/abs/1604.05510][Pebbling meets coloring: Reversible pebble game on trees]].
+- [[https://arxiv.org/abs/1701.03255][On the complexity of L-reachability]].
+- [[https://doi.org/10.1007/978-3-662-44465-8_29][Circuit complexity of properties of graphs with constant planar cutwidth]].
+- [[https://arxiv.org/abs/1301.1425][Pebbling, entropy, and branching program size lower bounds]].
 
 * Teaching
 
