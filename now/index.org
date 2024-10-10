@@ -1,4 +1,4 @@
-#+TITLE: Now Page -- Balagopal Komarath
+#+TITLE: Now -- Balagopal Komarath
 
 I am spending most of my time on research and coursework at IIT
 Gandhinagar. I am teaching [[file:../teaching/2024/aug/dm.org][ES214: Discrete Mathematics]] in academic
