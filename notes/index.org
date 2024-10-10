@@ -1,0 +1,7 @@
+#+TITLE: Notes -- Balagopal Komarath
+
+- [[file:on-reductions.org][On Reductions]]
+- [[file:name-modularity.org][Name Modularity]]
+- [[file:on-order.org][On Order]]
+- [[file:programming-projects-for-beginners.org][Programming Projects for Beginners]]
+- [[file:python-is-not-an-acceptable-ml.org][Python is not an Acceptable ML]]

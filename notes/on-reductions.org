@@ -1,4 +1,4 @@
-#+TITLE: Reductions
+#+TITLE: On Reductions
 
 Presentation of reductions are usually cluttered with non-essential
 ideas like decision problems, the mathematical beauty of defining

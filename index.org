@@ -13,74 +13,11 @@ Before joining [[https://iitgn.ac.in/][IIT Gandhinagar]], I was a postdoctoral r
 University]]. I did my PhD from [[https://theory.cse.iitm.ac.in/][Jayalal Sarma's computational complexity
 group at IIT Madras, India]].
 
-#+TOC: headlines 1
-
-* Recent News
-
-I am teaching [[file:teaching/2024/aug/dm.org][ES214: Discrete Mathematics]] in academic year 2024-25,
-semester I (Jul-Nov).
-
-* Research
-
-I am interested in hazard-free circuit complexity, algebraic circuit
-complexity, and graph homomorphism related algorithms.
-
-The following list contains peer-reviewed publications that I have
-co-authored in reverse chronological order.
-
-- [[https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.STACS.2024.31][On the power of border width-2 ABPs over fields of characteristic 2]].
-- [[https://drops.dagstuhl.de/opus/frontdoor.php?source_opus=17692][Finding and counting patterns in sparse graphs]].
-- [[https://drops.dagstuhl.de/opus/volltexte/2022/16863/][Rabbits approximate, cows compute exactly!]].
-- [[https://drops.dagstuhl.de/storage/00lipics/lipics-vol251-itcs2023/LIPIcs.ITCS.2023.74/LIPIcs.ITCS.2023.74.pdf][KW games for hazard-free computation]].
-- [[https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ICALP.2022.83][Monotone arithmetic complexity of graph homomorphism polynomials]].
-- [[https://doi.org/10.1016/j.ipl.2020.105980][On the complexity of detecting hazards]].
-- [[https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.FSTTCS.2018.18][Graph pattern polynomials]].
-- [[https://dl.acm.org/doi/pdf/10.1145/3320123][On the complexity of hazard-free circuits]].
-- [[https://arxiv.org/abs/1503.00275][Comparator circuits over finite bounded posets]].
-- [[https://arxiv.org/abs/1604.05510][Pebbling meets coloring: Reversible pebble game on trees]].
-- [[https://arxiv.org/abs/1701.03255][On the complexity of L-reachability]].
-- [[https://doi.org/10.1007/978-3-662-44465-8_29][Circuit complexity of properties of graphs with constant planar cutwidth]].
-- [[https://arxiv.org/abs/1301.1425][Pebbling, entropy, and branching program size lower bounds]].
-
-* Teaching
-
-The courses I have taught or co-taught in reverse chronological order.
-
-- [[file:teaching/2024/aug/dm.org][Discrete mathematics]]
-- [[file:teaching/2024/jan/cct.org][Computational complexity theory]]
-- [[file:teaching/2024/jan/toc.org][Theory of computing]]
-- [[file:teaching/2023/aug/dsa1.org][Data structures and algorithms I]]
-- [[file:teaching/2023/aug/stcct.org][Special topics course: Complexity theory]]
-- [[file:teaching/2023/jan/compilers.org][Compilers]]
-- [[file:teaching/2022/dec/comp.org][Computing]]
-- [[file:teaching/2022/aug/cct.org][Computational complexity theory]]
-- [[file:teaching/2022/jan/dsa2.org][Data structures and algorithms II]]
-- [[file:teaching/2021/aug/introcomp.org][Introduction to computing]]
-- [[file:teaching/2021/aug/stact.org][Special topics course: Algebraic complexity theory]]
-- [[file:teaching/2021/jun/asmc.org][Assembly and C programming mini-course]]
-- [[file:teaching/2021/jan/stct.org][Special topics course: Complexity theory]]
-- [[file:teaching/2021/jan/introcomp.org][Introduction to computing]]
-- [[file:teaching/2020/aug/toc.org][Theory of computing]]
-- [[file:teaching/2019/oct/ct.org][Complexity theory]]
-- [[file:teaching/2018/apr/ct.org][Complexity theory]]
-
-* Blog
-
-My articles that have not been formally peer-reviewed. I mainly write
-about theoretical computer science research, education, programming,
-and free software.
-
-- [[file:blog/2024/reductions.org][Reductions]]
-- [[file:blog/2024/name.org][Name modularity]]
-- [[file:blog/2023/order.org][On order]]
-- [[file:blog/2023/projects.org][Programming projects for beginners]]
-- [[file:blog/2022/pythonML.org][Python is not an acceptable ML]]
-
-* Scholars
-
-- Alay Patel (MTech, 2024-2025)
-- Rohit Narayanan (MTech, 2023-2024 and PhD, 2024-)
-- Priyanshi Agrawal (Phd, 2024-)
-- Yash More (MTech, 2023-2024)
-- Deepu Benson (postdoc, 2023-2024)
-- Suchismita Mishra (postdoc, 2021-2022)
+* Links
+- [[file:about/index.org][About]].
+- [[file:now/index.org][Now page]].
+- [[file:research/index.org][Research]].
+- [[file:teaching/index.org][Teaching]].
+- [[file:notes/index.org][Notes]].
+- [[file:contact/index.org][Contact]].
+- [[file:software/index.org][Software]]

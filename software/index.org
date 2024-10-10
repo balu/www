@@ -1,0 +1,17 @@
+#+TITLE: Software -- Balagopal Komarath
+
+I use libre software whenever possible. Exceptions include work
+related software (cloud-based offie suites for collaboration with
+collegues) and firmware to make my devices work.
+
+Here is a list of software that I use:
+- Debian as the OS. I used to use Arch, btw.
+- Firefox as my web browser. With the right configuration, FF seems to
+  be the browser that sucks the least.
+- Emacs as my main editor and [[https://github.com/balu/ted][ted]] for small editing tasks on the
+  terminal.
+- rsync and rsync.net for backup.
+- OpenBSD on my server.
+- [[https://github.com/balu/mypass][mypass]] for password management. I don't think we should store
+  passwords on the cloud or on the browser for extended periods of
+  time.

@@ -1,0 +1,21 @@
+#+TITLE: Teaching -- Balagopal Komarath
+
+The courses I have taught or co-taught in reverse chronological order.
+
+- [[file:2024/aug/dm.org][Discrete mathematics]]
+- [[file:2024/jan/cct.org][Computational complexity theory]]
+- [[file:2024/jan/toc.org][Theory of computing]]
+- [[file:2023/aug/dsa1.org][Data structures and algorithms I]]
+- [[file:2023/aug/stcct.org][Special topics course: Complexity theory]]
+- [[file:2023/jan/compilers.org][Compilers]]
+- [[file:2022/dec/comp.org][Computing]]
+- [[file:2022/aug/cct.org][Computational complexity theory]]
+- [[file:2022/jan/dsa2.org][Data structures and algorithms II]]
+- [[file:2021/aug/introcomp.org][Introduction to computing]]
+- [[file:2021/aug/stact.org][Special topics course: Algebraic complexity theory]]
+- [[file:2021/jun/asmc.org][Assembly and C programming mini-course]]
+- [[file:2021/jan/stct.org][Special topics course: Complexity theory]]
+- [[file:2021/jan/introcomp.org][Introduction to computing]]
+- [[file:2020/aug/toc.org][Theory of computing]]
+- [[file:2019/oct/ct.org][Complexity theory]]
+- [[file:2018/apr/ct.org][Complexity theory]]
