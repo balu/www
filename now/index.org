@@ -1,12 +1,17 @@
 #+TITLE: Now -- Balagopal Komarath
 
-I am spending most of my time on research and coursework at IIT
-Gandhinagar. I am teaching [[file:../teaching/2024/aug/dm.org][ES214: Discrete Mathematics]] in academic
-year 2024-25, semester I (Jul-Nov). I am advising two doctoral
-scholars, Rohit Narayanan and Priyanshi Agrawal; and one Master's
-student, Alay Patel.
+I am spending most of my time on research and teaching courses at IIT
+Gandhinagar.
 
-I am (slowly) progressing towards completing two textbooks -- one on
-fundamental datastructures and algorithms and another on reading,
-understanding, and writing mathematical proofs. When I am done
-writing, these books will be availble for free online.
+I am advising two doctoral scholars, Rohit Narayanan and Priyanshi
+Agrawal; and one Master's student, Alay Patel.
+
+I am teaching [[file:../teaching/2024/aug/dm.org][ES214: Discrete Mathematics]] in academic year 2024-25,
+semester I (Jul-Nov) and guiding the following semester-long projects:
+- Hazard-free formulas for MUX.
+- Development of a light-weight competitive programming online judge.
+
+Long-term, I am trying to complete two textbooks -- one on fundamental
+datastructures and algorithms and another on reading, understanding,
+and writing mathematical proofs. When I am done writing, these books
+will be availble for free online.
