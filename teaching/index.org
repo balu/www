@@ -19,3 +19,15 @@ The courses I have taught or co-taught in reverse chronological order.
 - [[file:2020/aug/toc.org][Theory of computing]]
 - [[file:2019/oct/ct.org][Complexity theory]]
 - [[file:2018/apr/ct.org][Complexity theory]]
+
+Various student groups have done the following projects under my
+supervision. The includes the following implementation projects:
+- Sagemath enhancements:
+  - [[https://github.com/sagemath/sage/pull/36354][Induced minor]].
+  - [[https://github.com/sagemath/sage/pull/36584][Power of a graph]].
+  - [[https://github.com/sagemath/sage/pull/37345][Cycle enumeration algorithm]].
+- Projects for consumption at IIT Gandhinagar.
+  - [[https://github.com/balu/Quiz_App][Light-weight online quiz application]].
+  - [[][Light-weight competitive programming online judge]].
+and the following theoretical studies:
+- Hazard-free formulas for MUX.

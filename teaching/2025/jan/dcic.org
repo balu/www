@@ -1,0 +1,73 @@
+#+TITLE: Data-Centric Introduction to Computing
+
+* Policies
+
+** Evaluation
+
+Attend lectures and labs only if you want to. It is expected that you
+will keep up with the discussions during lectures and labs even if you
+don't attend them.
+
+The evaluation policy is as follows:
+| Assessment   | Percentage | Remarks                       |
+|--------------+------------+-------------------------------|
+| Quiz x10     |         60 | Best 6 out of 10. Normalized. |
+| Mid-semester |         20 |                               |
+| End-semester |         20 |                               |
+
+- Quizzes will be conducted during labs. There will be no surprise
+  quizzes.
+- There will be no retakes if you miss a quiz. We will simply take
+  best 6 of your scores.
+- Any violation of the honor code of the institute is automatically an
+  "F" grade.
+- The syllabus for all assessments is whatever that has been discussed
+  or suggested until and including the previous meeting.
+
+** Resources
+
+There are no prescribed textbooks for this course. The topics we cover
+in this course are spread across many books, research papers, and
+other technical documents. The following list of links will collect
+the external resources.
+- [[https://beej.us/guide/bgc/][Beej's Guide to C Programming.]]
+- [[https://docs.python.org/3/tutorial/index.html][Python 3 Official Tutorial.]]
+- [[https://www.jstatsoft.org/article/view/v059i10/][Tidy Data by Hadley Wickham.]]
+
+You are expected to use these in addition to the following lecture
+notes. Your TAs are also a resource from which to learn. Use them.
+
+* Lectures
+
+** Overview
+<2025-01-03 Fri>
+
+We call presentation of values as data. Data has various forms:
+numbers, text, audio, video, lists, tables, dictionaries, etc. Data
+can be classified loosely into two categories as follows:
+- Low-level :: Convenient for consumption by computers.
+- High-level :: Convenient for consumption by humans.
+
+As programmers, we have to learn both. We write programs which help
+computers consume data. We also use programs that help us consume
+data, for example, spreadsheet programs.
+
+For presenting the same value, there are usually many choices. For
+example, we represent by 42 and LXII the same value. The place-value
+system won because it was compact and it was convenient to do
+arithmetic on it. As programmers, we must learn to evaluate various
+representations and choose the best one for our requirements.
+
+If I have to store scores of various quizzes, should I use this table?
+| Name  | Q1 | Q2 |
+|-------+----+----|
+| Raj   |  5 |  7 |
+| Rahul |  6 |  3 |
+or this one?
+| Name  | Assessment | Score |
+|-------+------------+-------|
+| Raj   | Q1         |     5 |
+| Raj   | Q2         |     7 |
+| Rahul | Q1         |     6 |
+| Rahul | Q2         |     3 |
+How do you determine which is better?
