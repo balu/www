@@ -1,0 +1,409 @@
+#+TITLE: Data-Centric Computing
+
+* Policies
+
+** Evaluation
+
+Attend lectures and labs only if you want to. It is expected that you
+will keep up with the discussions during lectures and labs even if you
+don't attend them.
+
+The evaluation policy is as follows:
+| Assessment   | Percentage | Remarks                       |
+|--------------+------------+-------------------------------|
+| Quiz x10     |         60 | Best 6 out of 10. Normalized. |
+| Mid-semester |         20 |                               |
+| End-semester |         20 |                               |
+
+- Quizzes will be conducted during labs. There will be no surprise
+  quizzes.
+- There will be no retakes if you miss a quiz. We will simply take
+  best 6 of your scores.
+- Any violation of the honor code of the institute is automatically an
+  "F" grade.
+- The syllabus for all assessments is whatever that has been discussed
+  or suggested until and including the previous meeting.
+
+** Resources
+
+There are no prescribed textbooks for this course. The topics we cover
+in this course are spread across many books, research papers, and
+other technical documents. The following list of links will collect
+the external resources.
+- [[https://beej.us/guide/bgc/][Beej's Guide to C Programming.]]
+- [[https://docs.python.org/3/tutorial/index.html][Python 3 Official Tutorial.]]
+- [[https://www.jstatsoft.org/article/view/v059i10/][Tidy Data by Hadley Wickham.]]
+
+You are expected to use these in addition to the following lecture
+notes. Your TAs are also a resource from which to learn. Use them.
+
+* Lectures
+
+** Overview
+
+We call presentation of values as data. Data has various forms:
+numbers, text, audio, video, lists, tables, dictionaries, etc. Data
+can be classified loosely into two categories as follows:
+- Low-level :: Convenient for consumption by computers.
+- High-level :: Convenient for consumption by humans.
+
+As programmers, we have to learn both. We write programs which help
+computers consume data. We also use programs that help us consume
+data, for example, spreadsheet programs.
+
+For presenting the same value, there are usually many choices. For
+example, we represent by 42 and LXII the same value. The place-value
+system won because it was compact and it was convenient to do
+arithmetic on it. As programmers, we must learn to evaluate various
+representations and choose the best one for our requirements.
+
+If I have to store scores of various quizzes, should I use this table?
+| Name  | Q1 | Q2 |
+|-------+----+----|
+| Raj   |  5 |  7 |
+| Rahul |  6 |  3 |
+or this one?
+| Name  | Assessment | Score |
+|-------+------------+-------|
+| Raj   | Q1         |     5 |
+| Raj   | Q2         |     7 |
+| Rahul | Q1         |     6 |
+| Rahul | Q2         |     3 |
+How do you determine which is better?
+
+** Low-level Data
+
+Data has types. The type determines meaning and valid operations on
+data. In a computer, everything is represented as a sequence of
+bits. A bit is a type of data that has two values -- 0 and 1. A group
+of 8 bits is a byte.
+
+We will see some of the low-level types supported by the C programming
+language.
+
+*** Unsigned Integers
+
+A sequence of 8 bits can represent unsigned integers from 0 to 255. We
+use a place-value system with 2 as the base to interpret these
+numbers. The least significant bit has place value 1, the next one 2,
+the next 4, and so on.
+
+The usual arithmetic operations are supported and results wrap to
+fit. Adding 1 to 255 yields 0 for 8-bit unsigned integers.
+
+Bitwise operators operate bit-by-bit. The AND (&) operation outputs 1
+if both bits are 1, the OR (|) operation outputs 1 when at least one
+of the bits are 1, the XOR (^) operation outputs 1 when exactly one of
+the bits are 1. The unary NOT (~) operation changes the bit.
+
+#+begin_src C :results output
+  #include <stdio.h>
+  #include <stdint.h>
+
+  int main()
+  {
+      uint8_t a = 0xa7, b = 0x14;
+      printf("%x\n", a&b, a&b);
+      printf("%x\n", a|b, a|b);
+      printf("%x\n", a^b, a^b);
+      printf("%x\n", ~a, ~a);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 4
+: b7
+: b3
+: ffffff58
+
+To understand why there is a 32-bit output, see [[https://beej.us/guide/bgc/html/split/types-iii-conversions.html#integer-promotions][Integer Promotions in
+Beej's guide]].
+
+See [[https://beej.us/guide/bgc/html/split/bitwise-operations.html#bitwise-operations][Bitwise Operations in Beej's guide]].
+
+*** Signed Integers
+
+An 8-bit signed integer represents values from -128 to 127. This is
+achieved by negating the place-value of the most significant bit.
+
+Arithmetic operations should not overflow or underflow. The programmer
+should ensure this.
+
+There are types like ~int8_t~ that have specified bit-width. Types
+like ~int~ have a fixed, unspecified width.
+
+#+begin_src C :results output
+  #include <stdio.h>
+  #include <stdint.h>
+
+  int main()
+  {
+      int8_t i8 = 0xa3;
+      int i = 25;
+      printf("%d\n", i8);
+      printf("%x\n", i);
+      printf("%d\n", sizeof(i));
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: -93
+: 19
+: 4
+
+See [[https://beej.us/guide/bgc/html/split/variables-and-statements.html#arithmetic][Operations in Beej's guide]].
+
+*** Characters
+
+A character is an 8-bit type that represents characters of the English
+alphabet.
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  int main()
+  {
+      char c = 'a';
+      printf("%c (%x)\n", c, c);
+      c = 'A';
+      printf("%c (%x)\n", c, c);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: a (61)
+: A (41)
+
+See [[https://beej.us/guide/bgc/html/split/types-ii-way-more-types.html#character-types][Character Types in Beej's guide]].
+
+*** Products
+
+A product type holds values of possibly distinct types simultaneously.
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  struct point
+  {
+      int x;
+      int y;
+  };
+
+  int main()
+  {
+      struct point p = { .x = 1, .y = 2 };
+      printf("The square of distance of p: %d\n", p.x*p.x + p.y*p.y);
+      p.x += 2;
+      p.y += 3;
+      printf("The square of distance of p: %d\n", p.x*p.x + p.y*p.y);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: The square of distance of p: 5
+: The square of distance of p: 34
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  struct employee
+  {
+      int salary;
+      char designation;
+  };
+
+  int main()
+  {
+      struct employee p = { .salary = 40000, .designation = 'M' };
+      printf (
+	  "%s earning %d.\n",
+	  p.designation == 'M' ? "Manager" : "Worker",
+	  p.salary
+      );
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: Manager earning 40000.
+
+*** Unions
+
+A union holds values of multiple types but not simultaneously. All
+values are stored at the same place. So only one of them can exist at
+a time.
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  union ioc
+  {
+      int i;
+      char c;
+  };
+
+  int main()
+  {
+      union ioc u;
+      u.i = 42;
+      printf("%d %x\n", u.i, u.c);
+      u.c = 10;
+      printf("%d %x\n", u.i, u.c);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 42 2a
+: 10 a
+
+See [[https://beej.us/guide/bgc/html/split/structs-ii-more-fun-with-structs.html#unions][Unions in Beej's guide]].
+
+*** Sums
+
+We can combine ~struct~ and ~union~ to create a sum. A sum holds one
+value at a time along with a tag to identify which one is being held.
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  struct animal
+  {
+      int tag; // 0 - cat, 1 - fish.
+      union {
+	  struct {
+	      int whiskers;
+	  } cat;
+	  struct {
+	      int scales;
+	  } fish;
+      };
+  };
+
+  void describe(struct animal a)
+  {
+      switch (a.tag) {
+      case 0:
+	  printf("Cat with %d whiskers.\n", a.cat.whiskers);
+	  break;
+      case 1:
+	  printf("Fish with %d scales.\n", a.fish.scales);
+	  break;
+      default:
+	  printf("I don't recognize this animal.\n");
+      }
+  }
+
+  int main()
+  {
+      struct animal a = {
+	  .tag = 0,
+	  .cat.whiskers = 10
+      };
+      struct animal b = {
+	  .tag = 1,
+	  .fish.scales = 100
+      };
+      describe(a);
+      describe(b);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: Cat with 10 whiskers.
+: Fish with 100 scales.
+
+*** Arrays
+
+An array is a sequence of values of the same type. We can access
+individual elements using indexing. Indices start at zero.
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  int main()
+  {
+      int primes[] = { 2, 3, 5, 7, 9, 13 };
+      printf("The fifth prime is %d.\n", primes[4]);
+      primes[4] = 11;
+      printf("The fifth prime is %d.\n", primes[4]);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: The fifth prime is 9.
+: The fifth prime is 11.
+
+We usually traverse arrays in C using a three-clause ~for~
+loop. Here's an implementation of the linear-search algorithm:
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  ssize_t linsearch(int haystack[], int n, int needle)
+  {
+      for (size_t i = 0; i < n; ++i) {
+	  if (haystack[i] == needle)
+	      return i;
+      }
+
+      return -1;
+  }
+
+  int main()
+  {
+      int primes[] = { 2, 3, 5, 7, 11, 13 };
+      printf("%d found at %d.\n", 5, linsearch(primes, 6, 5));
+      printf("%d found at %d.\n", 12, linsearch(primes, 6, 12));
+      return 0;
+  }
+
+#+end_src
+
+#+RESULTS:
+: 5 found at 2.
+: 12 found at -1.
+
+*** Pointers
+
+Every memory location has an address. A pointer is a type where values
+are addresses. The value held at the address can be changed through a
+pointer. Changing the pointer makes it point to a different location.
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  int main()
+  {
+      int i = 0, j = 5;
+      int *p = &i;
+      printf("%d@%x %d@%x\n", i, &i, j, &j);
+      *p = 3;
+      printf("%d@%x %d@%x\n", i, &i, j, &j);
+      p = &j;
+      *p = 2;
+      printf("%d@%x %d@%x\n", i, &i, j, &j);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 0@5496a294 5@5496a290
+: 3@5496a294 5@5496a290
+: 3@5496a294 2@5496a290
+
+Here are some relationships pointers in C have to other concepts.
+- You can use the address-of operator, denoted ~&~, to obtain the
+  address of variables, struct or union members, and array members.
+- The special value ~NULL~ is valid for any pointer and means that the
+  pointer is not pointing to any object.
+- If ~a~ is an array variable, then the expression ~a~ is a pointer to
+  the first element of the array. This is called pointer-to-array
+  decay in C.
+- The operator ~s->a~ is equivalent to ~(*s).a~.

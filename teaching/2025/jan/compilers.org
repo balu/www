@@ -1,0 +1,226 @@
+#+TITLE: Compilers
+
+* Policy
+
+Attend lectures only if you want to. You are expected to keep up to
+date on the discussions that happen during lectures and labs.
+
+** Evaluation
+
+| Assessment            | Percentage | Remarks                     |
+|-----------------------+------------+-----------------------------|
+| Lab quizzes           |         30 | Small programming exercises |
+| Semester-long project |         50 | Team of 4.                  |
+| Mid-semester exam     |         10 |                             |
+| End-semester exam     |         10 |                             |
+
+** Resources
+
+There is no textbook. Follow the lectures. Code a lot. Read necessary
+theory.
+
+[[https://craftinginterpreters.com/][Bob Nystrom's Crafting Interpreters]] is a good book. I will disagree
+with this book on some of the topics.
+
+* Lectures
+
+** Calculator back-end
+
+You have all used compilers and you know what they do. In this course,
+we will build one and explore how compilers are organized and the
+relevant algorithms.
+
+The most common data structure in a compiler is a tree and the most
+common algorithm, the post-order traversal. To see why, let us build a
+simple calculator. It accepts expressions and evaluates them. What is
+the best way to represent an expression like =2 + 3*5= in a computer?
+#+begin_example
+       +
+      /	\
+     2 	 *
+        / \
+       3   5
+#+end_example
+Yes. A tree. How would you evaluate this expression? Evaluate the left
+sub-tree, then the right sub-tree, then add the results. That is, a
+post-order traversal.
+
+The front-end of the compiler has to take the string =2 + 3*5= and
+build this tree. This is done using two classes of algorihms called
+lexing and parsing, which correspond to DFAs and CFGs respectively. We
+will see this part later. First, we will build the back-end for the
+compiler. It takes trees as input and evaluates them.
+
+First, let us define some classes in Python to represent expression
+trees.
+#+begin_src python :session leroy :dir ".compilers" :python ".venv/bin/python" :results none
+  from dataclasses import dataclass
+
+  class AST:
+      pass
+
+  @dataclass
+  class BinOp(AST):
+      op: str
+      left: AST
+      right: AST
+
+  @dataclass
+  class Number(AST):
+      val: str
+#+end_src
+
+The tree for the previous expression can be created so:
+#+begin_src python :session leroy :results output
+  expr_t1 = BinOp("+", Number("2"), BinOp("*", Number("3"), Number("5")))
+  print(expr_t1)
+#+end_src
+
+#+RESULTS:
+: BinOp(op='+', left=Number(val='2'), right=BinOp(op='*', left=Number(val='3'), right=Number(val='5')))
+
+Now, let us write an evaluator. This function should take the tree as
+input and produce a number.
+#+begin_src python :session leroy :results none
+  def e(tree: AST) -> int:
+      match tree:
+          case Number(v): return int(v)
+          case BinOp("+", l, r): return e(l) + e(r)
+          case BinOp("*", l, r): return e(l) * e(r)
+#+end_src
+Let us test it by evaluating our sample expression.
+#+begin_src python :session leroy :results value
+  e(expr_t1)
+#+end_src
+
+#+RESULTS:
+: 17
+
+Yay! Now, extend this small program to make what you think a real
+calculator should be.
+
+** Calculator front-end
+
+The front-end of the calculator should take a string as input and
+return the corresponding expression tree. We split this into a lexer
+and a parser.
+
+The lexer converts a stream of characters into a stream of
+tokens. First, we define the tokens of our language.
+#+begin_src python :session leroy :results none
+  class Token:
+      pass
+
+  @dataclass
+  class NumberToken(Token):
+      v: str
+
+  @dataclass
+  class OperatorToken(Token):
+      o: str
+#+end_src
+
+Now, the lexer can produce the token stream.
+#+begin_src python :session leroy :results none
+  from collections.abc import Iterator
+  def lex(s: str) -> Iterator[Token]:
+      i = 0
+      while True:
+          while i < len(s) and s[i].isspace():
+              i = i + 1
+
+          if i >= len(s):
+              return
+
+          if s[i].isdigit():
+              t = s[i]
+              i = i + 1
+              while i < len(s) and s[i].isdigit():
+                  t = t + s[i]
+                  i = i + 1
+              yield NumberToken(t)
+          else:
+              match t := s[i]:
+                  case '+' | '*':
+                      i = i + 1
+                      yield OperatorToken(t)
+#+end_src
+
+Let us test our lexer with our sample expression.
+#+begin_src python :session leroy :results output
+  for t in lex("2 + 3*5"):
+      print(t)
+#+end_src
+
+#+RESULTS:
+: NumberToken(v='2')
+: OperatorToken(o='+')
+: NumberToken(v='3')
+: OperatorToken(o='*')
+: NumberToken(v='5')
+
+The parser takes the token stream as input and produces the AST.
+#+begin_src python :session leroy :results none
+  from collections.abc import Iterator
+  def parse(s: str) -> AST:
+      from more_itertools import peekable
+      t = peekable(lex(s))
+
+      def parse_add():
+          ast = parse_mul()
+          while True:
+              match t.peek(None):
+                  case OperatorToken('+'):
+                      next(t)
+                      ast = BinOp('+', ast, parse_mul())
+                  case _:
+                      return ast
+
+      def parse_mul():
+          ast = parse_atom()
+          while True:
+              match t.peek(None):
+                  case OperatorToken('*'):
+                      next(t)
+                      ast = BinOp("*", ast, parse_atom())
+                  case _:
+                      return ast
+
+      def parse_atom():
+          match t.peek(None):
+              case NumberToken(v):
+                  next(t)
+                  return Number(v)
+
+      return parse_add()
+#+end_src
+
+#+RESULTS:
+
+Let us test the parser for some expressions.
+#+begin_src python :session leroy :results output
+  print(parse("2"))
+  print(parse("2+3"))
+  print(parse("2+3*5"))
+#+end_src
+
+#+RESULTS:
+: Number(val='2')
+: BinOp(op='+', left=Number(val='2'), right=Number(val='3'))
+: BinOp(op='+', left=Number(val='2'), right=BinOp(op='*', left=Number(val='3'), right=Number(val='5')))
+
+To put the front-end and back-end together, we just have to compose
+~parse~ and ~e~.
+#+begin_src python :session leroy :results output
+  print(e(parse("2 + 3*5")))
+#+end_src
+
+#+RESULTS:
+: 17
+
+Now is the time to extend this into a more useful calculator. I
+suggest adding the following features.
+- All usual arithmetic operators, including the unary negation.
+- Parenthesis for grouping.
+- Use a proper number type for evaluation.
+- Error-handling in the front-end.
