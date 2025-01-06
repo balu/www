@@ -1,4 +1,5 @@
 #+TITLE: Data-Centric Computing
+#+OPTIONS: H:6
 
 * Policies
 
@@ -96,7 +97,7 @@ if both bits are 1, the OR (|) operation outputs 1 when at least one
 of the bits are 1, the XOR (^) operation outputs 1 when exactly one of
 the bits are 1. The unary NOT (~) operation changes the bit.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
   #include <stdint.h>
 
@@ -133,7 +134,7 @@ should ensure this.
 There are types like ~int8_t~ that have specified bit-width. Types
 like ~int~ have a fixed, unspecified width.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
   #include <stdint.h>
 
@@ -160,7 +161,7 @@ See [[https://beej.us/guide/bgc/html/split/variables-and-statements.html#arithme
 A character is an 8-bit type that represents characters of the English
 alphabet.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   int main()
@@ -183,7 +184,7 @@ See [[https://beej.us/guide/bgc/html/split/types-ii-way-more-types.html#characte
 
 A product type holds values of possibly distinct types simultaneously.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   struct point
@@ -207,7 +208,7 @@ A product type holds values of possibly distinct types simultaneously.
 : The square of distance of p: 5
 : The square of distance of p: 34
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   struct employee
@@ -237,7 +238,7 @@ A union holds values of multiple types but not simultaneously. All
 values are stored at the same place. So only one of them can exist at
 a time.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   union ioc
@@ -268,7 +269,7 @@ See [[https://beej.us/guide/bgc/html/split/structs-ii-more-fun-with-structs.html
 We can combine ~struct~ and ~union~ to create a sum. A sum holds one
 value at a time along with a tag to identify which one is being held.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   struct animal
@@ -323,7 +324,7 @@ value at a time along with a tag to identify which one is being held.
 An array is a sequence of values of the same type. We can access
 individual elements using indexing. Indices start at zero.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   int main()
@@ -343,7 +344,7 @@ individual elements using indexing. Indices start at zero.
 We usually traverse arrays in C using a three-clause ~for~
 loop. Here's an implementation of the linear-search algorithm:
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   ssize_t linsearch(int haystack[], int n, int needle)
@@ -376,7 +377,7 @@ Every memory location has an address. A pointer is a type where values
 are addresses. The value held at the address can be changed through a
 pointer. Changing the pointer makes it point to a different location.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   int main()
@@ -394,9 +395,9 @@ pointer. Changing the pointer makes it point to a different location.
 #+end_src
 
 #+RESULTS:
-: 0@5496a294 5@5496a290
-: 3@5496a294 5@5496a290
-: 3@5496a294 2@5496a290
+: 0@1ed95954 5@1ed95950
+: 3@1ed95954 5@1ed95950
+: 3@1ed95954 2@1ed95950
 
 Here are some relationships pointers in C have to other concepts.
 - You can use the address-of operator, denoted ~&~, to obtain the
