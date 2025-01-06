@@ -15,8 +15,8 @@ The evaluation policy is as follows:
 | Mid-semester |         20 |                               |
 | End-semester |         20 |                               |
 
-- Quizzes will be conducted during labs. There will be no surprise
-  quizzes.
+- Quizzes will be conducted during lectures or labs. There will be no
+  surprise quizzes.
 - There will be no retakes if you miss a quiz. We will simply take
   best 6 of your scores.
 - Any violation of the honor code of the institute is automatically an
@@ -103,10 +103,10 @@ the bits are 1. The unary NOT (~) operation changes the bit.
   int main()
   {
       uint8_t a = 0xa7, b = 0x14;
-      printf("%x\n", a&b, a&b);
-      printf("%x\n", a|b, a|b);
-      printf("%x\n", a^b, a^b);
-      printf("%x\n", ~a, ~a);
+      printf("%x\n", a&b);
+      printf("%x\n", a|b);
+      printf("%x\n", a^b);
+      printf("%x\n", ~a);
       return 0;
   }
 #+end_src
@@ -407,3 +407,23 @@ Here are some relationships pointers in C have to other concepts.
   the first element of the array. This is called pointer-to-array
   decay in C.
 - The operator ~s->a~ is equivalent to ~(*s).a~.
+
+*** Recursive types
+
+**** Lists
+
+**** Trees
+
+*** Products in Python
+
+*** Sums in Python
+
+*** Iterators and generators in Python
+
+** Fundamental algorithms
+
+*** Searching
+
+*** Sorting
+
+*** Map, Filter, and Reduce
