@@ -428,3 +428,29 @@ Here are some relationships pointers in C have to other concepts.
 *** Sorting
 
 *** Map, Filter, and Reduce
+
+* Labs
+
+** C datatypes
+
+One of the first goals is to understand precisely how fundamental
+types behave in C. Here are some exercises that will help.
+
+1. Compile and run all C programs you saw in the lecture.
+2. Write a program to print the binary representation of a ~uint8_t~
+   value.
+3. Can you implement unary negation of an ~int8_t~ using only bitwise
+   operations and addition?
+4. Given an ~int8_t~, how do you compute a ~uint8_t~ that holds the
+   absolute value of the given integer?
+5. Write a program to print the binary representation of a ~int8_t~
+   value.
+6. There is a datatype called ~long~, how many bytes is it on your
+   machine?
+7. Read and understand the shift operators in C.
+8. Implement right rotation of ~uint8_t~ using bitwise and shift
+   operators. A right rotate operation takes a ~uint8_t~ and a value
+   between 0 and 7 inclusive and rotates the bits towards the
+   right. For example, the eight-bit number =10110101= right rotated
+   by three gives =10110110=.
+9. Implement left rotation similarly.
