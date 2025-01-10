@@ -35,11 +35,13 @@ common algorithm, the post-order traversal. To see why, let us build a
 simple calculator. It accepts expressions and evaluates them. What is
 the best way to represent an expression like =2 + 3*5= in a computer?
 #+begin_example
+
        +
       /	\
      2 	 *
         / \
        3   5
+
 #+end_example
 Yes. A tree. How would you evaluate this expression? Evaluate the left
 sub-tree, then the right sub-tree, then add the results. That is, a
@@ -414,4 +416,4 @@ Let us test it on a sample.
 #+end_src
 
 #+RESULTS:
-: If(c=BinOp(op='<', left=Number(val='2'), right=Number(val='3')), t=Number(val='0'), e=Number(val='1'))
+: If(c=BinOp(op='<', left=Number(val='2'), right=Number(val='3')), t=BinOp(op='+', left=Number(val='0'), right=Number(val='5')), e=BinOp(op='*', left=Number(val='1'), right=Number(val='6')))
