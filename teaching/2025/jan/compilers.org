@@ -37,8 +37,8 @@ the best way to represent an expression like =2 + 3*5= in a computer?
 #+begin_example
 
        +
-      /	\
-     2 	 *
+      / \
+     2   *
         / \
        3   5
 
