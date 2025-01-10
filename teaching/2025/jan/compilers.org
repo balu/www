@@ -53,7 +53,7 @@ compiler. It takes trees as input and evaluates them.
 
 First, let us define some classes in Python to represent expression
 trees.
-#+begin_src python :session leroy :dir ".compilers" :python ".venv/bin/python" :results none
+#+begin_src python :session leroy :python ".compilers/.venv/bin/python" :results none
   from dataclasses import dataclass
 
   class AST:
@@ -224,3 +224,194 @@ suggest adding the following features.
 - Parenthesis for grouping.
 - Use a proper number type for evaluation.
 - Error-handling in the front-end.
+
+** Conditional expressions
+
+We will implement a conditional expression of the form ~if a then b
+else c end~. To do this, we need the following additions:
+- Lexing: Add support for keywords like ~if~.
+- Parsing: Add support for conditional expressions. This has a lower
+  precedence than arithmetic.
+- Evaluation: Modify the post-order traversal to conditionally
+  traverse sub-trees.
+
+As before, we will start by defining the AST node.
+#+begin_src python :results none :session leroy
+  @dataclass
+  class If(AST):
+      c: AST
+      t: AST
+      e: AST
+#+end_src
+We will use ~BinOp~ for comparison operators.
+
+We want to handle expressions like:
+#+begin_src python :session leroy :results none
+  expr_t2 = If(BinOp("<", Number("2"), Number("3")), Number("0"), Number("1"))
+  expr_t3 = If(BinOp("<", Number("3"), Number("2")), Number("0"), Number("1"))
+#+end_src
+
+The evaluator is:
+#+begin_src python :results none :session leroy
+  def e(tree: AST) -> int | bool:
+      match tree:
+          case Number(v): return int(v)
+          case BinOp("+", l, r): return e(l) + e(r)
+          case BinOp("*", l, r): return e(l) * e(r)
+          case BinOp("<", l, r): return e(l) < e(r)
+          case If(cond, then, else_):
+              if e(cond):
+                  return e(then)
+              else:
+                  return e(else_)
+#+end_src
+
+Let us test it with our sample expression.
+#+begin_src python :session leroy :results output :exports both
+  print(e(expr_t2))
+  print(e(expr_t3))
+#+end_src
+
+#+RESULTS:
+: 0
+: 1
+
+Now, we will modify the front-end to allow the programmer to input
+these expressions. We will need a token type for keywords.
+#+begin_src python :results none :session leroy
+  @dataclass
+  class KeywordToken(Token):
+      w: str
+#+end_src
+
+In ~lex~, if the first character is a letter, then we will try and
+form a keyword token. We should also handle comparison operators.
+#+begin_src python :session leroy :results none
+  from collections.abc import Iterator
+  def lex(s: str) -> Iterator[Token]:
+      i = 0
+      while True:
+          while i < len(s) and s[i].isspace():
+              i = i + 1
+
+          if i >= len(s):
+              return
+
+          if s[i].isalpha():
+              t = s[i]
+              i = i + 1
+              while i < len(s) and s[i].isalpha():
+                  t = t + s[i]
+                  i = i + 1
+              # XXX: Should check here whether we got a valid keyword.
+              yield KeywordToken(t)
+          elif s[i].isdigit():
+              t = s[i]
+              i = i + 1
+              while i < len(s) and s[i].isdigit():
+                  t = t + s[i]
+                  i = i + 1
+              yield NumberToken(t)
+          else:
+              match t := s[i]:
+                  case '+' | '*' | '<':
+                      i = i + 1
+                      yield OperatorToken(t)
+#+end_src
+
+Let us see what tokens are produced by our new lexer.
+#+begin_src python :results output :session leroy :exports both
+  for t in lex("if 2 < 3 then 0 else 1 end"):
+      print(t)
+#+end_src
+
+#+RESULTS:
+: KeywordToken(w='if')
+: NumberToken(v='2')
+: OperatorToken(o='<')
+: NumberToken(v='3')
+: KeywordToken(w='then')
+: NumberToken(v='0')
+: KeywordToken(w='else')
+: NumberToken(v='1')
+: KeywordToken(w='end')
+
+It looks fine. Now, we move on to parsing.
+
+While parsing, we will peek at the first token. If it is the keyword
+~if~, then we will try to parse an ~if~ expression. If it begins with
+another token, we will try and parse an arithmetic expression.
+
+#+begin_src python :session leroy :results none
+  class ParseError(Exception):
+      pass
+
+  def parse(s: str) -> AST:
+      from more_itertools import peekable
+      t = peekable(lex(s))
+
+      def expect(what: Token):
+          if t.peek(None) == what:
+              next(t)
+              return
+          raise ParseError
+
+      def parse_if():
+          match t.peek(None):
+              case KeywordToken("if"):
+                  next(t)
+                  cond = parse_if()
+                  expect(KeywordToken("then"))
+                  then = parse_if()
+                  expect(KeywordToken("else"))
+                  else_ = parse_if()
+                  expect(KeywordToken("end"))
+                  return If(cond, then, else_)
+              case _:
+                  return parse_cmp()
+
+      def parse_cmp():
+          l = parse_add()
+          if t.peek(None) == OperatorToken('<'):
+              next(t)
+              r = parse_add()
+              return BinOp('<', l, r)
+          else:
+              return l
+
+      def parse_add():
+          ast = parse_mul()
+          while True:
+              match t.peek(None):
+                  case OperatorToken('+'):
+                      next(t)
+                      ast = BinOp('+', ast, parse_mul())
+                  case _:
+                      return ast
+
+      def parse_mul():
+          ast = parse_atom()
+          while True:
+              match t.peek(None):
+                  case OperatorToken('*'):
+                      next(t)
+                      ast = BinOp("*", ast, parse_atom())
+                  case _:
+                      return ast
+
+      def parse_atom():
+          match t.peek(None):
+              case NumberToken(v):
+                  next(t)
+                  return Number(v)
+
+      return parse_if()
+#+end_src
+
+Let us test it on a sample.
+#+begin_src python :session leroy :results output :exports both
+  print(parse("if 2 < 3 then 0+5 else 1*6 end"))
+#+end_src
+
+#+RESULTS:
+: If(c=BinOp(op='<', left=Number(val='2'), right=Number(val='3')), t=Number(val='0'), e=Number(val='1'))
