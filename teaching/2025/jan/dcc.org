@@ -607,3 +607,155 @@ ask how this works. But don't forget to verify that its answer is
 correct by verifying with authoritative sources.
 
 Left rotation is left as an exercise.
+
+** Structs, arrays, and pointers
+
+The ~double~ type in C can approximate rational numbers. Use it to
+represent coordinates. Write a ~struct~ to represent lines in a plane
+and write code to check whether or not two lines intersect. Use the
+following code as a starting point.
+
+#+begin_src C
+  #include <stdio.h>
+
+  struct line {
+      // Fill in the members to represent a line.
+      // Can you represent horizontal, vertical, and slanted lines?
+  };
+
+  int main()
+  {
+      // Fill these so that these become valid lines.
+      struct line L1 = {};
+      struct line L2 = {};
+
+      // Write code here to check whether L1 and L2 intersect.
+      // Change L1 and L2 and test various cases.
+      // And, print whether or not they do.
+
+      return 0;
+  }
+#+end_src
+
+We can now write ~struct~ to represent rectangles and circles. Also,
+write code to check whether or not these shapes overlap.
+
+#+begin_src C
+  #include <stdio.h>
+
+  struct point {
+      double x;
+      double y;
+  };
+
+  struct rectangle {
+      // Fill here.
+  };
+
+  struct circle {
+      // Fill here.
+  };
+
+  int main()
+  {
+
+      // Fill in members so that you get valid rectangles and circles.
+      struct rectangle R1 = {};
+      struct rectangle R2 = {};
+
+      struct circle C1 = {};
+      struct circle C2 = {};
+
+      // Write code here to check whether R1 and R2 intersect and print
+      // the result.
+
+      // Write code here to check whether C1 and C2 intersect and print
+      // the result.
+
+      return 0;
+  }
+#+end_src
+
+Finally, let us write some code to find the farthest point from the origin.
+
+#+begin_src C
+  #include <stdio.h>
+
+  struct point {
+      double x;
+      double y;
+  };
+
+  int main()
+  {
+      // Fill the array so that you have at least five points.
+      struct point ps[] = {};
+      struct point farthest;
+
+      // Write code here to compute the farthest point from origin in the
+      // array ps into the variable farthest.
+
+      printf("The farthest point is (%.2lf, %.2lf).\n", farthest.x, farthest.y);
+
+      return 0;
+  }
+#+end_src
+
+An exercise on initializing pointers.
+
+#+begin_src C
+  #include <stdio.h>
+
+  int main()
+  {
+      int a = 14, b = 25;
+      int *min;
+      int *max;
+
+      // Write code here so that the following printf works as
+      // expected. Do not change the values of a and b.
+      printf("min = %d, max = %d\n", *min, *max);
+
+      return 0;
+  }
+#+end_src
+
+Some array manipulation.
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  int main()
+  {
+      // Fill the array with some elements.
+      int xs[] = {};
+
+      // Write code here so that the elements in xs are reversed.
+
+      // Use size_t for indexing into arrays.
+      for (size_t i = 0; i < sizeof(xs)/sizeof(xs[0]); ++i) {
+	  printf("%d\n", xs[i]);
+      }
+
+      return 0;
+  }
+#+end_src
+
+More array processing.
+
+#+begin_src C :results output
+  #include <stdio.h>
+
+  int main()
+  {
+      // Fill the array with some elements.
+      int xs[] = {};
+      int positive = 0, negative = 0, zero = 0;
+
+      // Modift the code below so that everything works as expected.
+
+      printf("The array has %d positive elements, %d negative elements, and %d zeroes.\n", positive, zero, negative);
+
+      return 0;
+  }
+#+end_src
