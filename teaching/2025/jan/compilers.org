@@ -417,3 +417,72 @@ Let us test it on a sample.
 
 #+RESULTS:
 : If(c=BinOp(op='<', left=Number(val='2'), right=Number(val='3')), t=BinOp(op='+', left=Number(val='0'), right=Number(val='5')), e=BinOp(op='*', left=Number(val='1'), right=Number(val='6')))
+
+** Variables
+
+Consider the following emacs lisp example:
+#+begin_src emacs-lisp :results output :exports both
+  (defvar v 1)
+  
+  (defun foo ()
+    (princ v))
+
+  (defun bar ()
+    (let ((v 10))
+      (foo)))
+
+  (bar)
+#+end_src
+
+#+RESULTS:
+: 10
+
+Compare it with the following Python code that is the same except in
+the scoping of variables.
+#+begin_src python :python "python3" :results output :exports both
+  v = 1
+
+  def foo():
+      print(v)
+
+  def bar():
+      v = 10
+      foo()
+
+  bar()
+#+end_src
+
+#+RESULTS:
+: 1
+
+The ~v~ in ~foo()~ refers to the global ~v~ in Python. The ~v~ in
+~bar()~ is local to that function and cannot escape unless it is
+passed as an argument to ~foo()~. This is called lexical scoping. The
+association of variable use to declaration is determined by program
+text. Emacs lisp uses dynamic scoping, where the association is
+determined by the state of execution.
+
+#+begin_src emacs-lisp :results output :exports both
+  (defvar v 1)
+
+  (defun foo ()
+    (print v))
+
+  (defun bar (a)
+    (if a (let ((v 10)) (foo)) (foo)))
+
+  (bar nil)
+  (bar t)
+#+end_src
+In the following example, observe that ~foo()~ picks up either the
+global ~v~ or the ~v~ local to ~bar()~ depending on the argument to
+~bar()~.
+
+#+RESULTS:
+: 
+: 1
+: 
+: 10
+
+Modern languages all use lexical scoping by default. But, an option to
+have dynamic variables is also nice.
