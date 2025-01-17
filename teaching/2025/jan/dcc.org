@@ -459,32 +459,9 @@ types behave in C. Here are some exercises that will help.
 
 You can print the binary representation by doing a bitwise AND with
 the appropriate values.
-#+begin_src C :results output :exports both
-#+end_src
 
-C programs you saw in the lecture.
-2. Write a program to print the binary representation of a ~uint8_t~
-   value.
-3. Can you implement unary negation of an ~int8_t~ using only bitwise
-   operations and addition?
-4. Given an ~int8_t~, how do you compute a ~uint8_t~ that holds the
-   absolute value of the given integer?
-5. Write a program to print the binary representation of a ~int8_t~
-   value.
-6. There is a datatype called ~long~, how many bytes is it on your
-   machine?
-7. Read and understand the shift operators in C.
-8. Implement right rotation of ~uint8_t~ using bitwise and shift
-   operators. A right rotate operation takes a ~uint8_t~ and a value
-   between 0 and 7 inclusive and rotates the bits towards the
-   right. For example, the eight-bit number =10110101= right rotated
-   by three gives =10110110=.
-9. Implement left rotation similarly.
-
-*** Solutions
-
-This is just an exercise to make sure that the setup on your machine
-is working.
+The first question is just an exercise to make sure that the setup on
+your machine is working.
 
 You can print the binary representation by doing a bitwise AND with
 the appropriate values. Since we know our input has exactly eight
@@ -568,6 +545,7 @@ integer. But it still printed ~128~.
 The same code for ~uint8_t~ works for printing bits of ~int8_t~. Just
 change types.
 
+The size of ~long~ can be printed using an expression such as:
 #+begin_src C :results output :exports both :includes <stdio.h>
   printf("%d\n", sizeof(long));
 #+end_src
@@ -575,9 +553,9 @@ change types.
 #+RESULTS:
 : 8
 
-We can write a function to implement this. Let ~s~ be the amount to
-rotate. We first extract the lower-order ~s~ bits, then right-shift,
-and then place the extracted bits at the beginning.
+We can write a function to implement right rotation. Let ~s~ be the
+amount to rotate. We first extract the lower-order ~s~ bits, then
+right-shift, and then place the extracted bits at the beginning.
 #+begin_src C :results output :exports both
   #include <stdio.h>
   #include <stdint.h>
