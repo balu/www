@@ -593,7 +593,7 @@ represent coordinates. Write a ~struct~ to represent lines in a plane
 and write code to check whether or not two lines intersect. Use the
 following code as a starting point.
 
-#+begin_src C
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   struct line {
@@ -676,7 +676,7 @@ write code to check whether or not these shapes overlap.
 
 Finally, let us write some code to find the farthest point from the origin.
 
-#+begin_src C
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   struct point {
@@ -711,9 +711,12 @@ Finally, let us write some code to find the farthest point from the origin.
   }
 #+end_src
 
+#+RESULTS:
+: The farthest point is (2.00, 0.00).
+
 An exercise on initializing pointers.
 
-#+begin_src C
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   int main()
@@ -738,11 +741,11 @@ An exercise on initializing pointers.
 #+end_src
 
 #+RESULTS:
-| min = 14 | max = 25 |
+: min = 14, max = 25
 
 Some array manipulation.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   int main()
@@ -763,7 +766,7 @@ Some array manipulation.
 
       // Use size_t for indexing into arrays.
       for (size_t i = 0; i < sizeof(xs)/sizeof(xs[0]); ++i) {
-	  printf("%d\n", xs[i]);
+	  printf("%d ", xs[i]);
       }
 
       return 0;
@@ -771,22 +774,11 @@ Some array manipulation.
 #+end_src
 
 #+RESULTS:
-#+begin_example
-2
-0
-4
-0
--1
-4
-6
--5
-9
-3
-#+end_example
+: 2 0 4 0 -1 4 6 -5 9 3 
 
 More array processing.
 
-#+begin_src C :results output
+#+begin_src C :results output :exports both
   #include <stdio.h>
 
   int main()
