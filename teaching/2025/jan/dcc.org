@@ -599,21 +599,41 @@ following code as a starting point.
   struct line {
       // Fill in the members to represent a line.
       // Can you represent horizontal, vertical, and slanted lines?
+      // SOLUTION:
+      // We will use values of a, b, c from ax + by + c = 0.
+      double a, b, c;
   };
 
   int main()
   {
       // Fill these so that these become valid lines.
-      struct line L1 = {};
-      struct line L2 = {};
+      // Notice that both a and b should not be 0.
+      struct line L1 = { .a = 0, .b = 1, .c = 3 };
+      struct line L2 = { .a = 0, .b = 2, .c = 6 };
 
       // Write code here to check whether L1 and L2 intersect.
       // Change L1 and L2 and test various cases.
       // And, print whether or not they do.
+      double det = L1.a * L2.b - L2.a * L1.b;
+      if (det != 0) {
+	  printf("The lines intersect at a unique point.\n");
+      } else {
+	  if (L1.a * L2.c == L2.a * L1.c && L1.b * L2.c == L2.b * L1.c) {
+	      printf("The lines are coincident.\n");
+	  } else {
+	      printf("The lines are parallel.\n");
+	  }
+      }
 
       return 0;
   }
 #+end_src
+
+#+RESULTS:
+: The lines are coincident.
+
+Can you simplify the code? Did I cover all cases correctly? Can you
+print the point of intersection if any?
 
 We can now write ~struct~ to represent rectangles and circles. Also,
 write code to check whether or not these shapes overlap.
@@ -667,11 +687,23 @@ Finally, let us write some code to find the farthest point from the origin.
   int main()
   {
       // Fill the array so that you have at least five points.
-      struct point ps[] = {};
+      struct point ps[] = {
+	  { .x = 0, .y = 0 },
+	  { .x = 0, .y = 1 },
+	  { .x = 1, .y = 0 },
+	  { .x = 2, .y = 0 },
+	  { .x = 1, .y = 1 },
+      };
       struct point farthest;
 
       // Write code here to compute the farthest point from origin in the
       // array ps into the variable farthest.
+      farthest = ps[0];
+      for (size_t i = 1; i < sizeof(ps)/sizeof(ps[0]); ++i) {
+	  if (ps[i].x*ps[i].x + ps[i].y*ps[i].y
+	      > farthest.x*farthest.x + farthest.y*farthest.y)
+	      farthest = ps[i];
+      }
 
       printf("The farthest point is (%.2lf, %.2lf).\n", farthest.x, farthest.y);
 
@@ -692,11 +724,21 @@ An exercise on initializing pointers.
 
       // Write code here so that the following printf works as
       // expected. Do not change the values of a and b.
+      if (a < b) {
+	  min = &a;
+	  max = &b;
+      } else {
+	  min = &b;
+	  max = &a;
+      }
       printf("min = %d, max = %d\n", *min, *max);
 
       return 0;
   }
 #+end_src
+
+#+RESULTS:
+| min = 14 | max = 25 |
 
 Some array manipulation.
 
@@ -706,9 +748,18 @@ Some array manipulation.
   int main()
   {
       // Fill the array with some elements.
-      int xs[] = {};
+      int xs[] = { 3, 9, -5, 6, 4, -1, 0, 4, 0, 2 };
 
       // Write code here so that the elements in xs are reversed.
+      for (
+	   size_t i = 0, j = sizeof(xs)/sizeof(xs[0]) - 1;
+	   i < j;
+	   ++i, --j
+	   ) {
+	  int t = xs[j];
+	  xs[j] = xs[i];
+	  xs[i] = t;
+      }
 
       // Use size_t for indexing into arrays.
       for (size_t i = 0; i < sizeof(xs)/sizeof(xs[0]); ++i) {
@@ -719,6 +770,20 @@ Some array manipulation.
   }
 #+end_src
 
+#+RESULTS:
+#+begin_example
+2
+0
+4
+0
+-1
+4
+6
+-5
+9
+3
+#+end_example
+
 More array processing.
 
 #+begin_src C :results output
@@ -727,13 +792,21 @@ More array processing.
   int main()
   {
       // Fill the array with some elements.
-      int xs[] = {};
+      int xs[] = { 3, 9, -5, 6, 4, -1, 0, 4, 0, 2 };
       int positive = 0, negative = 0, zero = 0;
 
       // Modift the code below so that everything works as expected.
+      for (size_t i = 0; i < sizeof(xs)/sizeof(xs[0]); ++i) {
+	  if (xs[i] > 0) ++positive;
+	  else if (xs[i] < 0) ++negative;
+	  else ++zero;
+      }
 
-      printf("The array has %d positive elements, %d negative elements, and %d zeroes.\n", positive, zero, negative);
+      printf("The array has %d positive elements, %d negative elements, and %d zeroes.\n", positive, negative, zero);
 
       return 0;
   }
 #+end_src
+
+#+RESULTS:
+: The array has 6 positive elements, 2 negative elements, and 2 zeroes.
