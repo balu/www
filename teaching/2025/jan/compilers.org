@@ -697,3 +697,4 @@ The parser tries to parse a ~let~ expression if it observes the token
 
 #+RESULTS:
 : 6
+: 8
