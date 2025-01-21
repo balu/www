@@ -474,6 +474,13 @@ determined by the state of execution.
   (bar nil)
   (bar t)
 #+end_src
+
+#+RESULTS:
+: 
+: 1
+: 
+: 10
+
 In the following example, observe that ~foo()~ picks up either the
 global ~v~ or the ~v~ local to ~bar()~ depending on the argument to
 ~bar()~.
@@ -486,3 +493,207 @@ global ~v~ or the ~v~ local to ~bar()~ depending on the argument to
 
 Modern languages all use lexical scoping by default. But, an option to
 have dynamic variables is also nice.
+
+** Dynamic scoping
+
+Implementing dynamic scoping is easy. During evaluation, we keep a
+stack that maps variable names to values. Each variable declaration
+pushes an entry into this stack and each variable use looks for the
+variable in this stack from top to bottom. This will pick-up the most
+recently declared variable of the same name.
+
+If your language has no functions, then there is no difference between
+lexical and dynamic scoping.
+
+The following class represents the programming construct ~let v be e
+in f end~ which binds the value ~e~ to ~v~ and then evaluates
+~f~. Here, ~v~ must be a valid identifier and ~e~ and ~f~ must be
+expressions.
+#+begin_src python :session leroy :results none
+  @dataclass
+  class Let(AST):
+      v: str
+      e: AST
+      f: AST
+#+end_src
+
+We also need a class for occurences of variables within expressions.
+#+begin_src python :session leroy :results none
+  @dataclass
+  class Var(AST):
+      v: str
+#+end_src
+
+The evaluation now requires a stack in addition to the AST. Usually,
+this stack is called the environment.
+#+begin_src python :session leroy :results none
+  def lookup(env, v):
+      for u, uv in reversed(env):
+          if u == v:
+              return uv
+      raise ValueError("No value found.")
+
+  def e(t: AST, env = None) -> int:
+      if env is None: env = []
+
+      match t:
+          case Var(v):
+              return lookup(env, v)
+          case Let(v, x, y):
+              vv = e(x, env)
+              env.append((v, vv))
+              yv = e(y, env)
+              env.pop()
+              return yv
+          case Number(s):
+              return int(s)
+          case BinOp("+", l, r):
+              return  e(l, env) + e(r, env)
+      assert False
+#+end_src
+
+Let us create two sample ASTs and test them.
+#+begin_src python :session leroy :results none
+  expr_t4 = Let("a", Number("3"), BinOp("+", Var("a"), Var("a")))
+  expr_t5 = Let("a", Number("3"),
+		Let("b", BinOp("+", Var("a"), Number("2")),
+		    BinOp("+", Var("a"), Var("b"))))
+#+end_src
+
+#+begin_src python :session leroy :results output :exports both
+  print(e(expr_t4))
+  print(e(expr_t5))
+#+end_src
+
+#+RESULTS:
+: 6
+: 8
+
+Now, we will add the surface syntax which will look like ~let a be 3
+in a + a end~. I prefer keywords such as ~be~ instead of symbols such
+as ~=~ or ~:=~ as words are easier to type for me. However, when
+choosing a keyword, we have to ensure that it is a word that will not
+be used often as variable names. The word ~be~ is not a common
+variable name. So this choice is fine.
+
+The lexer should have variable tokens.
+#+begin_src python :session leroy :results none
+  @dataclass
+  class VarToken(Token):
+      v: str
+#+end_src
+
+After lexing a word, we have to lookup whether it is a keyword. If it
+is, then we return a keyword token. Otherwise, it is a variable.
+#+begin_src python :session leroy :results none
+  from collections.abc import Iterator
+
+  def lex(s: str) -> Iterator[Token]:
+      i = 0
+      while True:
+          while i < len(s) and s[i].isspace():
+              i = i + 1
+
+          if i >= len(s):
+              return
+
+          if s[i].isalpha():
+              t = s[i]
+              i = i + 1
+              while i < len(s) and s[i].isalpha():
+                  t = t + s[i]
+                  i = i + 1
+              if t in { "let", "be", "in", "end" }:
+                  yield KeywordToken(t)
+              else:
+                  yield VarToken(t)
+          elif s[i].isdigit():
+              t = s[i]
+              i = i + 1
+              while i < len(s) and s[i].isdigit():
+                  t = t + s[i]
+                  i = i + 1
+              yield NumberToken(t)
+          else:
+              match t := s[i]:
+                  case '+' | '*' | '<':
+                      i = i + 1
+                      yield OperatorToken(t)
+#+end_src
+
+Let us test the lexer.
+#+begin_src python :session leroy :results output :exports both
+  for t in lex("let a be 3 in a + a end"):
+      print(t)
+#+end_src
+
+#+RESULTS:
+: KeywordToken(w='let')
+: VarToken(v='a')
+: KeywordToken(w='be')
+: NumberToken(v='3')
+: KeywordToken(w='in')
+: VarToken(v='a')
+: OperatorToken(o='+')
+: VarToken(v='a')
+: KeywordToken(w='end')
+
+The parser tries to parse a ~let~ expression if it observes the token
+~let~ at the beginning.
+#+begin_src python :session leroy :results none
+  class ParseError(Exception):
+      msg: str
+
+  def parse(s: str) -> AST:
+      from more_itertools import peekable
+      t = peekable(lex(s))
+
+      def expect(what: Token):
+          if t.peek(None) == what:
+              next(t)
+              return
+          raise ParseError(f"Expected {what}")
+
+      def parse_let():
+          match t.peek(None):
+              case KeywordToken("let"):
+                  next(t)
+                  vt = next(t)
+                  expect(KeywordToken("be"))
+                  e = parse_let()
+                  expect(KeywordToken("in"))
+                  f = parse_let()
+                  expect(KeywordToken("end"))
+                  return Let(vt.v, e, f)
+              case _:
+                  return parse_add()
+
+      def parse_add():
+          ast = parse_atom()
+          while True:
+              match t.peek(None):
+                  case OperatorToken('+'):
+                      next(t)
+                      ast = BinOp('+', ast, parse_atom())
+                  case _:
+                      return ast
+
+      def parse_atom():
+          match t.peek(None):
+              case NumberToken(v):
+                  next(t)
+                  return Number(v)
+              case VarToken(v):
+                  next(t)
+                  return Var(v)
+
+      return parse_let()
+#+end_src
+
+#+begin_src python :session leroy :results output :exports both
+  print(e(parse("let a be 3 in a + a end")))
+  print(e(parse("let a be 3 in let b be a + 2 in a + b end end")))
+#+end_src
+
+#+RESULTS:
+: 6
