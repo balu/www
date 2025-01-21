@@ -454,7 +454,15 @@ types behave in C. Here are some exercises that will help.
    right. For example, the eight-bit number =10110101= right rotated
    by three gives =10110110=.
 9. Implement left rotation similarly.
-
+10. Swap two half-bytes of a ~uint8_t~. For example, ~0xca~ should
+    become ~0xac~.
+11. Write code to check whether an ~unsigned int~ is a power of
+    two. You can do this with one simple expression!
+12. Compute the absolute value of a ~int8_t~ without using any
+    conditional statements (manipulate the bits).
+13. Write code to find the largest power of two smaller than a given
+    ~uint32_t~. Do it in the most efficient way possible.
+    
 *** Solutions
 
 You can print the binary representation by doing a bitwise AND with
@@ -802,3 +810,12 @@ More array processing.
 
 #+RESULTS:
 : The array has 6 positive elements, 2 negative elements, and 2 zeroes.
+
+Write a ~struct~ to store a [[https://en.wikipedia.org/wiki/Payment_card_number][credit card number]] and write [[https://en.wikipedia.org/wiki/Luhn_algorithm][Luhn
+algorithm]] to verify the validity of the credit card number.
+
+Write a ~struct~ to store date and time (year, month, day, hour,
+minute, second). Define the struct so that it has the smallest
+size. Can you pack all the information in such a struct into a
+~uint32_t~? What about a ~uint64_t~? Write code to convert data
+between those two representations.
