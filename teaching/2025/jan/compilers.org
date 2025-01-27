@@ -698,3 +698,86 @@ The parser tries to parse a ~let~ expression if it observes the token
 #+RESULTS:
 : 6
 : 8
+
+** Functions
+
+Let us implement functions. We need two new AST nodes. One for
+defining and another for calling functions.
+
+#+begin_src python :session leroy :results none
+  @dataclass
+  class Fun(AST):
+      n: str # Name of function
+      a: str # Parameter
+      b: AST # Body
+      e: AST # Function calls here
+
+  @dataclass
+  class Call(AST):
+      n: str # Name of function
+      a: AST # Argument
+#+end_src
+
+We want to write code such as:
+#+begin_src python :session leroy :results none
+  expr_t6 = """
+  fun dbl(a) is a + a
+  in
+    dbl(2) + dbl(3)
+  end
+  """
+#+end_src
+to define a function and call it two times with two different
+arguments. It corresponds to the AST:
+#+begin_src python :session leroy :results none
+  expr_t6ast = Fun (
+      "dbl",
+      "a",
+      BinOp("+", Var("a"), Var("a")),
+      BinOp("+", Call("dbl", Number("2")), Call("dbl", Number("3")))
+  )
+#+end_src
+
+First, the evaluation. When a function is defined, we parse and put
+its body into an environment. When it is called, we evaluate the body
+in an environment where the parameter is bound to the argument.
+#+begin_src python :session leroy :results none
+  def lookup(env, v):
+      for u, uv in reversed(env):
+          if u == v:
+              return uv
+      raise ValueError("No value found.")
+
+  def e(t: AST, env = None) -> int:
+      if env is None: env = []
+
+      match t:
+          case Var(v):
+              return lookup(env, v)
+          case Fun(f, a, b, c):
+              env.append((f, (a, b)))
+              x = e(c, env)
+              env.pop()
+              return x
+          case Call(f, x):
+              a, b = lookup(env, f)
+              env.append((a, e(x, env)))
+              y = e(b, env)
+              env.pop()
+              return y
+          case Number(s):
+              return int(s)
+          case BinOp("+", l, r):
+              return  e(l, env) + e(r, env)
+#+end_src
+
+Let us test this on the hand-crafted AST.
+#+begin_src python :session leroy :results output :exports both
+  print(e(expr_t6ast))
+#+end_src
+
+#+RESULTS:
+: 10
+
+The modifications to the front-end are straight-forward. It is left as
+an exercise.
