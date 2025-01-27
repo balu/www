@@ -373,6 +373,7 @@ loop. Here's an implementation of the linear-search algorithm:
 
 *** Pointers
 
+
 Every memory location has an address. A pointer is a type where values
 are addresses. The value held at the address can be changed through a
 pointer. Changing the pointer makes it point to a different location.
@@ -408,6 +409,144 @@ Here are some relationships pointers in C have to other concepts.
   the first element of the array. This is called pointer-to-array
   decay in C.
 - The operator ~s->a~ is equivalent to ~(*s).a~.
+
+*** Functions and data
+
+The local variables of a function are created when the function begins
+and destroyed once it returns. Local variables include both parameters
+and any variable declared within the function.
+#+begin_src C
+  int *min(int x, int y)
+  {
+      return (x < y) ? &x : &y;
+  }
+#+end_src
+The above code has an error that won't be caught by the compiler. The
+function returns the address of a local variable. However, the caller
+of the function has no way of using that address as by the time the
+caller obtains the address, the object at that location has been
+destroyed.
+
+The following code works.
+#+begin_src C :includes <stdio.h> :results output :exports both
+  int *min(int *x, int *y)
+  {
+      return (*x < *y) ? x : y;
+  }
+
+  int main()
+  {
+      int i = 5, j = 10;
+      printf("%d\n", *min(&i, &j));
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 5
+
+The return value of ~min()~ is an address of a variable in
+~main()~. So ~main()~ receives the address of an object that is local
+to itself.
+
+In C, arrays are pointers.
+#+begin_src C :includes <stdio.h> :includes <assert.h> :results output :exports both
+  int second(int *a, int n)
+  {
+      assert(n >= 2);
+      return a[1];
+  }
+
+  int main()
+  {
+      int primes[] = { 2, 3, 5 };
+      printf("%d\n", second(primes, 3));
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 3
+
+When we pass ~primes~ as an argument to ~second()~, only the address
+of the array is passed. The parameter ~n~ is the number of integers
+present contiguously from the base address. Notice that within
+~second()~, we can use ~a~ like an array. An expression of the form
+~base[offset]~ is interpreted by C as the offset-th object from the
+base address. It does not care whether base is an array or a pointer.
+
+We can also use address-passing as a mechanism to modify the local
+variables of a function from the called function.
+#+begin_src C :includes <stdio.h> :includes <assert.h> :results output :exports both
+  void set_second(int *a, int n, int v)
+  {
+      assert(n >= 2);
+      a[1]= v;
+  }
+
+  int main()
+  {
+      int primes[] = { 2, 4, 5 };
+      set_second(primes, 2, 3);
+      printf("%d\n", primes[1]);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 3
+
+Observe that modifying ~a[1]~ changes ~primes[1]~. This is because ~a~
+and ~primes~ are the same base address.
+
+And, the modified objects need not be arrays.
+#+begin_src C :results output :exports both :includes <stdio.h>
+  void minmaxify(int *x, int *y)
+  {
+      if (*x < *y) return;
+      int t = *y;
+      *y = *x;
+      *x = t;
+  }
+
+  int main()
+  {
+      int i = 10, j = 5;
+      minmaxify(&i, &j);
+      printf("%d %d\n", i, j);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 5 10
+
+You can observe the similar behaviour in python. Somewhat
+unpredictably.
+#+begin_src python :python "python3" :results output :exports both
+  def modify1(x):
+      x = x + 1
+
+  def modify2(xs):
+      xs[1] = 3
+
+  y = 5
+  ys = [2, 4, 5]
+
+  modify1(y)
+  modify2(ys)
+
+  print(y)
+  print(ys)
+#+end_src
+
+#+RESULTS:
+: 5
+: [2, 3, 5]
+
+Observe that ~y~ remained the same while ~ys~ got modified. This is
+because ~x~ and ~y~ refer to different objects with the same value
+initially while ~xs~ and ~ys~ refer to the same object.
 
 *** Recursive types
 
