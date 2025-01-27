@@ -594,6 +594,115 @@ correct by verifying with authoritative sources.
 
 Left rotation is left as an exercise.
 
+To swap the two bytes, one could use rotation. But, it is simpler to
+write the flags directly.
+#+begin_src C
+  #include <stdio.h>
+  #include <stdint.h>
+
+  int main()
+  {
+      uint8_t u = 0xac;
+
+      printf("%x\n", (u & 0xf0) >> 4 | (u & 0x0f) << 4);
+
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: ca
+
+To check whether a number is a power of two, remember the quiz question.
+#+begin_src C
+  #include <stdio.h>
+  #include <stdbool.h>
+
+  bool is_pow2(unsigned int u)
+  {
+      return !(u & (u - 1));
+  }
+
+  int main()
+  {
+      printf("%d %d %d\n", is_pow2(16), is_pow2(17), is_pow2(0));
+  }
+#+end_src
+
+#+RESULTS:
+: 1 0 1
+
+The expression gets it wrong only when ~u~ is ~0~. Zero is not a power
+of two. Recall that Booleans are integers in C. So we can do the following:
+#+begin_src C
+  #include <stdio.h>
+  #include <stdbool.h>
+
+  bool is_pow2(unsigned int u)
+  {
+      return u * !(u & (u - 1));
+  }
+
+  int main()
+  {
+      printf("%d %d %d\n", is_pow2(16), is_pow2(17), is_pow2(0));
+  }
+#+end_src
+
+#+RESULTS:
+: 1 0 0
+
+To compute the absolute value:
+#+begin_src C :includes <stdio.h> :includes <stdint.h> :results output
+  uint8_t abs(int8_t i)
+  {
+      return (i ^ (i >> 7)) - (i >> 7);
+  }
+
+  int main()
+  {
+      printf("%u %u %u %u\n", abs(-1), abs(1), abs(-128), abs(-127));
+      return 0;
+  }
+
+#+end_src
+
+#+RESULTS:
+: 1 1 128 127
+
+Why does this work? If ~i~ is non-negative, ~i >> 7~ is 0 and just ~i~
+is returned. If ~i~ is negative, then ~i >> 7~ is just ~-1~
+(right-shifting shifts in the most significant bit value). So ~i ^ (i
+>> 7)~ flips all the bits of ~i~. The result is off by one. So we add
+one back.
+
+Finding the largest power of two:
+#+begin_src C :includes <stdio.h> :includes <stdint.h> :results output
+  uint32_t pow2(uint32_t n) {
+      if (n == 0) return 0;
+
+      n |= n >> 1;
+      n |= n >> 2;
+      n |= n >> 4;
+      n |= n >> 8;
+      n |= n >> 16;
+
+      return n - (n >> 1);
+  }
+
+  int main()
+  {
+      printf("%u %u %u\n", pow2(16), pow2(13), pow2(100));
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 16 8 64
+
+Analyze the code and try and come up with an explanation of why it
+works.
+
 ** Structs, arrays, and pointers
 
 The ~double~ type in C can approximate rational numbers. Use it to
