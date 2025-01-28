@@ -844,6 +844,7 @@ works.
 
 ** Structs, arrays, and pointers
 
+
 The ~double~ type in C can approximate rational numbers. Use it to
 represent coordinates. Write a ~struct~ to represent lines in a plane
 and write code to check whether or not two lines intersect. Use the
@@ -1067,3 +1068,51 @@ minute, second). Define the struct so that it has the smallest
 size. Can you pack all the information in such a struct into a
 ~uint32_t~? What about a ~uint64_t~? Write code to convert data
 between those two representations.
+
+** Functions
+
+Fix the following function and test it.
+#+begin_src C
+  void drop_to_x_axis(struct point p)
+  {
+      p.x = 0;
+  }
+#+end_src
+
+Write a function to take an array of ~struct person~ with an ~age~
+member and return their average age.
+
+Write a function to compute the midpoint of a line segment. There are
+two ways to write this corresponding to the following functions. Write
+both of them. Discuss when one is better than the other.
+#+begin_src C
+  struct point midpoint(struct point p1, struct point p2);
+  void midpoint(struct point p1, struct point p2, struct point *p3);
+#+end_src
+
+Write a function to compute the intersection point of two
+lines. Implement the following two functions and discuss when one is
+better than the other.
+#+begin_src C
+  struct point intersection(struct line l1, struct line l2);
+  void intersection(struct line l1, struct line l2, struct point *p);
+#+end_src
+
+Write a program that modifies an integer through a pointer to a
+pointer to an int.
+
+Write a function to swap the values of two integers in memory. What
+are the parameters? What is the return value?
+
+Write a function to sum the integers in an array. Can your function be
+used to sum sub-arrays?
+
+Implement binary-search on an array of integers.
+
+Write the following function. Determine the number of integer
+comparisons your function will make in the worst-case. The
+straight-forward algorithm will do ~2n~ comparisons. There is an
+algorithm that uses at most ~3n/2~ comparisons.
+#+begin_src C
+  void minmax(int xs[], int n, int *min, int *max);
+#+end_src
