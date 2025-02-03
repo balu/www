@@ -752,6 +752,12 @@ in an environment where the parameter is bound to the argument.
       if env is None: env = []
 
       match t:
+          case Let(v, x, y):
+              vv = e(x, env)
+              env.append((v, vv))
+              yv = e(y, env)
+              env.pop()
+              return yv
           case Var(v):
               return lookup(env, v)
           case Fun(f, a, b, c):
@@ -781,3 +787,133 @@ Let us test this on the hand-crafted AST.
 
 The modifications to the front-end are straight-forward. It is left as
 an exercise.
+
+** Functions with static scoping
+
+We want to create an AST for the following code:
+#+begin_src
+  let x be 5 in
+    fun f(y) is x in
+      fun g(z) is let x be 6 in f(z) end in
+        g(0)
+      end
+    end
+  end
+#+end_src
+and demonstrate that it evaluates to 6 with dynamic scoping. With
+static scoping, it would have evaluated to 5.
+
+To implement static scoping. We add a ~resolve()~ pass that renames
+variables so that each variable has a unique name. For this, we
+redefine the ~Variable~ class.
+#+begin_src python :session leroy :results none
+  @dataclass
+  class Var(AST):
+      v: str
+      i: int = None
+#+end_src
+where the ~i~ field holds the integer that will help us resolve
+variables to bindings.
+
+We redefine some of the AST nodes to store ~Var~ instead of just a
+string.
+#+begin_src python :session leroy :results none
+  @dataclass
+  class Let(AST):
+      x: AST # Always a Var
+      e: AST
+      f: AST
+
+  @dataclass
+  class Fun(AST):
+      f: str # Functions are second-class.
+      x: AST # Parameter.
+      b: AST
+      e: AST
+#+end_src
+
+The AST for the above expression is:
+#+begin_src python :session leroy :results none
+  expr_t7ast = Let (
+      Var("x"),
+      Number("5"),
+      Fun (
+          "f",
+          Var("y"),
+          Var("x"),
+          Fun (
+              "g",
+              Var("z"),
+              Let (
+                  Var("x"),
+                  Number("6"),
+                  Call("f", Var("x"))
+              ),
+              Call("g", Number("0")))))
+#+end_src
+
+Under dynamic scoping, we will get ~6~. With static scoping, we should
+get ~5~.
+
+Now, we make a function to create fresh integers everytime it is
+called. This will help us fill in ~id~ of ~Var~ correctly.
+#+begin_src python :session leroy :results none
+  def make_fresh():
+      i = 0
+      def fresh():
+          nonlocal i
+          i = i + 1
+          return i
+      return fresh
+#+end_src
+
+Finally, the ~resolve()~ is another post-order traversal over the AST.
+#+begin_src python :session leroy :results none
+  def resolve(t: AST, env = None, fresh = None) -> AST:
+      if env is None: env = []
+      if fresh is None: fresh = make_fresh()
+
+      match t:
+          case Number(n):
+              return Number(n)
+          case Let(Var(x, _), e, f):
+              er = resolve(e, env, fresh)
+              env.append((x, i := fresh()))
+              fr = resolve(f, env, fresh)
+              env.pop()
+              return Let(Var(x, i), er, fr)
+          case Var(x, _):
+              return Var(x, lookup(env, x))
+          case Call(f, x):
+              xr = resolve(x, env, fresh)
+              return Call(f, xr)
+          case Fun(f, Var(x, _), b, y):
+              env.append((x, i := fresh()))
+              br = resolve(b, env, fresh)
+              env.pop()
+              yr = resolve(y, env, fresh)
+              return Fun(f, Var(x, i), br, yr)
+#+end_src
+
+Observe the AST before resolution.
+#+begin_src python :session leroy :results output :exports both
+  print(expr_t7ast)
+#+end_src
+
+#+RESULTS:
+: Let(x=Var(v='x', i=None), e=Number(val='5'), f=Fun(f='f', x=Var(v='y', i=None), b=Var(v='x', i=None), e=Fun(f='g', x=Var(v='z', i=None), b=Let(x=Var(v='x', i=None), e=Number(val='6'), f=Call(n='f', a=Var(v='x', i=None))), e=Call(n='g', a=Number(val='0')))))
+
+Every ~i~ field is ~None~.
+
+Let us now look at the resolved form of our earlier AST.
+#+begin_src python :session leroy :results output :exports both
+  print(resolve(expr_t7ast))
+#+end_src
+
+#+RESULTS:
+: Let(x=Var(v='x', i=1), e=Number(val='5'), f=Fun(f='f', x=Var(v='y', i=2), b=Var(v='x', i=1), e=Fun(f='g', x=Var(v='z', i=3), b=Let(x=Var(v='x', i=4), e=Number(val='6'), f=Call(n='f', a=Var(v='x', i=4))), e=Call(n='g', a=Number(val='0')))))
+
+Observe how the ~x~ in the body of ~f~ gets matched to the ~x~
+introduced by the outermost ~let~ through the ~i~ field in ~Var~. Now,
+we can adjust the ~e()~ to lookup values based on both the variable
+name and its id and obtain the correct variable as in static scoping.
