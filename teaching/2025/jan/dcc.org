@@ -1079,8 +1079,30 @@ Fix the following function and test it.
   }
 #+end_src
 
+First, it drops to ~y~ axis. Second, it cannot modify the point in the
+caller. The fixed version is:
+#+begin_src C
+  void drop_to_x_axis(struct point *p)
+  {
+      p->y = 0;
+  }
+#+end_src
+or you can return a new point.
+
 Write a function to take an array of ~struct person~ with an ~age~
 member and return their average age.
+#+begin_src C
+  int average_age(struct person *ps, int n)
+  {
+      double a = 0.0;
+
+      for (size_t i = 0; i < n; ++i) {
+	  a += ps[i].age;
+      }
+
+      return a/n;
+  }
+#+end_src
 
 Write a function to compute the midpoint of a line segment. There are
 two ways to write this corresponding to the following functions. Write
@@ -1090,6 +1112,32 @@ both of them. Discuss when one is better than the other.
   void midpoint(struct point p1, struct point p2, struct point *p3);
 #+end_src
 
+The first one is:
+#+begin_src C
+  struct point midpoint(struct point p1, struct point p2)
+  {
+      return (struct point) {
+	  .x = (p1.x + p2.x) / 2,
+	  .y = (p1.y + p2.y) / 2
+      };
+  }
+#+end_src
+
+The second one is:
+#+begin_src C
+  void midpoint(struct point p1, struct point p2, struct point *p3)
+  {
+      *p3 = (struct point) {
+	  .x = (p1.x + p2.x) / 2,
+	  .y = (p1.y + p2.y) / 2
+      };
+  }
+#+end_src
+
+The first one is better as it allows ~midpoint~ to be used in
+expressions naturally. As in, ~midpoint(midpoint(p, q), midpoint(r,
+s))~. Try and writing the equivalent code in the second version.
+
 Write a function to compute the intersection point of two
 lines. Implement the following two functions and discuss when one is
 better than the other.
@@ -1098,21 +1146,143 @@ better than the other.
   void intersection(struct line l1, struct line l2, struct point *p);
 #+end_src
 
+This is same as previous question except for some calculations. There
+is a crucial difference here. The intersection of two lines need not
+exist (unlike midpoint of two points). So the functions should assert
+that the two given lines have an intersection and otherwise error as
+it cannot return any value. The following function is better:
+#+begin_src C
+  bool intersection(struct line l1, struct line l2, struct point *p);
+#+end_src
+Now, the ~bool~ return value indicates whether or not an intersection
+exists. The function should be written so that if (and only if) the
+return value is true, the intersection should be stored in ~*p~. This
+function need not ever error out.
+
 Write a program that modifies an integer through a pointer to a
 pointer to an int.
+
+#+begin_src C :results output :exports both :includes <stdio.h>
+  int i = 0;
+  int *p = &i;
+  int **q = &p;
+
+  **q = 1;
+  printf("%d\n", i);
+#+end_src
+
+#+RESULTS:
+: 1
+
+Notice that the expression ~&&i~ wouldn't work. Why?
 
 Write a function to swap the values of two integers in memory. What
 are the parameters? What is the return value?
 
+#+begin_src C :results output :exports both
+  #include <stdio.h>
+
+  void swap(int *x, int *y)
+  {
+      int t = *y;
+      *y = *x;
+      *x = t;
+  }
+
+  int main()
+  {
+      int i = 10, j = 5;
+      swap(&i, &j);
+      printf("%d %d\n", i, j);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 5 10
+
 Write a function to sum the integers in an array. Can your function be
 used to sum sub-arrays?
 
-Implement binary-search on an array of integers.
+#+begin_src C :results output :exports both
+  #include <stdio.h>
+
+  int sum(int *xs, int n)
+  {
+      int s = 0;
+      for (size_t i = 0; i < n; ++i) s += xs[i];
+      return s;
+  }
+
+  int main()
+  {
+      int xs[] = { 2, 3, 5, 7, 11, 13 };
+      printf("%d %d\n", sum(xs, 6), sum(xs + 2, 3));
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 41 23
+
+Implement binary-search on an array of integers. (Left as exercise)
 
 Write the following function. Determine the number of integer
 comparisons your function will make in the worst-case. The
 straight-forward algorithm will do ~2n~ comparisons. There is an
 algorithm that uses at most ~3n/2~ comparisons.
-#+begin_src C
-  void minmax(int xs[], int n, int *min, int *max);
+#+begin_src C :results output :exports both
+  #include <stdio.h>
+  #include <assert.h>
+
+  void minmax(int xs[], int n, int *min, int *max)
+  {
+      assert(min && max);
+
+      if (n <= 0) return;
+
+      /* initialize */ *min = *max = xs[0];
+
+      size_t i;
+      for (i = 1; i < n-1; i += 2) {
+	  int m, M;
+
+	  if (xs[i] < xs[i+1]) {
+	      m = xs[i];
+	      M = xs[i+1];
+	  } else {
+	      m = xs[i+1];
+	      M = xs[i];
+	  }
+
+	  if (m < *min) *min = m;
+	  if (M > *max) *max = M;
+      }
+
+      if (i < n) {
+	if (xs[i] < *min) *min = xs[i];
+	if (xs[i] > *max) *max = xs[i];
+      }
+  }
+
+  int main()
+  {
+      int xs[] = { 0, 5, 20, 8, -5, 3, 9, -14, 7 };
+      int m, M;
+
+      minmax(xs, 9, &m, &M);
+      printf("%d %d\n", m, M);
+
+      minmax(xs, 7, &m, &M);
+      printf("%d %d\n", m, M);
+      
+      return 0;
+
+  }
 #+end_src
+
+#+RESULTS:
+: -14 20
+: -5 20
+
+Observe that for every two elements in the array, we do three comparisons.
