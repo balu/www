@@ -1286,3 +1286,44 @@ algorithm that uses at most ~3n/2~ comparisons.
 : -5 20
 
 Observe that for every two elements in the array, we do three comparisons.
+
+
+** Dynamic memory allocation
+
+Implement Python's ~range()~.
+#+begin_src C
+  int *range(int start, int stop, int step);
+#+end_src
+
+Write a function to compute the prime factors of a given number.
+#+begin_src C
+  int *prime_factors(int n);
+#+end_src
+
+Implemenet [[https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes][Sieve of Eratosthenes]] to figure out the prime numbers and
+composite numbers below a given number. Use the following skeleton to
+get started.
+#+begin_src C
+  #include <stdio.h>
+
+  int main()
+  {
+      int n;
+
+      scanf("%d", &n); // Make the user type in n.
+
+      bool *elts = ...; // How much memory?
+
+      // Initialize the members of elts.
+
+      // Implement sieve here.
+
+      for (size_t i = 0; i < n; ++i) {
+	  printf ("%d is a %s.\n", i, elts[i] ? "prime" : "composite");
+      }
+  }
+#+end_src
+
+Read about [[https://en.wikipedia.org/wiki/Josephus_problem][Josephus problem]]. Implement a program to determine the
+survivor for a user entered ~n~ and ~k~. Use the previous program as a
+guideline.
