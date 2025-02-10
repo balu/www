@@ -560,7 +560,7 @@ Another approach is the sentinel technique, where a special element is
 used to signal that the sequence has ended. In C, strings use this data
 representation.
 
-#+begin_src C :results output :exports none :includes <stdio.h>
+#+begin_src C :results output :exports both :includes <stdio.h>
   char *s = "Hello";
   for (size_t i = 0; i <= 5; ++i) {
       printf("%c (%d)\n", s[i] ? s[i] : '?', s[i]);
