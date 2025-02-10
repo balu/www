@@ -1625,7 +1625,7 @@ guideline.
      struct bignum b = make_bignum("289347508783452346781234534574562");
      print_bignum(bignum_add(a, b));
    #+end_src
-10. Write ~int bignum_cmp struct bignum a, struct bignum b)~. This
+10. Write ~int bignum_cmp(struct bignum a, struct bignum b)~. This
     function should return ~0~ if ~a~ and ~b~ are equal, ~-1~ if ~a <
     b~ and ~1~ if ~a > b~.
    
