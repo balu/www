@@ -1488,8 +1488,8 @@ Write a function to compute the prime factors of a given number.
   int *prime_factors(int n);
 #+end_src
 
-Here, an ~int *~ suffices. An ~int~ in C can have at most ~8 *
-sizeof(int) - 1~ prime factors (why?). This is a small amount of
+Here, an ~int *~ suffices. An ~int~ in C can have at most ~8 * sizeof(int) - 1~
+prime factors (why?). This is a small amount of
 memory. We can put a ~0~ as the last element in the array to signal
 that the prime factors has ended. That is, for input ~60~, we can
 output the just the base address of the array ~{ 2, 2, 3, 5, 0
@@ -1500,7 +1500,7 @@ called the sentinel technique. Examples of this include a full-stop
 when speaking over radio.
 
 #+begin_src C :results output :exports both
-    #include <stdio.h>
+  #include <stdio.h>
   #include <stdlib.h>
 
   int* prime_factors(int n)
@@ -1565,7 +1565,7 @@ when speaking over radio.
 :    1000007 = 29 * 34483
 : 1000000007 = 1000000007
 
-Implemenet [[https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes][Sieve of Eratosthenes]] to figure out the prime numbers and
+Implement [[https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes][Sieve of Eratosthenes]] to figure out the prime numbers and
 composite numbers below a given number. Use the following skeleton to
 get started.
 #+begin_src C
