@@ -644,6 +644,32 @@ the pointers in first ~i-1~ nodes. What about arrays?
 
 What are some advantages of storing sequences this way?
 
+Here's a function to insert a new node at some arbitrary position in
+the list. Note that it only takes a few operations. What if I wanted
+to do this in an array?
+#+begin_src C :results none
+  void insert_after(struct node *here, struct node *what)
+  {
+      assert(here);
+      assert(what);
+      struct node *save = here->next;
+      here->next = what;
+      what->next = save;
+  }
+#+end_src
+
+We can also write a function to remove a node with a few
+operations. We should get a pointer to the predecessor to do this.
+#+begin_src C :results none
+  struct node *skip(struct node *here)
+  {
+      assert(here);
+      struct node *skipped = here->next;
+      here->next = skipped ? skipped->next ? NULL;
+      return skipped;
+  }
+#+end_src
+
 **** Trees
 
 *** Products in Python
