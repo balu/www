@@ -548,9 +548,101 @@ Observe that ~y~ remained the same while ~ys~ got modified. This is
 because ~x~ and ~y~ refer to different objects with the same value
 initially while ~xs~ and ~ys~ refer to the same object.
 
+*** Representing contiguous sequences
+
+As we saw earlier, arrays when passed to functions become just
+pointers to the first element. So the receiver has no way of knowing
+how many elements are there in the array. One way to solve this
+problem is to pass around the length of the array along with this
+pointer.
+
+Another approach is the sentinel technique, where a special element is
+used to signal that the sequence has ended. In C, strings use this data
+representation.
+
+#+begin_src C :results output :exports none :includes <stdio.h>
+  char *s = "Hello";
+  for (size_t i = 0; i <= 5; ++i) {
+      printf("%c (%d)\n", s[i] ? s[i] : '?', s[i]);
+  }
+#+end_src
+
+#+RESULTS:
+: H (72)
+: e (101)
+: l (108)
+: l (108)
+: o (111)
+: ? (0)
+
 *** Recursive types
 
+We can represent sequences using non-contiguous data in memory. This
+is used in situations where the sequence grows over time and we want
+to be able to place new elements at arbitrary positions in the
+sequence. This data structure is called a linked-list.
+
 **** Lists
+
+Here's an implementation of a linked-list. A linked-list stores a
+sequence. Each element of the sequence is stored in a node. The node
+also stores the address of the next node. The last node's next address
+is ~NULL~ to indicate that the sequence has ended.
+
+#+begin_src C :results output :exports both
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <assert.h>
+
+  struct node
+  {
+      int data;
+      struct node *next;
+  };
+
+  struct node *empty()
+  {
+      return NULL;
+  }
+
+  struct node *cons(int a, struct node *rest)
+  {
+      struct node *n = malloc(sizeof(struct node *));
+      assert(n);
+      n->data = a;
+      n->next = rest;
+      return n;
+  }
+
+  void print_list(struct node *n)
+  {
+      printf("(");
+      while (n) {
+	  printf("%d, ", n->data, n);
+	  n = n->next;
+      }
+      printf(")\n");
+  }
+
+  int main()
+  {
+      struct node *xs = empty();
+      for (int i = 2; i < 1000; i += 2 * i) {
+	  xs = cons(i, xs);
+      }
+      print_list(xs);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: (486, 162, 54, 18, 6, 2, )
+
+Observe that given a pointer to the first node and a number ~i~, there
+is no way to calculate the address of the ~i~ th node. We have to read
+the pointers in first ~i-1~ nodes. What about arrays?
+
+What are some advantages of storing sequences this way?
 
 **** Trees
 
@@ -1295,10 +1387,157 @@ Implement Python's ~range()~.
   int *range(int start, int stop, int step);
 #+end_src
 
+The ~int *~ return type is not suitable here. If we return just a
+pointer to the base of an array, how does the caller know how many
+elements are there in the array? A solution is to return both a
+pointer and the number of elements packaged into a struct.
+
+#+begin_src C :results output :exports both
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  struct Range
+  {
+      int *array;
+      size_t size;
+  };
+
+  struct Range range(int start, int stop, int step)
+  {
+      if (step == 0) {
+	  return (struct Range) { NULL, 0 };
+      }
+
+      size_t length = 0;
+
+      if (step > 0) {
+	  length = (stop > start) ? (stop - start + step - 1) / step : 0;
+      } else {
+	  length = (start > stop) ? (start - stop - step - 1) / -step : 0;
+      }
+
+      int *arr = malloc(length * sizeof(int));
+      if (arr == NULL) {
+	  return (struct Range) { NULL, 0 };
+      }
+
+      for (size_t i = 0; i < length; ++i) {
+	  arr[i] = start + i * step;
+      }
+
+      return (struct Range) { arr, length };
+  }
+
+  void free_range(struct Range r) {
+      free(r.array);
+  }
+
+  void print_range(struct Range r) {
+      printf("(");
+      for (size_t i = 0; i < r.size; ++i) {
+	  printf("%d, ", r.array[i]);
+      }
+      printf(")\n");
+  }
+
+  int main() {
+      struct Range r = range(0, 10, 1);
+      if (r.array) print_range(r);
+      free_range(r);
+
+      r = range(5, -10, -3);
+      if (r.array) print_range(r);
+      free_range(r);
+
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+: (5, 2, -1, -4, -7, )
+
 Write a function to compute the prime factors of a given number.
 #+begin_src C
   int *prime_factors(int n);
 #+end_src
+
+Here, an ~int *~ suffices. An ~int~ in C can have at most ~8 *
+sizeof(int) - 1~ prime factors (why?). This is a small amount of
+memory. We can put a ~0~ as the last element in the array to signal
+that the prime factors has ended. That is, for input ~60~, we can
+output the just the base address of the array ~{ 2, 2, 3, 5, 0
+}~. This works because ~0~ is never a valid divisor. This data
+representation of terminating a sequence with a special element is
+called the sentinel technique. Examples of this include a full-stop
+(".") to end a sentence in English, the word "over" to end a sentence
+when speaking over radio.
+
+#+begin_src C :results output :exports both
+    #include <stdio.h>
+  #include <stdlib.h>
+
+  int* prime_factors(int n)
+  {
+      if (n <= 1)
+	  return NULL;
+
+      int *factors = malloc(8 * sizeof(int) * sizeof(int));
+      int index = 0;
+
+      while (n % 2 == 0) {
+	  factors[index++] = 2;
+	  n /= 2;
+      }
+
+      for (int i = 3; i * i <= n; i += 2) {
+	  while (n % i == 0) {
+	      factors[index++] = i;
+	      n /= i;
+	  }
+      }
+
+      if (n > 2)
+	  factors[index++] = n;
+
+      factors[index] = 0;
+
+      return factors;
+  }
+
+  void print_prime_factors(int *factors)
+  {
+      int i;
+      for (i = 0; factors[i+1] != 0; i++)
+	  printf("%d * ", factors[i]);
+      printf("%d\n", factors[i]);
+  }
+
+  int main()
+  {
+      int xs[] = { 13, 39, 56, 1000007, 1000000007, 0 };
+
+      for (size_t i = 0; xs[i]; ++i) {
+	int *factors = prime_factors(xs[i]);
+
+	if (factors != NULL) {
+	  printf("%12d = ", xs[i]);
+	  print_prime_factors(factors);
+	}
+
+	free(factors);
+      }
+
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+:         13 = 13
+:         39 = 3 * 13
+:         56 = 2 * 2 * 2 * 7
+:    1000007 = 29 * 34483
+: 1000000007 = 1000000007
 
 Implemenet [[https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes][Sieve of Eratosthenes]] to figure out the prime numbers and
 composite numbers below a given number. Use the following skeleton to
