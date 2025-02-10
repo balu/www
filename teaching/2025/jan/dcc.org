@@ -1405,7 +1405,6 @@ algorithm that uses at most ~3n/2~ comparisons.
 
 Observe that for every two elements in the array, we do three comparisons.
 
-
 ** Dynamic memory allocation
 
 Implement Python's ~range()~.
@@ -1592,3 +1591,102 @@ get started.
 Read about [[https://en.wikipedia.org/wiki/Josephus_problem][Josephus problem]]. Implement a program to determine the
 survivor for a user entered ~n~ and ~k~. Use the previous program as a
 guideline.
+
+
+
+** Review
+
+1. Design a scheme to represent a date in this semester in a
+   ~uint8_t~. Write a function ~void print_date(uint8_t u)~ that will
+   show this date in a readable form.
+2. Write a function ~uint8_t average(uint8_t a, uint8_t b)~. This
+   function should work for any two ~uint8_t~, even 255 and 255.
+3. Implement a ~struct angle~ to represent an angle in a 2D plane. Use
+   the earlier ~struct point~ to define this.
+4. Write the function ~bool is_right(struct angle a)~ to check whether
+   the angle is a right angle.
+5. Write functions ~is_acute()~, ~is_obtuse()~, ~is_straight()~,
+   ~is_reflex()~, and ~is_full()~ for checking for various types of
+   angles.
+6. Define a ~struct triangle~ to represent triangles and write a
+   ~double area(struct triangle t)~ to calculate its area.
+7. Write a function ~struct Range gp(int a, int n, int r)~ to
+   generate the first ~n~ terms of a geometric progression with
+   starting number ~a~ and common ratio ~r~.
+8. Read [[http://stanleyrabinowitz.com/bibliography/spigot.pdf][the e-spigot algorithm for calculating digits of e]]. Use it for
+   defining the function ~int *e(int ndigits)~.
+9. Define ~struct bignum { int *digits; size_t ndigits };~ to
+   represent arbitrarily large natural numbers. Define:
+   ~struct bignum bignum_add(struct bignum a, struct bignum b)~ to add
+   two such numbers. Write a function ~void print_bignum(struct bignum a)~
+   to print such numbers. An example use of these functions is given below.
+   #+begin_src C
+     struct bignum a = make_bignum("123451298289357892734587108947235");
+     struct bignum b = make_bignum("289347508783452346781234534574562");
+     print_bignum(bignum_add(a, b));
+   #+end_src
+10. Write ~int bignum_cmp struct bignum a, struct bignum b)~. This
+    function should return ~0~ if ~a~ and ~b~ are equal, ~-1~ if ~a <
+    b~ and ~1~ if ~a > b~.
+   
+#+begin_src C :results output :exports none
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <assert.h>
+
+  int *e(int ndigits)
+  {
+      int n = ndigits + 2; // See Lemma 3.
+
+      // We use only A[1],...A[n].
+      int *A = malloc((n + 1) * sizeof(int));
+      assert(A);
+
+      int *digits = malloc(n * sizeof(int));
+      assert(digits);
+
+      for (size_t i = 1; i <= n; ++i) {
+	  A[i] = 1;
+      }
+
+      for (size_t i = 0; i < n; ++i) {
+	  // Multiply by 10.
+	  for (size_t j = 1; j <= n; ++j) {
+	      A[j] *= 10;
+	  }
+
+	  // Take the fractional part.
+	  for (size_t j = n; j > 1; --j) {
+	      int q = A[j] / (j + 1);
+	      A[j] %= j + 1;
+	      A[j-1] += q;
+	  }
+
+	  // Output the next digit.
+	  digits[i] = A[1] / 2;
+	  A[1] %= 2;
+      }
+
+      free(A);
+      return digits;
+  }
+
+  void show_e(int ndigits)
+  {
+      int *xs = e(ndigits);
+      printf("e is approximately 2.");
+      for (size_t i = 0; i < ndigits; ++i) {
+	  printf("%d", xs[i]);
+      }
+      free(xs);
+  }
+
+  int main()
+  {
+      show_e(30);
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: e is approximately 2.718281828459045235360287471352
