@@ -1567,31 +1567,94 @@ when speaking over radio.
 Implement [[https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes][Sieve of Eratosthenes]] to figure out the prime numbers and
 composite numbers below a given number. Use the following skeleton to
 get started.
-#+begin_src C
+#+begin_src C :results output :exports both
   #include <stdio.h>
+  #include <stdbool.h>
+  #include <stdlib.h>
 
   int main()
   {
-      int n;
+      int n = 30;
 
-      scanf("%d", &n); // Make the user type in n.
+      bool *elts = malloc(n * sizeof(bool));
 
-      bool *elts = ...; // How much memory?
+      for (size_t i = 0; i < n; ++i) elts[i] = true;
 
-      // Initialize the members of elts.
+      for (size_t d = 2; d < n; ++d) {
+	  if (!elts[d]) continue;
 
-      // Implement sieve here.
-
-      for (size_t i = 0; i < n; ++i) {
-	  printf ("%d is a %s.\n", i, elts[i] ? "prime" : "composite");
+	  for (size_t m = 2 * d; m < n; m += d) {
+	      elts[m] = false;
+	  }
       }
+
+      printf("primes under %d: (", n);
+      for (size_t i = 2; i < n; ++i) {
+	  if (elts[i]) printf("%d, ", i);
+      }
+      printf(")\n");
   }
 #+end_src
+
+#+RESULTS:
+: primes under 30: (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, )
 
 Read about [[https://en.wikipedia.org/wiki/Josephus_problem][Josephus problem]]. Implement a program to determine the
 survivor for a user entered ~n~ and ~k~. Use the previous program as a
 guideline.
 
+#+begin_src C :results output :exports both
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <stdbool.h>
+
+  size_t next_alive(bool *persons, size_t n, size_t cur)
+  {
+      cur = (cur + 1) % n;
+      while (!persons[cur]) cur = (cur + 1) % n;
+      return cur;
+  }
+
+  size_t josephus(size_t n, size_t k)
+  {
+      bool *persons = malloc(n * sizeof(bool));
+      for (size_t i = 0; i < n; ++i) persons[i] = true;
+
+      size_t ndead = 0;
+      size_t cur = 0;
+      while (ndead < n-1) {
+	  size_t i = 1;
+	  while (i < k) {
+	      ++i;
+	      cur = next_alive(persons, n, cur);
+	  }
+	  persons[cur] = false;
+	  ++ndead;
+	  cur = next_alive(persons, n, cur);
+      }
+      return cur+1;
+  }
+
+  int main()
+  {
+      struct { size_t n, k; } xs[] = {
+	  { .n = 41, .k = 3 },
+	  { .n = 10, .k = 2 },
+	  { .n = 15, .k = 2 },
+      };
+      for (size_t i = 0; i < sizeof(xs)/sizeof(xs[0]); ++i)
+	  printf (
+		  "josephus(%zu, %zu) = %zu.\n",
+		  xs[i].n, xs[i].k,
+		  josephus(xs[i].n, xs[i].k));
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: josephus(41, 3) = 31.
+: josephus(10, 2) = 5.
+: josephus(15, 2) = 15.
 
 
 ** Review
@@ -1638,7 +1701,8 @@ guideline.
   {
       int n = ndigits + 2; // See Lemma 3.
 
-      // We use only A[1],...A[n].
+      // We use A[1],...A[n] as in the algorithm.
+      // A[0] will store the generated digit.
       int *A = malloc((n + 1) * sizeof(int));
       assert(A);
 
@@ -1650,21 +1714,22 @@ guideline.
       }
 
       for (size_t i = 0; i < n; ++i) {
+	  A[0] = 0;
+
 	  // Multiply by 10.
 	  for (size_t j = 1; j <= n; ++j) {
 	      A[j] *= 10;
 	  }
 
 	  // Take the fractional part.
-	  for (size_t j = n; j > 1; --j) {
+	  for (size_t j = n; j >= 1; --j) {
 	      int q = A[j] / (j + 1);
 	      A[j] %= j + 1;
 	      A[j-1] += q;
 	  }
 
 	  // Output the next digit.
-	  digits[i] = A[1] / 2;
-	  A[1] %= 2;
+	  digits[i] = A[0];
       }
 
       free(A);
@@ -1683,10 +1748,10 @@ guideline.
 
   int main()
   {
-      show_e(30);
+      show_e(10);
       return 0;
   }
 #+end_src
 
 #+RESULTS:
-: e is approximately 2.718281828459045235360287471352
+: e is approximately 2.7182818284
