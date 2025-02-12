@@ -917,3 +917,135 @@ Observe how the ~x~ in the body of ~f~ gets matched to the ~x~
 introduced by the outermost ~let~ through the ~i~ field in ~Var~. Now,
 we can adjust the ~e()~ to lookup values based on both the variable
 name and its id and obtain the correct variable as in static scoping.
+
+** Bytecode generation
+
+Let us generate bytecode for a calculator. First, we have to define
+bytecode instructions, their format, and write a VM to execute the
+bytecode. We will use a simple two-byte format:
+- First byte is the opcode.
+- Second byte is the immediate operand if any.
+
+We will write the bytecode VM in C. Let us define the opcodes.
+#+NAME: instruction-def
+#+begin_src C
+    enum op
+    {
+	HALT = 0,
+	NOP,
+	PUSH,
+	POP,
+	ADD,
+	SUB,
+	MUL,
+	NEG,
+    };
+#+end_src
+
+The interpreter evaluates and returns the final value on stack.
+#+NAME: execute-def
+#+begin_src C
+  #include <stdio.h>
+  #include <stdint.h>
+  int execute(uint8_t *insns)
+  {
+    size_t ip = 0;
+    int operand[100], top = 0;
+  #define PUSH(x) (operand[top++] = x)
+  #define POP(x) (operand[--top])	
+
+    int l, r;
+    while (1) {
+      switch (insns[ip]) {
+      case HALT: goto end;
+      case NOP: break;
+      case PUSH:
+	PUSH(insns[ip+1]); break;
+      case ADD:
+	r = POP(); l = POP(); PUSH(l+r); break;
+      case SUB:
+	r = POP(); l = POP(); PUSH(l-r); break;
+      case MUL:
+	r = POP(); l = POP(); PUSH(l*r); break;
+      case NEG:
+	l = POP(); PUSH(-l); break;
+      }
+      ip += 2; // No control-flow.
+    }
+   end:
+    return POP();
+  #undef PUSH
+  #undef POP
+  }
+#+end_src
+
+Now, let us test the interpreter with some hand-crafted bytecode.
+#+begin_src C :results output :exports both :noweb yes
+  <<instruction-def>>
+  <<execute-def>>
+  int main()
+  {
+      uint8_t insns[] = {
+	PUSH, 2,
+	PUSH, 3,
+	ADD , 0, // 0 is ignored.
+	PUSH, 5,
+	MUL , 0,
+	HALT, 0,
+      };
+      printf("%d\n", execute(insns));
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 25
+
+Now, we just have to take an AST for an expression into an array of
+bytes and write it out to a file.
+#+begin_src python :session leroy :results none
+  HALT, NOP, PUSH, POP, ADD, SUB, MUL, NEG = range(8)
+
+  def do_codegen(t: AST, code):
+      match t:
+          case Number(v): # Careful. I don't handle large numbers here.
+              code.append(PUSH)
+              code.append(int(v))
+          case BinOp("+", l, r):
+              do_codegen(l, code)
+              do_codegen(r, code)
+              code.append(ADD)
+              code.append(0)
+          case BinOp("-", l, r):
+              do_codegen(l, code)
+              do_codegen(r, code)
+              code.append(SUB)
+              code.append(0)
+          case BinOp("*", l, r):
+              do_codegen(l, code)
+              do_codegen(r, code)
+              code.append(MUL)
+              code.append(0)
+      return code
+
+  def codegen(t):
+      c = do_codegen(t, bytearray())
+      c.append(HALT)
+      return c
+#+end_src
+
+Let us create a sample AST and check the output bytes.
+#+begin_src python :session leroy :results none
+  expr_cg = BinOp ("*", BinOp("+", Number("2"), Number("3")), Number("5"))
+#+end_src
+
+And, finally:
+#+begin_src python :session leroy :results output :exports both
+  print(codegen(expr_cg))
+#+end_src
+
+#+RESULTS:
+: bytearray(b'\x02\x02\x02\x03\x04\x00\x02\x05\x06\x00\x00')
+
+Connecting all these pieces by appropriate file-handling is left as an
+exercise.
