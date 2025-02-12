@@ -6,10 +6,10 @@ Gandhinagar.
 I am advising two doctoral scholars, Rohit Narayanan and Priyanshi
 Agrawal; and one Master's student, Alay Patel.
 
-I am teaching [[file:../teaching/2024/aug/dm.org][ES214: Discrete Mathematics]] in academic year 2024-25,
-semester I (Jul-Nov) and guiding the following semester-long projects:
-- Hazard-free formulas for MUX.
-- Development of a light-weight competitive programming online judge.
+I am teaching [[file:../teaching/2025/jan/compilers.org][Compilers]] and [[file:../teaching/2025/jan/dcc.org][Data-Centric Computing]] in academic year
+2024-25, semester II (Jan-Apr) and guiding the following semester-long
+projects:
+- A stacking Wayland WM from tinywl.
 
 Long-term, I am trying to complete two textbooks -- one on fundamental
 datastructures and algorithms and another on reading, understanding,
