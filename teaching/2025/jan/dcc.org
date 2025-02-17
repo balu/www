@@ -1690,7 +1690,11 @@ guideline.
 10. Write ~int bignum_cmp(struct bignum a, struct bignum b)~. This
     function should return ~0~ if ~a~ and ~b~ are equal, ~-1~ if ~a <
     b~ and ~1~ if ~a > b~.
-   
+
+The following is an implementation in C. For generating $n$ digits,
+this procedure needs roughly $n^2$ operations. On today's computers,
+this means that this algorithm is infeasible for generating a million
+digits of $e$ due to time constraints.
 #+begin_src C :results output :exports both
   #include <stdio.h>
   #include <stdlib.h>
@@ -1755,92 +1759,130 @@ guideline.
 #+RESULTS:
 : e is approximately 2.7182818284
 
+We can implement arbitrarily large numbers by storing the digits in an
+array. We store the lowest digit first as this is how addition
+accesses the digits. To add two n-digit numbers, it takes roughly n
+operations. That is, time scales linearly with input size.
 #+begin_src C :results output :exports both
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <string.h>
+      #include <stdio.h>
+      #include <stdlib.h>
+      #include <string.h>
+      #include <stdbool.h>
 
-  struct bignum {
-      int *digits;
-      size_t ndigits;
-  };
-
-  struct bignum make(const char *s)
-  {
-      size_t n = strlen(s);
-      int *digits = malloc(n * sizeof(int));
-      size_t i = n-1;
-      size_t j = 0;
-      while (j < n) {
-          digits[j] = s[i] - '0';
-          --i;
-          ++j;
-      }
-      return (struct bignum) {
-          .digits = digits,
-          .ndigits = n
+      struct bignum {
+          int *digits;
+          size_t ndigits;
       };
-  }
 
-  size_t max(size_t a, size_t b)
-  {
-      return a >= b ? a : b;
-  }
+      struct bignum make(const char *s)
+      {
+          size_t n = strlen(s);
+          int *digits = malloc(n * sizeof(int));
+          size_t i = n-1;
+          size_t j = 0;
+          while (j < n) {
+              digits[j] = s[i] - '0';
+              --i;
+              ++j;
+          }
+          return (struct bignum) {
+              .digits = digits,
+              .ndigits = n
+          };
+      }
 
-  struct bignum add(struct bignum a, struct bignum b)
-  {
-      size_t an = a.ndigits;
-      size_t bn = b.ndigits;
-      size_t cn = max(an, bn) + 1;
+      size_t max(size_t a, size_t b)
+      {
+          return a >= b ? a : b;
+      }
 
-      int *c = malloc(cn * sizeof(int));
+      struct bignum add(struct bignum a, struct bignum b)
+      {
+          size_t an = a.ndigits;
+          size_t bn = b.ndigits;
+          size_t cn = max(an, bn) + 1;
 
-      size_t i = 0, j = 0, k = 0;
-      int carry = 0;
-      while (i < an && j < bn) {
-          int d = a.digits[i++] + b.digits[j++] + carry;
-          if (d > 9) {
-              c[k++] = d - 10;
-              carry = 1;
-          } else {
-              c[k++] = d;
+          int *c = malloc(cn * sizeof(int));
+
+          size_t i = 0, j = 0, k = 0;
+          int carry = 0;
+          while (i < an && j < bn) {
+              int d = a.digits[i++] + b.digits[j++] + carry;
+              if (d > 9) {
+                  c[k++] = d - 10;
+                  carry = 1;
+              } else {
+                  c[k++] = d;
+                  carry = 0;
+              }
+          }
+          while (i < an) {
+              c[k++] = a.digits[i++] + carry;
               carry = 0;
           }
+          while (j < bn) {
+              c[k++] = b.digits[j++] + carry;
+              carry = 0;
+          }
+          if (carry)
+              c[k++] = carry;
+          return (struct bignum) {
+              .digits = c,
+              .ndigits = k
+          };
       }
-      while (i < an) {
-          c[k++] = a.digits[i++] + carry;
-          carry = 0;
-      }
-      while (j < bn) {
-          c[k++] = b.digits[j++] + carry;
-          carry = 0;
-      }
-      if (carry)
-          c[k++] = carry;
-      return (struct bignum) {
-          .digits = c,
-          .ndigits = k
-      };
-  }
 
-  void print_bignum(struct bignum a)
-  {
-      for (size_t i = 1; i <= a.ndigits; ++i)
-          printf("%d", a.digits[a.ndigits-i]);
-  }
+      bool bignum_eq(struct bignum a, struct bignum b)
+      {
+          if (a.ndigits != b.ndigits) return false;
+          for (size_t i = 0; i < a.ndigits; ++i)
+              if (a.digits[i] != b.digits[i]) return false;
+          return true;
+      }
 
-  int main()
-  {
-      struct bignum a = make("9999999999");
-      struct bignum b = make("9999999999");
-      print_bignum(a); printf(" + "); print_bignum(b);
-      printf(" = "); print_bignum(add(a, b)); printf(".\n");
-      return 0;
-  }
+      bool bignum_le(struct bignum a, struct bignum b)
+      {
+          if (a.ndigits < b.ndigits) return true;
+          if (b.ndigits < a.ndigits) return false;
+          for (size_t i = 1; i <= a.ndigits; ++i)
+                  if (a.digits[a.ndigits-i] < b.digits[a.ndigits-i])
+                          return true;
+                  else if (b.digits[a.ndigits-i] < a.digits[a.ndigits-i])
+                          return false;
+          return true;
+      }
+
+      int bignum_cmp(struct bignum a, struct bignum b)
+      {
+          if (bignum_eq(a, b)) return 0;
+          if (bignum_le(a, b)) return -1;
+          return 1;
+      }
+
+      void print_bignum(struct bignum a)
+      {
+          for (size_t i = 1; i <= a.ndigits; ++i)
+              printf("%d", a.digits[a.ndigits-i]);
+      }
+
+      int main()
+      {
+          struct bignum a = make("9999999999");
+          struct bignum b = make("9999999999");
+          print_bignum(a); printf(" + "); print_bignum(b);
+          printf(" = "); print_bignum(add(a, b)); printf(".\n");
+
+          struct bignum n1 = make("1000"), n2 = make("999");
+          printf("1000 cmp  999 = %d.\n", bignum_cmp(n1, n2));
+          printf(" 999 cmp 1000 = %d.\n", bignum_cmp(n2, n1));
+          printf("1000 cmp 1000 = %d.\n", bignum_cmp(n1, n1));
+          return 0;
+      }
 #+end_src
 
 #+RESULTS:
 : 9999999999 + 9999999999 = 19999999998.
+: 1000 cmp  999 = 1. 999 cmp 1000 = -1.1000 cmp 1000 = 0.
 
 Try the same addition with "normal" integers.
 #+begin_src C :results output raw :exports both :includes <stdio.h>
