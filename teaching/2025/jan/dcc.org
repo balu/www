@@ -696,13 +696,13 @@ growth of the running time wrt the size. A few examples:
 We are not really interested in finding the values of $a, b, c$
 etc. What we really want to understand is the rate of change. We can
 understand this by computing certain limits. If $f(n)$ is the time,
-then \(\lim_{n\tendsto\infty} f(2n)/f(n)\) tells us how time increases
-when we double the input size. We take $n\tendsto\infty$ as we don't
-really care how long it takes for small inputs. Computing this limit
-for the three examples yield constants 1.42, 2, and 4 which tells us
-how much we can expect time to increase if we double the input
-size. Notice that the values of $a, b, c$ etc. are irrelevant for this
-calculation.
+then limit $n$ tends to $\infty$ $f(2n)/f(n)$ tells us how time
+increases when we double the input size. We take $n$ tends to $\infty$
+as we don't really care how long it takes for small inputs. Computing
+this limit for the three examples yield constants 1.42, 2, and 4 which
+tells us how much we can expect time to increase if we double the
+input size. Notice that the values of $a, b, c$ etc. are irrelevant
+for this calculation.
 
 Let us do some back of the hand calculations to understand the
 absolute growth too. A computer can do roughly $10^8$ basic operations
