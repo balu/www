@@ -1656,7 +1656,6 @@ guideline.
 : josephus(10, 2) = 5.
 : josephus(15, 2) = 15.
 
-
 ** Review
 
 1. Design a scheme to represent a date in this semester in a
@@ -1852,3 +1851,35 @@ Try the same addition with "normal" integers.
 
 #+RESULTS:
 1410065407 + 1410065407 = -1474836482.
+
+
+** Some time-complexity exercises
+
+1. Consider the function ~int fib(int n)~ computing Fibonacci numbers:
+   #+begin_src C
+     int fib(int n)
+     {
+	 if (n <= 1) return 1;
+	 return fib(n-1) + fib(n-2);
+     }
+   #+end_src
+   Try to compute ~fib(n)~ for many values of ~n~. How large an ~n~
+   can be reasonably computed? What is the time complexity of this
+   algorithm? Is there a faster way to compute this?  (Hint: There is
+   an ~n~ time and a ~log(n)~ time algorithm this)
+2. Write ~unsigned int power_of(unsigned int a, unsigned int b)~. What
+   is your solution's time complexity? Is it optimal?
+3. Write the function ~void running_sum(int xs[], size_t n, int
+   sums[])~. After execution, ~sums[i]~ should be ~xs[0] + ... xs[i]~
+   for all ~i~. What is the time complexity of your algorithm?
+4. Write ~bool triplet(int xs[], size_t n)~ to find three distinct (by
+   position, not necessarily value) elements in ~xs~ such that the sum
+   of first two is the third. Assume that the array ~xs~ is sorted in
+   non-decreasing order. What is the time complexity of your
+   algorithm?
+5. Write ~int max_contiguous_sum(int xs[], size_t n)~ to return the
+   maximum sum obtained from a sub-array of ~xs~. For example, if the
+   input is ~{ 90, -100, 20, 3, -45, 60, -79, 13 }~, the answer is
+   ~38~. What is the time complexity of your solution? Note that if
+   the contiguous restriction is not present, we can simply pick all
+   positive numbers in the array.
