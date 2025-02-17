@@ -72,7 +72,7 @@ or this one?
 | Rahul | Q2         |     3 |
 How do you determine which is better?
 
-** Low-level Data
+** Low-level data
 
 Data has types. The type determines meaning and valid operations on
 data. In a computer, everything is represented as a sequence of
@@ -680,11 +680,48 @@ operations. We should get a pointer to the predecessor to do this.
 
 ** Fundamental algorithms
 
+*** Time complexity
+
+Every algorithm has an associated time complexity. First, we define
+the size of the input for the problem and then measure the rate of
+growth of the running time wrt the size. A few examples:
+1. Consider ~is_prime(n)~. We can consider magnitude of input ~n~ to
+   be the size of the input. Then, the straight-forward algorithm
+   executes for at most $a\sqrt{n} + b$ time for $a, b\neq 0$.
+2. Consider the problem of adding two n-digit numbers. The addition
+   with carry algorithm takes $a'n+b'$ time for some $a', b'\neq 0$.
+3. Consider multiplying two n-digit numbers. It takes
+   $a''n^2+b''n+c''$ for some non-zero $a'', b'', c''$.
+
+We are not really interested in finding the values of $a, b, c$
+etc. What we really want to understand is the rate of change. We can
+understand this by computing certain limits. If $f(n)$ is the time,
+then $\lim_{n\tendsto\infty} f(2n)/f(n)$ tells us how time increases
+when we double the input size. We take $n\tendsto\infty$ as we don't
+really care how long it takes for small inputs. Computing this limit
+for the three examples yield constants 1.42, 2, and 4 which tells us
+how much we can expect time to increase if we double the input
+size. Notice that the values of $a, b, c$ etc. are irrelevant for this
+calculation.
+
+Let us do some back of the hand calculations to understand the
+absolute growth too. A computer can do roughly $10^8$ basic operations
+per second. So, it can add two million-digit numbers in under a
+second. But, to multiply two million-digit numbers, it will take more
+than two hours. This tells us that we need better methods if we want
+to multiply million-digit numbers on a computer.
+
+Consider the problem of computing $\lceil\log_2(n)\rceil$ given
+$n$. It takes only $a\log(n)+b$ steps for some $a, b$. This function
+grows slower than the previous examples. Doubling the input size makes
+the algorithm do $a$ more basic operations. Or, put differently to
+double the running-time, you have to square the input.
+
 *** Searching
 
 *** Sorting
 
-*** Map, Filter, and Reduce
+*** Map, filter, and reduce
 
 * Labs
 
@@ -1893,7 +1930,6 @@ Try the same addition with "normal" integers.
 
 #+RESULTS:
 1410065407 + 1410065407 = -1474836482.
-
 
 ** Some time-complexity exercises
 
