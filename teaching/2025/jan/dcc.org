@@ -1692,7 +1692,7 @@ guideline.
     function should return ~0~ if ~a~ and ~b~ are equal, ~-1~ if ~a <
     b~ and ~1~ if ~a > b~.
    
-#+begin_src C :results output :exports none
+#+begin_src C :results output :exports both
   #include <stdio.h>
   #include <stdlib.h>
   #include <assert.h>
@@ -1755,3 +1755,100 @@ guideline.
 
 #+RESULTS:
 : e is approximately 2.7182818284
+
+#+begin_src C :results output :exports both
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+
+  struct bignum {
+      int *digits;
+      size_t ndigits;
+  };
+
+  struct bignum make(const char *s)
+  {
+      size_t n = strlen(s);
+      int *digits = malloc(n * sizeof(int));
+      size_t i = n-1;
+      size_t j = 0;
+      while (j < n) {
+          digits[j] = s[i] - '0';
+          --i;
+          ++j;
+      }
+      return (struct bignum) {
+          .digits = digits,
+          .ndigits = n
+      };
+  }
+
+  size_t max(size_t a, size_t b)
+  {
+      return a >= b ? a : b;
+  }
+
+  struct bignum add(struct bignum a, struct bignum b)
+  {
+      size_t an = a.ndigits;
+      size_t bn = b.ndigits;
+      size_t cn = max(an, bn) + 1;
+
+      int *c = malloc(cn * sizeof(int));
+
+      size_t i = 0, j = 0, k = 0;
+      int carry = 0;
+      while (i < an && j < bn) {
+          int d = a.digits[i++] + b.digits[j++] + carry;
+          if (d > 9) {
+              c[k++] = d - 10;
+              carry = 1;
+          } else {
+              c[k++] = d;
+              carry = 0;
+          }
+      }
+      while (i < an) {
+          c[k++] = a.digits[i++] + carry;
+          carry = 0;
+      }
+      while (j < bn) {
+          c[k++] = b.digits[j++] + carry;
+          carry = 0;
+      }
+      if (carry)
+          c[k++] = carry;
+      return (struct bignum) {
+          .digits = c,
+          .ndigits = k
+      };
+  }
+
+  void print_bignum(struct bignum a)
+  {
+      for (size_t i = 1; i <= a.ndigits; ++i)
+          printf("%d", a.digits[a.ndigits-i]);
+  }
+
+  int main()
+  {
+      struct bignum a = make("999999999999");
+      struct bignum b = make("999999999999");
+      print_bignum(a); printf(" + "); print_bignum(b);
+      printf(" = "); print_bignum(add(a, b)); printf(".\n");
+      return 0;
+  }
+#+end_src
+
+#+RESULTS:
+: 999999999999 + 999999999999 = 1999999999998
+
+Try the same addition with "normal" integers.
+#+begin_src C :results output :exports both :includes <stdio.h>
+  int a = 999999999;
+  int b = 999999999;
+  printf("%d + %d = %d.\n", a, b, a+b);
+#+end_src
+
+#+RESULTS:
+: 999999999 + 999999999 = 1999999998.
