@@ -716,7 +716,6 @@ double the running-time, you have to square the input.
 
 *** Sorting
 
-
 * Labs
 
 ** C datatypes
