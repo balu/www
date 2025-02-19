@@ -672,11 +672,6 @@ operations. We should get a pointer to the predecessor to do this.
 
 **** Trees
 
-*** Products in Python
-
-*** Sums in Python
-
-*** Iterators and generators in Python
 
 ** Fundamental algorithms
 
@@ -721,7 +716,6 @@ double the running-time, you have to square the input.
 
 *** Sorting
 
-*** Map, filter, and reduce
 
 * Labs
 
