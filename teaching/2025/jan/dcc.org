@@ -2056,8 +2056,8 @@ Try the same addition with "normal" integers.
    algorithm?
 5. Write ~int max_contiguous_sum(int xs[], size_t n)~ to return the
    maximum sum obtained from a sub-array of ~xs~. For example, if the
-   input is ~{ 90, -100, 20, 3, -45, 60, -79, 13 }~, the answer is
-   ~38~. What is the time complexity of your solution? Note that if
+   input is ~{ -2, 1, -3, 4, -1, 2, 1, -5, 4 }~, the answer is
+   ~6~. What is the time complexity of your solution? Note that if
    the contiguous restriction is not present, we can simply pick all
    positive numbers in the array.
 
