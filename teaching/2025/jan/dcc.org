@@ -2060,3 +2060,20 @@ Try the same addition with "normal" integers.
    ~38~. What is the time complexity of your solution? Note that if
    the contiguous restriction is not present, we can simply pick all
    positive numbers in the array.
+
+** Linked lists
+
+Implement the following functions and test each of them appropriately.
+
+1. Write a function ~void unlink_next(struct node *here)~ to remove
+   the node after ~here~ in constant-time from the list.
+2. A linked list is circular if the ~next~ pointer of some node points
+   to an earlier node in the list. Write a function ~bool exists_cycle(struct node *head)~
+   that returns ~true~ iff the list ~head~ has a cycle.
+3. Modify the linked list node structure to hold pointers to both
+   previous and next nodes. What should be the previous of first node?
+4. Write a function ~void insert_before(struct node *here, struct node *what);~
+   to insert a node ~what~ before ~here~ in the list. This should be
+   constant-time.
+5. Write a function ~void unlink(struct node *here)~ to remove the
+   node ~here~ from a list. This should be constant-time.
