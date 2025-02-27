@@ -1,4 +1,5 @@
 #+TITLE: Compilers
+#+AUTHOR: Balagopal Komarath
 
 * Policy
 

@@ -1,4 +1,5 @@
 #+TITLE: Now -- Balagopal Komarath
+#+OPTIONS: toc:nil
 
 I am spending most of my time on research and teaching courses at IIT
 Gandhinagar.

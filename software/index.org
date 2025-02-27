@@ -1,4 +1,5 @@
 #+TITLE: Software -- Balagopal Komarath
+#+OPTIONS: toc:nil
 
 I use libre software whenever possible. Exceptions include work
 related software (cloud-based offie suites for collaboration with

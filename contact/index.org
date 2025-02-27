@@ -1,4 +1,5 @@
 #+TITLE: Contact -- Balagopal Komarath
+#+OPTIONS: toc:nil
 
 My office is AB13/405B at IIT Gandhinagar. Email me and make sure that
 I will be in my office before you visit my office.

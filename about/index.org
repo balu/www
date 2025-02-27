@@ -1,4 +1,5 @@
 #+TITLE: About -- Balagopal Komarath
+#+OPTIONS: toc:nil
 
 I am a researcher who works in computational complexity theory,
 algorithms, and CS education.
