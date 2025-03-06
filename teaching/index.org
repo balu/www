@@ -2,6 +2,8 @@
 
 The courses I have taught or co-taught in reverse chronological order.
 
+- [[file:2025/jan/compilers.org][Compilers]]
+- [[file:2025/jan/dcc.org][Data-Centric Computing]]
 - [[file:2024/aug/dm.org][Discrete mathematics]]
 - [[file:2024/jan/cct.org][Computational complexity theory]]
 - [[file:2024/jan/toc.org][Theory of computing]]
