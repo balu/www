@@ -1,5 +1,7 @@
 #+TITLE: Python is not an Acceptable ML
-#+OPTIONS: toc:nil num:nil
+#+AUTHOR: Balagopal Komarath
+#+DATE: <2022-11-28 Mon>
+#+OPTIONS: toc:nil
 
 The programming language Python is a popular fixture in introductory
 programming courses. The adoption of Python as a programming language

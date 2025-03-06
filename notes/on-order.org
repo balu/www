@@ -1,4 +1,7 @@
 #+TITLE: On Order
+#+AUTHOR: Balagopal Komarath
+#+DATE: <2023-07-23 Sun>
+#+OPTIONS: toc:nil
 
 A /partial order/ is a binary relation on sets, usually denoted
 $\leq$, defined as satisfying the following three properties for all

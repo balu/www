@@ -1,4 +1,7 @@
 #+TITLE: Name Modularity
+#+AUTHOR: Balagopal Komarath
+#+DATE: <2024-04-30 Tue>
+#+OPTIONS: toc:nil
 
 When developing large scale software, it is a necessity for multiple
 programmers/teams to be able to develop modules of the software

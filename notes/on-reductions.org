@@ -1,4 +1,7 @@
 #+TITLE: On Reductions
+#+AUTHOR: Balagopal Komarath
+#+DATE: <2024-07-04 Thu>
+#+OPTIONS: toc:nil
 
 Presentation of reductions are usually cluttered with non-essential
 ideas like decision problems, the mathematical beauty of defining

@@ -1,4 +1,7 @@
 #+TITLE: Programming Projects for Beginners
+#+AUTHOR: Balagopal Komarath
+#+DATE: <2023-01-05 Thu>
+#+OPTIONS: toc:nil
 
 This page contains a collection of small-size programming projects
 suitable for students who have just completed an introductory
