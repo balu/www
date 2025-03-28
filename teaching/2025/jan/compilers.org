@@ -1050,3 +1050,273 @@ And, finally:
 
 Connecting all these pieces by appropriate file-handling is left as an
 exercise.
+
+** Bytecode execution for call and return
+
+We will write bytecode equivalent of:
+#+begin_src
+  fun f(x) is x + 1 in f(42) end
+#+end_src
+which evaluates to 43 to illustrate CALL and RETURN.
+
+The bytecode instructions are:
+#+begin_src python :python ".compilers/.venv/bin/python" :session minf :results none
+  class OC:
+      JF, PUSH, ADD, CALL, RET, GET, HALT = range(1, 8)
+#+end_src
+
+The above code is then compiled into the following bytecode:
+#+begin_src python :session minf :results none
+  sample = [
+      (OC.JF, 5), # Jump to after the function body.
+      (OC.GET, "x"),
+      (OC.PUSH, 1),
+      (OC.ADD, None),
+      (OC.RET, None),
+      (OC.PUSH, 42),
+      (OC.GET, "f"),
+      (OC.CALL, None),
+      (OC.HALT, None)
+  ]
+#+end_src
+To simplify discussion, I keep them as Python list. The real bytecode
+will be a sequence of bytes that encodes the above list.
+
+We will discuss the bytecode evaluator first. The values in stack are
+either numbers or functions. We need objects corresponding to them.
+#+begin_src python :session minf :results none
+  from dataclasses import dataclass
+
+  @dataclass
+  class NumObj:
+      n: int
+
+      def __repr__(self):
+          return f"{self.n}"
+
+  @dataclass
+  class FunObj:
+      e: int # The entry point
+      a: str # The parameter name
+#+end_src
+
+For executing functions, we need call frames.
+#+begin_src python :session minf :results none
+  @dataclass
+  class CallFrame:
+      f: FunObj # The function object
+      v: dict # arguments and locals
+      r: int # The return address
+#+end_src
+
+After compiling the above bytecode, the compiler should create the following
+function object to encode f.
+#+begin_src python :session minf :results none
+  f = FunObj(1, "x")
+#+end_src
+The code generator should create both the bytecode and a dictionary
+that maps names to corresponding global objects.
+
+#+begin_src python :session minf :results none
+  @dataclass
+  class Code:
+      b: list # The bytecode
+      o: dict # The map
+#+end_src
+
+For our sample program:
+#+begin_src python :session minf :results none
+  code = Code(sample, { "f" : f })
+#+end_src
+
+Now, the function that actually executes the bytecode. We return the
+operand stack at the end to observe the final value.
+#+begin_src python :session minf :results none
+  def execute(code):
+      ip = 0  # The current instruction.
+      op = [] # Operand stack. Holds NumObjs or FunObjs.
+      cs = [] # Call stack. Holds CallFrames.
+
+      # We initialize the call stack with call frame of main()
+      # In our example, the main() contains all code in the file
+      # like in Python.
+      c = CallFrame(FunObj(0, "_unused"), {}, None)
+      c.v = code.o
+      cs.append(c)
+
+      while True:
+          match code.b[ip]:
+              case (OC.HALT, _):
+                  return op
+              case (OC.JF, off):
+                  ip += off
+              case (OC.PUSH, val):
+                  op.append(NumObj(val))
+                  ip += 1
+              case (OC.ADD, _):
+                  left = op.pop()
+                  right = op.pop()
+                  op.append(NumObj(left.n+right.n))
+                  ip += 1
+              case (OC.CALL, _):
+                  f = op.pop()
+                  x = op.pop()
+                  c = CallFrame(f, { f.a : x }, ip+1)
+                  cs.append(c)
+                  ip = f.e
+              case (OC.RET, _):
+                  ip = cs[-1].r
+                  cs.pop()
+              case (OC.GET, name):
+                  op.append(cs[-1].v[name])
+                  ip += 1
+#+end_src
+
+Finally, we execute the code:
+#+begin_src python :session minf :results output :exports both
+  print(execute(code))
+#+end_src
+
+#+RESULTS:
+: [43]
+
+Let us write the function:
+#+begin_src
+  fun f(x) is x+1 in fun g(y) is f(y+2) in g(42) end end
+#+end_src
+
+The corresponding bytecode is:
+#+begin_src python :session minf :results none
+  sample2 = [
+      (OC.JF, 5),
+      (OC.GET, "x"),
+      (OC.PUSH, 1),
+      (OC.ADD, None),
+      (OC.RET, None),
+      (OC.JF, 7),
+      (OC.GET, "y"),
+      (OC.PUSH, 2),
+      (OC.ADD, None),
+      (OC.GET, "f"),
+      (OC.CALL, None),
+      (OC.RET, None),
+      (OC.PUSH, 42),
+      (OC.GET, "g"),
+      (OC.CALL, None),
+      (OC.HALT, None)
+  ]
+#+end_src
+
+The new code is:
+#+begin_src python :session minf :results none
+  code2 = Code(sample2, { "f" : FunObj(1, "x"), "g" : FunObj(6, "y") })
+#+end_src
+
+The call to f() in g() can only find the function object for f() in
+main()'s stack frame. So we need to search backwards when executing
+GET. This is the only change required in the execute().
+#+begin_src python :session minf :results none
+  def execute2(code):
+      ip = 0  # The current instruction.
+      op = [] # Operand stack. Holds NumObjs or FunObjs.
+      cs = [] # Call stack. Holds CallFrames.
+
+      # We initialize the call stack with call frame of main()
+      # In our example, the main() contains all code in the file
+      # like in Python.
+      c = CallFrame(FunObj(0, "_unused"), {}, None)
+      c.v = code.o
+      cs.append(c)
+
+      while True:
+          match code.b[ip]:
+              case (OC.HALT, _):
+                  return op
+              case (OC.JF, off):
+                  ip += off
+              case (OC.PUSH, val):
+                  op.append(NumObj(val))
+                  ip += 1
+              case (OC.ADD, _):
+                  left = op.pop()
+                  right = op.pop()
+                  op.append(NumObj(left.n+right.n))
+                  ip += 1
+              case (OC.CALL, _):
+                  f = op.pop()
+                  x = op.pop()
+                  c = CallFrame(f, { f.a : x }, ip+1)
+                  cs.append(c)
+                  ip = f.e
+              case (OC.RET, _):
+                  ip = cs[-1].r
+                  cs.pop()
+              case (OC.GET, name):
+                  for i in range(len(cs)-1, -1, -1):
+                      if name in cs[i].v:
+                          op.append(cs[i].v[name])
+                          break
+                  ip += 1
+#+end_src
+
+#+begin_src python :session minf :results output :exports both
+  print(execute2(code2))
+#+end_src
+
+#+RESULTS:
+: [45]
+
+The above kind of variable lookup is why in Python the following is:
+#+begin_src python
+  def foo():
+      global x
+      y = 0
+      for i in range(10000):
+          y += x
+      return y
+#+end_src
+slower than:
+#+begin_src python
+  def foo():
+      global x
+      z = x
+      y = 0
+      for i in range(10000):
+          y += z
+      return y
+#+end_src
+
+** Aside: Discriminating unions
+
+The datatype double + double with a discriminating union is not the
+same as double. For example, temperature is a double+double and it
+cannot be collapsed into a double as it will lose the information
+whether it is in celsius or fahrenheit.
+#+begin_src C
+  struct temperature {
+          enum { CELSIUS, FAHRENHEIT } kind;
+          union {
+                  double c;
+                  double f;
+          };
+  };
+#+end_src
+In C, the programmer is expected to only access c when kind is
+CELSIUS. This is not enforced by the compiler.
+
+The following Python types encode the same information. Unlike C, you
+can only access c when temperature is celsius.
+#+begin_src python
+  from dataclasses import dataclass
+
+  class Temperature:
+      pass
+
+  @dataclass
+  class Celsius(Temperature):
+      c: float
+
+  @dataclass
+  class Fahrenheit(Temperature):
+      f: float
+#+end_src
