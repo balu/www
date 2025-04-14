@@ -1,0 +1,11 @@
+#+TITLE: Site Menu - Balagopal Komarath
+#+AUTHOR: Balagopal Komarath
+#+OPTIONS: toc:nil num:nil
+
+- [[file:../about/index.org][About]]
+- [[file:../now/index.org][Now]]
+- [[file:../research/index.org][Research]]
+- [[file:../teaching/index.org][Teaching]]
+- [[file:../notes/index.org][Notes]]
+- [[file:../contact/index.org][Contact]]
+- [[file:../software/index.org][Software]]

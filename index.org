@@ -12,12 +12,3 @@ Before joining [[https://iitgn.ac.in/][IIT Gandhinagar]], I was a postdoctoral r
 [[https://cc.cs.uni-saarland.de/][Markus Bläser's computational complexity group at Saarland
 University]]. I did my PhD from [[https://theory.cse.iitm.ac.in/][Jayalal Sarma's computational complexity
 group at IIT Madras, India]].
-
-* Links
-- [[file:about/index.org][About]]
-- [[file:now/index.org][Now]]
-- [[file:research/index.org][Research]]
-- [[file:teaching/index.org][Teaching]]
-- [[file:notes/index.org][Notes]]
-- [[file:contact/index.org][Contact]]
-- [[file:software/index.org][Software]]
