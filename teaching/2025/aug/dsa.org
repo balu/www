@@ -1,0 +1,23 @@
+#+TITLE: Data Structures and Algorithms - I
+
+The topics covered in lectures are:
+
+- Brute-force search.
+- Backtracking search.
+- Recursion.
+- Searching.
+  - Linear search.
+  - Binary search.
+- Sorting.
+  - Insertion sort.
+  - Quicksort.
+- Asymptotic analysis.
+- Depth First Search.
+  - Path finding.
+  - Cycle finding.
+  - Topological sort.
+  - Strongly connected components.
+- Breadth First Search.
+  - Single Source Shortest Paths in unweighted graphs.
+- SSSP in weighted graphs.
+  - Dijkstra's algorithm.

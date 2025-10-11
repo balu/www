@@ -1,0 +1,16 @@
+#+TITLE: Algebraic Complexity Theory
+
+The topics covered in lectures are:
+
+- Polynomials, formulas, circuits.
+- Polynomial and circuit families.
+- Homogenization lemma.
+- Division elimination.
+- Algebraic Branching Programs (ABPs).
+- Brent's formula depth reduction.
+- Complexity classes VP, VF, VBP.
+- p-projections and completeness.
+- IMM3 and Narayana's cows polynomials are VF-complete.
+- Det is VBP-complete (Mahajan-Vinay).
+- VSBR circuit depth reduction.
+- VNP-completeness of permanent.

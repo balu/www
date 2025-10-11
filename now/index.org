@@ -4,15 +4,11 @@
 I am spending most of my time on research and teaching courses at IIT
 Gandhinagar.
 
-I am advising two doctoral scholars, Rohit Narayanan and Priyanshi
-Agrawal; and one Master's student, Alay Patel.
+I am advising two doctoral scholars: Priyanshi and Rohit; and three
+Master's students: Bikash, Miral, and Shashwat.
 
-I am teaching [[file:../teaching/2025/jan/compilers.org][Compilers]] and [[file:../teaching/2025/jan/dcc.org][Data-Centric Computing]] in academic year
-2024-25, semester II (Jan-Apr) and guiding the following semester-long
-projects:
-- A stacking Wayland WM from tinywl.
-
-Long-term, I am trying to complete two textbooks -- one on fundamental
-datastructures and algorithms and another on reading, understanding,
-and writing mathematical proofs. When I am done writing, these books
-will be availble for free online.
+I am teaching [[../teaching/2025/aug/dsa.org][Data Structures and Algorithms I]] and [[../teaching/2025/aug/act.org][Algebraic
+Complexity]] in academic year 2025-26, Semester I (Aug-Nov) and guiding
+the following semester-long projects:
+- An assessment database.
+- Formalizing Barrington's theorem in Lean 4.
