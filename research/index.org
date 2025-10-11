@@ -3,6 +3,7 @@
 The following list contains peer-reviewed publications that I have
 co-authored in reverse chronological order.
 
+- [[https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.MFCS.2025.17][Sensitivity and query complexity under uncertainty]].
 - [[https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.STACS.2024.31][On the power of border width-2 ABPs over fields of characteristic 2]].
 - [[https://drops.dagstuhl.de/opus/frontdoor.php?source_opus=17692][Finding and counting patterns in sparse graphs]].
 - [[https://drops.dagstuhl.de/opus/volltexte/2022/16863/][Rabbits approximate, cows compute exactly!]].
