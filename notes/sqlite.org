@@ -1,0 +1,284 @@
+#+TITLE: A Tutorial Introduction to Databases
+#+AUTHOR: Balagopal Komarath
+
+These are the notes from my guest lecture at Karnavati University on
+databases. It gives a taste of using SQL databases to organize
+real-world data and the power of SQL to extract complex information.
+
+We will build a database for an application like twitter. It will have
+users, tweets, replies, followers, and followees.
+
+~sqlite~ stores databases in files. We can create a file to hold the
+twitter database using the command:
+
+#+begin_src sh
+  sqlite3 twitter.db
+#+end_src
+
+This will drop you into the ~sqlite~ prompt where we can write SQL to
+operate on the database.
+
+First, we enable some options on the ~sqlite~ prompt to get nice
+output:
+
+#+begin_quote
+sqlite> .mode box
+sqlite> .headers on
+#+end_quote
+
+These have no effect on the generated file.
+
+We need a table of users. We will store the handle, name, and bio.
+The real database will also need data to authenticate the user.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :results none
+  create table users
+  (
+    handle text primary key
+  , name text
+  , bio text
+  );
+#+end_src
+
+We specify the type of data in each column. ~text~ is any string. The
+~primary key~ specifies that ~handle~ column is a primary key. Two
+rows cannot have the same value for this column. In other words, rows
+are identified by ~handle~.
+
+We can now create a couple of user accounts:
+
+#+begin_src sqlite :db "/tmp/twitter.db" :results none
+  insert into users (handle, name, bio) values
+  ('joe', 'Joe Root', 'I am English.'),
+  ('steve', 'Steve Smith', 'Hi!'),
+  ('virat', 'Virat Kohli', 'Hello!');
+#+end_src
+
+We can observe the table using ~select~.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :colnames yes
+  select * from users;
+#+end_src
+
+#+RESULTS:
+| handle | name        | bio           |
+|--------+-------------+---------------|
+| joe    | Joe Root    | I am English. |
+| steve  | Steve Smith | Hi!           |
+| virat  | Virat Kohli | Hello!        |
+
+The ~handle~ column is special. There cannot be another user with
+handle ~virat~. But there can be another user with name ~Virat Kohli~.
+
+Users should be able to tweet. We will use another table to hold
+tweets.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :results none
+  create table tweets
+  (
+    id integer primary key autoincrement
+  , tweet text
+  , tweeter text
+  , datetime text
+  , foreign key (tweeter) references users(handle)
+  );
+#+end_src
+
+There are no unique natural columns in the table of tweets. So we add
+a column ~id~ just to distinguish rows. Since we do not care about the
+exact values, we set it to an integer that is auto-incremented. Each
+time a row is inserted, ~sqlite~ will generate a new value for the
+~id~ column.
+
+The ~foreign key~ declaration states the entries in the ~tweeter~
+column must come from the ~handle~ column of ~users~. In other words,
+only registered users can make tweets.
+
+Let us make some tweets.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :results none
+  insert into tweets (tweet, tweeter, datetime) values
+  ('Happy New Year!', 'joe', '20250101T0000'),
+  ('Happy New Year to you too!', 'steve', '20250101T0100'),
+  ('Happy New Year to you too!', 'virat', '20250101T0600'),
+  ('Too late!', 'steve', '20250101T0700');
+#+end_src
+
+We can take a look at the existing tweets.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :colnames yes
+  select * from tweets;
+#+end_src
+
+#+RESULTS:
+| id | tweet                      | tweeter | datetime      |
+|----+----------------------------+---------+---------------|
+|  1 | Happy New Year!            | joe     | 20250101T0000 |
+|  2 | Happy New Year to you too! | steve   | 20250101T0100 |
+|  3 | Happy New Year to you too! | virat   | 20250101T0600 |
+|  4 | Too late!                  | steve   | 20250101T0700 |
+
+Note that the ~id~ field is auto-incremented for each tweet.
+
+In twitter, a tweet may be a reply to another tweet. This information
+is not present in this table. We can create another table to capture
+this relationship.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :results none
+  create table replies
+  (
+    original integer
+  , reply integer primary key
+  , foreign key (original) references tweets(id)
+  , foreign key (reply) references tweets(id)
+  );
+#+end_src
+
+The ~reply~ column is a ~primary key~ because a tweet can be a reply
+to at most one tweet. A tweet is top-level if it does not appear in
+the ~reply~ column. We identify tweets using their ~id~.
+
+We want Virat and Steve to reply to Joe, and Steve's last tweet to be
+a reply to Virat's:
+
+#+begin_src sqlite :db "/tmp/twitter.db" :results none
+  insert into replies (original, reply) values
+  (1, 2),
+  (1, 3),
+  (3, 4);
+#+end_src
+
+Now, let us use some queries to extract data that twitter wants for
+building its pages.
+
+We can see all tweets by Steve:
+
+#+begin_src sqlite :db "/tmp/twitter.db" :colnames yes
+  select tweet, datetime from tweets where tweeter = 'steve';
+#+end_src
+
+#+RESULTS:
+| tweet                      | datetime      |
+|----------------------------+---------------|
+| Happy New Year to you too! | 20250101T0100 |
+| Too late!                  | 20250101T0700 |
+
+To see all replies to a tweet, we need to combine information in
+~tweets~ and ~replies~. The ~join~ operation in SQL achieves
+this. First, we see the most general join, the ~cross join~.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :colnames yes
+  select * from tweets cross join replies;
+#+end_src
+
+#+RESULTS:
+| id | tweet                      | tweeter | datetime      | original | reply |
+|----+----------------------------+---------+---------------+----------+-------|
+|  1 | Happy New Year!            | joe     | 20250101T0000 |        1 |     2 |
+|  1 | Happy New Year!            | joe     | 20250101T0000 |        1 |     3 |
+|  1 | Happy New Year!            | joe     | 20250101T0000 |        3 |     4 |
+|  2 | Happy New Year to you too! | steve   | 20250101T0100 |        1 |     2 |
+|  2 | Happy New Year to you too! | steve   | 20250101T0100 |        1 |     3 |
+|  2 | Happy New Year to you too! | steve   | 20250101T0100 |        3 |     4 |
+|  3 | Happy New Year to you too! | virat   | 20250101T0600 |        1 |     2 |
+|  3 | Happy New Year to you too! | virat   | 20250101T0600 |        1 |     3 |
+|  3 | Happy New Year to you too! | virat   | 20250101T0600 |        3 |     4 |
+|  4 | Too late!                  | steve   | 20250101T0700 |        1 |     2 |
+|  4 | Too late!                  | steve   | 20250101T0700 |        1 |     3 |
+|  4 | Too late!                  | steve   | 20250101T0700 |        3 |     4 |
+
+A ~cross join~ builds a table by combining all rows of the first table
+with all rows of the second table.
+
+To extract replies to tweet 1, we have to select rows from this table
+where ~reply = id~ and ~original = 1~.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :colnames yes
+  select tweet, tweeter, datetime
+  from tweets t
+  cross join replies r
+  where t.id = r.reply and r.original = 1;
+#+end_src
+
+#+RESULTS:
+| tweet                      | tweeter | datetime      |
+|----------------------------+---------+---------------|
+| Happy New Year to you too! | steve   | 20250101T0100 |
+| Happy New Year to you too! | virat   | 20250101T0600 |
+
+Note that we assigned short names ~t~ and ~r~ to rows of ~tweets~ and
+~replies~ and we can use dot notation to refer to columns of those
+rows.
+
+An ~inner join~ does this more efficiently by not creating the whole
+table, but by only creating the entries satisfying the ~on~ condition.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :colnames yes
+  select tweet, tweeter, datetime
+  from tweets t
+  inner join replies r
+  on r.reply = t.id
+  where r.original = 1;
+#+end_src
+
+#+RESULTS:
+| tweet                      | tweeter | datetime      |
+|----------------------------+---------+---------------|
+| Happy New Year to you too! | steve   | 20250101T0100 |
+| Happy New Year to you too! | virat   | 20250101T0600 |
+
+On twitter, users can follow another user.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :results none
+  create table followers
+  (
+    follower text
+  , followee text
+  , foreign key (follower) references users(handle)
+  , foreign key (followee) references users(handle)
+  , primary key (follower, followee)
+  );
+#+end_src
+
+There are no unique columns in this table. A user can have multiple
+followers and can be followed by multiple users. But taken together,
+the two columns cannot have the same value. So the primary key is
+composite.
+
+Except for Steve, who does not follow Joe, everyone follows everyone
+else.
+
+#+begin_src sqlite :db "/tmp/twitter.db" :results none
+  insert into followers (follower, followee) values
+  ('joe', 'virat'),
+  ('joe', 'steve'),
+  ('virat', 'joe'),
+  ('virat', 'steve'),
+  ('steve', 'virat');
+#+end_src
+
+An arbitrary number of tables can be joined. A table can be joined
+with itself. To see all replies from followers to Joe's tweet, we can
+use:
+
+#+begin_src sqlite :db "/tmp/twitter.db" :colnames yes
+  select rt.tweet, rt.tweeter, rt.datetime
+  from tweets t
+  join replies r on r.original = t.id
+  join tweets rt on rt.id = r.reply
+  join followers f on f.follower = rt.tweeter and f.followee = t.tweeter
+  where t.id = 1;
+#+end_src
+
+#+RESULTS:
+| tweet                      | tweeter | datetime      |
+|----------------------------+---------+---------------|
+| Happy New Year to you too! | virat   | 20250101T0600 |
+
+Note that ~join~ defaults to ~inner join~ in SQL. Steve's reply is
+excluded because he doesn't follow Joe (I don't think twitter has this
+feature!).
+
+The join of the four tables has ~4 x 3 x 4 x 5 = 240~ rows. But as
+claimed before, ~inner join~ is more efficient. It does not build all
+rows but uses the given conditions to narrow the search.

@@ -1,5 +1,6 @@
 #+TITLE: Notes -- Balagopal Komarath
 
+- [[./sqlite.org][A Tutorial Introduction to SQL]]
 - [[file:on-reductions.org][On Reductions]]
 - [[file:name-modularity.org][Name Modularity]]
 - [[file:on-order.org][On Order]]
