@@ -21,3 +21,11 @@ The topics covered in lectures are:
   - Single Source Shortest Paths in unweighted graphs.
 - SSSP in weighted graphs.
   - Dijkstra's algorithm.
+- APSP
+- MCST
+  - Prim's Algorithm
+- Binary Search Trees
+- AVL Trees
+- Hashtables
+- Parameterized Algorithm for Vertex Cover
+- Better Exponential Algorithm for Independent Set
