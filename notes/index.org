@@ -1,6 +1,6 @@
 #+TITLE: Notes -- Balagopal Komarath
 
-- [[./sqlite.org][A Tutorial Introduction to SQL]]
+- [[./tutorial-relational-databases.org][A Tutorial Introduction to Relational Databases]]
 - [[file:on-reductions.org][On Reductions]]
 - [[file:name-modularity.org][Name Modularity]]
 - [[file:on-order.org][On Order]]

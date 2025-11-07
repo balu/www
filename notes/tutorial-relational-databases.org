@@ -10,6 +10,8 @@ complex information.
 We will build a database for an application like twitter. It will have
 users, tweets, replies, followers, and followees.
 
+# Setup
+
 ~sqlite~ is an implementation of SQL databases that stores databases
 in files. It is used for local application databases more than web
 applications. It is a nice tool to explore SQL databases without too
@@ -26,12 +28,14 @@ operate on the database.
 First, we enable some options on the ~sqlite~ prompt to get nice
 output:
 
-#+BEGIN_QUOTE
+#+BEGIN_EXAMPLE
 sqlite> .mode box
 sqlite> .headers on
-#+END_QUOTE
+#+END_EXAMPLE
 
 These have no effect on the generated file.
+
+# User Accounts
 
 We need a table of users. We will store the handle, name, and bio.
 The real database will also need data to authenticate the user.
@@ -74,6 +78,8 @@ We can observe the table using ~select~.
 
 The ~handle~ column is special. There cannot be another user with
 handle ~virat~. But there can be another user with name ~Virat Kohli~.
+
+# Tweets
 
 Users should be able to tweet. We will use another table to hold
 tweets.
@@ -124,6 +130,8 @@ We can take a look at the existing tweets.
 |  4 | Too late!                  | steve   | 20250101T0700 |
 
 Note that the ~id~ field is auto-incremented for each tweet.
+
+# Replies
 
 In twitter, a tweet may be a reply to another tweet. This information
 is not present in this table. We can create another table to capture
@@ -231,6 +239,8 @@ table, but by only creating the entries satisfying the ~on~ condition.
 | Happy New Year to you too! | steve   | 20250101T0100 |
 | Happy New Year to you too! | virat   | 20250101T0600 |
 
+# Followers
+
 On twitter, users can follow another user.
 
 #+BEGIN_SRC sqlite :db "/tmp/twitter.db" :results none
@@ -261,7 +271,7 @@ follows everyone else.
   ('steve', 'virat');
 #+END_SRC
 
-We may want to see all replies from follower's of a tweeter to a
+We may want to see all replies from follower of a tweeter to a
 particular tweet by that tweeter. As far as I know, twitter does not
 have such a feature. However, we can write a query by joining three
 tables.
@@ -282,3 +292,8 @@ tables.
 
 Note that ~join~ defaults to ~inner join~ in SQL. Steve's reply is
 excluded because he doesn't follow Joe.
+
+# Conclusion
+
+We have seen how a backend for a simple twitter-like application can
+be organized in a relational database.
