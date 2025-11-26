@@ -5,10 +5,7 @@
 Hello! I am Balagopal Komarath. In Malayalam, my name is written as
 ബാലഗോപാൽ കോമരത്ത്.
 
-I am an assistant professor in the [[https://cs.iitgn.ac.in/][discipline of computer science and
-engineering at IIT Gandhinagar, India]]. My office address is AB13/405B.
-
-Before joining [[https://iitgn.ac.in/][IIT Gandhinagar]], I was a postdoctoral researcher in
-[[https://cc.cs.uni-saarland.de/][Markus Bläser's computational complexity group at Saarland
-University]]. I did my PhD from [[https://theory.cse.iitm.ac.in/][Jayalal Sarma's computational complexity
-group at IIT Madras, India]].
+I am an assistant professor in the [[https://cs.iitgn.ac.in/][department of computer science and
+engineering at IIT Gandhinagar, India]]. My primary research interests
+are Boolean circuit complexity, algebraic circuit complexity, and
+graph algorithms.

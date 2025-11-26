@@ -7,6 +7,8 @@ algorithms, and CS education.
 The problems I am interested in solving are:
 - What are the limits for building digital circuits that work without
   glitches?
+- What structural properties of graphs play a role in making it easy
+  or hard to find them in other graphs?
 - How do people learn programming, develop programs, and debug them?
   How can we use this knowledge to improve programming education?
 
@@ -15,11 +17,14 @@ independence and privacy (digital and otherwise).
 
 If you think you know me from somewhere, the following timeline may
 help you figure it out:
+
 - Schooling from NSS, Thrissur (Till 2001)
 - Higher-secondary schooling from GVHSS, Ayyanthole, Thrissur (2001--2003)
 - Bachelor's in computer science from GEC, Thrissur (2003--2007)
 - Software engineer at TATA ELXSI, Thiruvananthapuram (2007--2009)
 - Master's in computer science from IIT Madras (2009--2011)
-- PhD scholar at IIT Madras (2011--2016)
-- Postdoctoral researcher at Saarland University (2016--2020)
+- [[https://theory.cse.iitm.ac.in/][PhD scholar at theory CS group in IIT Madras advised by Jayalal
+  Sarma]] (2011--2016)
+- Postdoctoral researcher at [[https://cc.cs.uni-saarland.de/][Markus Bläser's computational complexity
+  group in Saarland University]] (2016--2020)
 - Assistant Professor at IIT Gandhinagar (2020 onwards)
