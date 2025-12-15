@@ -29,3 +29,5 @@ The topics covered in lectures are:
 - Hashtables
 - Parameterized Algorithm for Vertex Cover
 - Better Exponential Algorithm for Independent Set
+- Reductions and Hardness
+- Reduction from 3SAT to VC

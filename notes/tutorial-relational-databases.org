@@ -1,6 +1,7 @@
 #+TITLE: A Tutorial Introduction to Relational Databases
 #+AUTHOR: Balagopal Komarath
 #+DATE: <2025-10-08 Wed>
+#+OPTIONS: toc:nil
 
 These are the notes from my guest lecture at Karnavati University on
 databases. It gives a taste of using relational databases to organize
@@ -9,6 +10,8 @@ complex information.
 
 We will build a database for an application like twitter. It will have
 users, tweets, replies, followers, and followees.
+
+#+TOC: headlines 1
 
 * Setup
 

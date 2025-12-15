@@ -14,3 +14,6 @@ The topics covered in lectures are:
 - Det is VBP-complete (Mahajan-Vinay).
 - VSBR circuit depth reduction.
 - VNP-completeness of permanent.
+
+This was followed by a series of student presentations on selected
+research papers.
