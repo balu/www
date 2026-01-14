@@ -1,0 +1,27 @@
+#+TITLE: Computational Complexity Theory
+#+OPTIONS: toc:nil num:nil
+
+Welcome to computational complexity theory.
+
+* Learning Outcomes
+
+[[file:../../data/cct/lo.pdf][The learning outcomes for the course]].
+
+* Evaluation
+
+There will be four written exams — A, B, Midsem (M), and Endsem
+(E). Each will contribute 25%. The performances in exams will only be
+considered up to a cut-off grade.
+
+For higher grades than the written exam cut-off grade, a student has
+to do take-home written assignments that will test advanced problem
+solving skills. These will only be considered if the performance in
+written exams is good. If I feel that further evaluation is necessary,
+then I may conduct a viva too. Final grade may be revised upward or
+downward depending on the performance in viva.
+
+* Lectures
+
+1. Overview of the course. (2026-01-06)
+2. Definition of TM. (2026-01-09)
+3. Time complexity, proving equivalence between models. (2026-01-13)
