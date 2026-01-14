@@ -1,0 +1,127 @@
+\documentclass[10pt,landscape]{article}
+
+\usepackage{mlmodern}
+\usepackage{microtype}
+\usepackage[left=1cm,bottom=1cm,top=.5cm,right=.5cm]{geometry}
+%\usepackage{savetrees}
+\usepackage{multicol}
+\setlength{\columnsep}{1 cm} % between columns
+\setlength{\multicolsep}{5 pt} % before and after multicols*
+
+\newcommand{\DP}{\mathsf{P}}
+\newcommand{\NP}{\mathsf{NP}}
+\newcommand{\coNP}{\mathsf{coNP}}
+\newcommand{\PSPACE}{\mathsf{PSPACE}}
+\newcommand{\EXP}{\mathsf{EXP}}
+\newcommand{\NEXP}{\mathsf{NEXP}}
+\newcommand{\DLOG}{\mathsf{L}}
+\newcommand{\NLOG}{\mathsf{NL}}
+\newcommand{\coNLOG}{\mathsf{coNL}}
+\newcommand{\BPP}{\mathsf{BPP}}
+\newcommand{\RP}{\mathsf{RP}}
+\newcommand{\coRP}{\mathsf{coRP}}
+\newcommand{\ZPP}{\mathsf{ZPP}}
+\newcommand{\Sip}[1]{\mathsf{\Sigma_{#1}^{\DP}}}
+\newcommand{\Pip}[1]{\mathsf{\Pi_{#1}^{\DP}}}
+\newcommand{\PH}{\mathsf{PH}}
+\newcommand{\DPpoly}{\mathsf{\DP/\mathsf{poly}}}
+\newcommand{\SharpP}{\mathsf{\#P}}
+\newcommand{\IP}{\mathsf{IP}}
+\newcommand{\NC}{\mathsf{NC}}
+\newcommand{\AC}{\mathsf{AC}}
+
+\newcommand{\ptm}{\leq_p^m}
+\newcommand{\logm}{\leq_{\log{}}^m}
+\newcommand{\ptr}{\leq_p}
+\newcommand{\logr}{\leq_{\log{}}}
+
+\begin{document}
+
+\centerline{\textbf{\Large Learning Outcomes for Computational Complexity Theory}}
+
+\begin{multicols*}{3}
+  \section{Definition Specific Goals}
+  \begin{enumerate}
+  \item Define TM.
+  \item Define configuration of a TM.
+  \item Define halting and looping.
+  \item Define TMs in detail for simple algorithms.
+  \item Describe TMs for complex algorithms.
+  \item Prove equivalence of various definitions of TMs.
+  \item Define time complexity.
+  \item Prove the time hierarchy theorem.
+  \item Define $\DP$.
+  \item Define $\NP$ using verifiers
+  \item Define $\NP$ using non-deterministic TMs.
+  \item Define $\coNP$ using refuters
+  \item Define $\coNP$ using co-non-deterministic TMs.
+  \item Define $\ptm$.
+  \item Define $\ptr$ via oracle TMs.
+  \item Prove $\NP$-completeness using gadgets.
+  \item Define $\EXP$.
+  \item Define $\NEXP$.
+  \item Translate separations using padding arguments.
+  \item Define space, read-only tape.
+  \item Prove the space hierarchy theorem.
+  \item Define $\PSPACE$.
+  \item Define $\DLOG$.
+  \item Define $\NLOG$.
+  \item Define $\coNLOG$.
+  \item Define log-space transducers.
+  \item Define $\logm$.
+  \item Define $\logr$.
+  \item Prove $\NLOG = \coNLOG$.
+  \item Define $\Sip{i}$ using complete problems.
+  \item Define $\Pip{i}$ using complete problems.
+  \item Define $\PH$.
+  \item Define Boolean circuits.
+  \item Define Boolean circuit size.
+  \item Define $\DPpoly$.
+  \item Prove Karp-Lipton theorem.
+  \item Define randomized TMs.
+  \item Define $\BPP$.
+  \item Define $\RP$.
+  \item Define $\coRP$.
+  \item Define $\ZPP$.
+  \item Prove that polynomial identity testing is in $\BPP$.
+  \item Prove that finding perfect matchings is in $\RP$.
+  \item Prove $\RP \cap \coRP = \ZPP$.
+  \item Prove Adelman's theorem.
+  \item Define $\SharpP$.
+  \item Prove Toda's theorem.
+  \item Define $\IP$.
+  \item Prove $\IP = \PSPACE$.
+  \item Define Boolean circuit depth.
+  \item Define $\NC^i$ for $i \geq 0$.
+  \item Define $\AC^i$ for $i \geq 0$.
+  \item Prove $\AC^i \subseteq \NC^{i+1}$ for $i \geq 0$.
+  \item Prove $\NLOG \subseteq \NC^2$.
+  \item Prove $\NC^1 \neq \AC^0$.
+  \item Define branching programs.
+  \item Define non-deterministic branching programs.
+  \item Prove equivalence of b.p. size and space.
+  \item Define layered branching programs.
+  \item Define width of layered b.p.
+  \item Prove equivalence of b.p. and layered b.p.
+  \item Prove Barrington's theorem.
+  \end{enumerate}
+
+  \section{Cross-cutting Goals}
+  \begin{enumerate}
+  \item For each definition, identify examples and non-examples.
+  \item Prove membership of well-known problems in classes.
+  \item Prove well-known containment relationships.
+  \item Prove well-known closure wrt set operations for classes.
+  \item Prove well-known closure for classes wrt reductions.
+  \item Choose suitable reductions to define hardness based on the
+    complexity class $\mathcal{C}$.
+  \item Identify canonical complete problems for classes.
+  \item Prove completeness for well-known problems.
+  \end{enumerate}
+\end{multicols*}
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
