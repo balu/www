@@ -7,8 +7,7 @@ collegues) and firmware to make my devices work.
 
 Here is a list of software that I use:
 - Debian as the OS. I used to use Arch, btw.
-- Firefox as my web browser. With the right configuration, FF seems to
-  be the browser that sucks the least.
+- Ungoogled chromium as my web browser.
 - Emacs as my main editor and [[https://github.com/balu/ted][ted]] for small editing tasks on the
   terminal.
 - rsync and rsync.net for backup.
